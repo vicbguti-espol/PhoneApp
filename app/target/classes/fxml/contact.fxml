@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox prefHeight="36.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
+            <CheckBox fx:id="cboxFavorite" mnemonicParsing="false" text="Favorito" />
+            <Button fx:id="btnDeleteContact" mnemonicParsing="false" text="Eliminar Contacto" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox fx:id="vbContent" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="564.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblName11" text="Empresa para empresa" />
+            <Label fx:id="lblName" text="Nombre" />
+            <Label fx:id="lblName1" text="Descricpción para empresa" />
+            <ImageView fx:id="imgvPicture" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnViewImages" mnemonicParsing="false" text="Ver imagenes" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Número" />
+                  <Button mnemonicParsing="false" text="Agregar" />
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="Tipo" />
+                        <Label text="Dato" />
+                        <Button mnemonicParsing="false" text="Editar" />
+                        <Button mnemonicParsing="false" text="Eliminar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Dirección" />
+                  <Button mnemonicParsing="false" text="Agregar" />
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="detalle, país" />
+                        <Label text="link" />
+                        <Button mnemonicParsing="false" text="Editar" />
+                        <Button mnemonicParsing="false" text="Eliminar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Asociados" />
+                  <Button mnemonicParsing="false" text="Agregar" />
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="nombre (tipo)" />
+                        <Label text="numero" />
+                        <Button mnemonicParsing="false" text="Editar" />
+                        <Button mnemonicParsing="false" text="Eliminar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <VBox alignment="CENTER" prefHeight="71.0" prefWidth="713.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" text="Agregar atributo personalizado" />
+            <Pagination prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
