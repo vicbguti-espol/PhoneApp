@@ -1,6 +1,7 @@
 # Class Model
-![Alt text](class_model-1.jpg)
+![Alt text](<Class Diagram1-1.jpg>)
 
+ 
 # Draft
 Clase Contact 
 Atributos: associatedNumbers, phoneNumbers, userName, images, email, location, socialMediaList
