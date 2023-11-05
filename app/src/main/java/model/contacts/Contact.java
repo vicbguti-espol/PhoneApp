@@ -11,5 +11,5 @@ import java.util.ArrayList;
  * @author vicbguti
  */
 public abstract class Contact {
-    ArrayList<Attribute> attributes;
+    // ArrayList<Attribute> attributes;
 }

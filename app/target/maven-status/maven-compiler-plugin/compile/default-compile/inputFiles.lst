@@ -1,4 +1,18 @@
-D:\Espol\PAO II 23-24\Estructuras de Datos\Proyecto\Primer Parcial\Proyecto\PhoneApp\app\src\main\java\com\mycompany\App.java
-D:\Espol\PAO II 23-24\Estructuras de Datos\Proyecto\Primer Parcial\Proyecto\PhoneApp\app\src\main\java\com\mycompany\SecondaryController.java
-D:\Espol\PAO II 23-24\Estructuras de Datos\Proyecto\Primer Parcial\Proyecto\PhoneApp\app\src\main\java\com\mycompany\PrimaryController.java
-D:\Espol\PAO II 23-24\Estructuras de Datos\Proyecto\Primer Parcial\Proyecto\PhoneApp\app\src\main\java\module-info.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/EditPresetAtributeController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddPresetAtributeController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/ContactImagesController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/contacts/Person.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/ContactListController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/PrimaryController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddContactController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddAtributeController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/contacts/Company.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddCompanyController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/SecondaryController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/enums/SourceType.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/contacts/Contact.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddReminderController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/module-info.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/ContactController.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/App.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/enums/SocialMediaType.java
