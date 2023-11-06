@@ -5,11 +5,27 @@
 package model.contacts;
 
 import java.util.ArrayList;
+import model.attributes.Attribute;
+import model.attributes.Generic;
+import model.attributes.PhoneNumber;
+import model.enums.ContactType;
 
 /**
  *
  * @author vicbguti
  */
-public abstract class Contact {
-    // ArrayList<Attribute> attributes;
+public class Contact {
+    private ArrayList<Attribute> attributes;
+
+    public Contact(ContactType contactType, PhoneNumber phoneNumber) {
+        attributes = new ArrayList<>();
+        attributes.add(new Generic(contactType));
+        attributes.add(phoneNumber);
+    }
+    
+    public void addAttribute(Attribute attribute){
+        attributes.add(attribute);
+    }
+    
+    
 }

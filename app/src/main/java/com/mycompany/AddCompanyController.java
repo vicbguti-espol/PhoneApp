@@ -44,7 +44,12 @@ public class AddCompanyController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lblContact.setText("Agregar Empresa");
         initCombo();
-    }    
+    }
+    
+    @FXML
+    private void returnHomePage() throws IOException{
+        App.setRoot("primary");
+    }
     
     @FXML
     private void afterSelection(ActionEvent event) throws IOException {

@@ -17,7 +17,7 @@
          <children>
             <StackPane alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Volver" />
+                  <Button mnemonicParsing="false" onAction="#returnHomePage" text="Volver" />
                </children>
                <opaqueInsets>
                   <Insets />

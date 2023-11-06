@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddContactController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddContactController">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="600.0" spacing="24.0" BorderPane.alignment="CENTER">
          <children>
             <StackPane alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Volver" />
+                  <Button mnemonicParsing="false" onAction="#returnHomePage" text="Volver" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -40,40 +40,76 @@
          </padding>
       </VBox>
    </top>
-   <bottom>
-      <Button fx:id="btnAdd" mnemonicParsing="false" text="Añadir" BorderPane.alignment="CENTER" />
-   </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Nombre" />
-            <TextField />
-            <Label text="Apellido" />
-            <TextField />
-            <Label text="Número" />
-            <HBox prefHeight="19.0" prefWidth="600.0" spacing="40.0">
+            <VBox prefHeight="43.0" prefWidth="592.0">
                <children>
-                  <ComboBox prefWidth="150.0" promptText="Tipo" />
-                  <TextField />
+                  <Label text="Nombre" />
+                  <TextField fx:id="txtName" />
                </children>
-            </HBox>
-            <Label text="Dirección" />
-            <HBox prefHeight="19.0" prefWidth="600.0" spacing="40.0">
+            </VBox>
+            <VBox prefHeight="31.0" prefWidth="592.0">
                <children>
-                  <ComboBox prefWidth="150.0" promptText="Tipo" />
-                  <TextField promptText="Detalle" />
-                  <TextField promptText="Link Maps" />
+                  <Label text="Apellido" />
+                  <TextField fx:id="txtLastName" />
                </children>
-            </HBox>
-            <Label text="Fecha de nacimiento" />
-            <DatePicker />
-            <Label text="Imagenes" />
-            <Button mnemonicParsing="false" text="Agregar fotos" />
-            <Pagination prefHeight="200.0" prefWidth="200.0" />
+            </VBox>
+            <VBox prefHeight="34.0" prefWidth="592.0">
+               <children>
+                  <Label text="Número" />
+                  <HBox prefHeight="19.0" prefWidth="600.0" spacing="40.0">
+                     <children>
+                        <ComboBox fx:id="cmbPhoneType" prefWidth="150.0" promptText="Tipo" />
+                        <TextField fx:id="txtPhoneNumber" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="35.0" prefWidth="592.0">
+               <children>
+                  <Label text="Dirección" />
+                  <HBox prefHeight="19.0" prefWidth="600.0" spacing="40.0">
+                     <children>
+                        <ComboBox fx:id="cmbLocationType" prefWidth="150.0" promptText="Tipo" />
+                        <TextField fx:id="txtLocationDescription" promptText="Detalle" />
+                        <TextField fx:id="txtLocationURL" promptText="Link Maps" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="44.0" prefWidth="592.0">
+               <children>
+                  <Label text="Fecha de nacimiento" />
+                  <DatePicker fx:id="dateBirth" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Imagenes" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField />
+                        <Button mnemonicParsing="false" text="..." />
+                     </children>
+                  </HBox>
+                  <Pagination prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
          </children>
          <padding>
             <Insets left="30.0" right="30.0" />
          </padding>
       </VBox>
    </center>
+   <bottom>
+      <StackPane prefHeight="0.0" prefWidth="657.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addPerson" text="Añadir" />
+         </children>
+         <padding>
+            <Insets bottom="30.0" top="30.0" />
+         </padding>
+      </StackPane>
+   </bottom>
 </BorderPane>
