@@ -4,8 +4,10 @@
  */
 package com.mycompany;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,16 +15,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
 import javafx.util.Pair;
-import model.attributes.PhoneNumber;
 import model.contacts.Contact;
 import model.enums.ContactType;
 import model.enums.SourceType;
@@ -33,31 +38,40 @@ import model.enums.SourceType;
  */
 public class AddContactController implements Initializable {
 
-
+    @FXML
+    private Label lblContact;
     @FXML
     private ComboBox<Pair<String, String>> cmbContactType;
     @FXML
-    private Label lblContact;
+    private ComboBox<Pair<String, SourceType>> cmbPhoneType;
+    @FXML
+    private ComboBox<Pair<String, SourceType>> cmbLocationType;
     @FXML
     private TextField txtName;
     @FXML
     private TextField txtLastName;
     @FXML
-    private ComboBox<Pair<String, SourceType>> cmbPhoneType;
-    @FXML
     private TextField txtPhoneNumber;
-    @FXML
-    private ComboBox<?> cmbLocationType;
     @FXML
     private TextField txtLocationDescription;
     @FXML
     private TextField txtLocationURL;
     @FXML
+    private TextField txtImageSource;
+    @FXML
     private DatePicker dateBirth;
+    @FXML
+    private VBox boxImages;
     
-        
     private final static Pair<String, String> EMPTY_PAIR = new Pair<>("", "");
     private final static Pair<String, SourceType> EMPTY_TYPES_PAIR = new Pair<>("", null);
+    
+    private FileChooser fileDialog;
+    private List<File> imageList;
+    private Pagination pagination;
+    
+    
+
     /**
      * Initializes the controller class.
      */
@@ -65,8 +79,24 @@ public class AddContactController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lblContact.setText("Agregar Persona");
         initCmbContactType();
-        initCmbPhoneType();
+        initCmbTypo(cmbPhoneType);
+        initCmbTypo(cmbLocationType);
+        initPagination();
+        initImageSourceText();
+        initFileDialog();
+        boxImages.getChildren().add(pagination);
     }    
+    
+    @FXML
+    private void openImages(ActionEvent event){
+        fileDialog.setTitle("Abrir imagenes");
+        imageList = fileDialog.showOpenMultipleDialog(App.stage);
+        if(imageList != null) {
+            pagination.setPageCount(imageList.size());
+            txtImageSource.setText(imageList.get(0).getParent());
+        }
+    }
+    
     
     @FXML
     private void returnHomePage() throws IOException{
@@ -77,6 +107,37 @@ public class AddContactController implements Initializable {
     private void afterSelection(ActionEvent event) throws IOException {
         String fxml = cmbContactType.getValue().getValue();
         App.setRoot(fxml);
+    }
+    
+    private void initPagination(){
+        pagination = new Pagination();
+        pagination.setPageFactory(index -> {
+        if (imageList != null && index < imageList.size()) {
+
+            String url = imageList.get(index).toURI().toString();
+
+            ImageView imageView = new ImageView(url);
+            imageView.setPreserveRatio(true);
+            imageView.setFitHeight(400);
+            imageView.setFitWidth(600);
+
+            return imageView;
+
+        } else {
+            return new Label("No hay imagen seleccionada.");
+        }
+        });
+    }
+    
+    private void initFileDialog(){
+        fileDialog = new FileChooser();
+        fileDialog.getExtensionFilters()
+                .add(new ExtensionFilter("Imagen", "*.jpg", "*.png", "*.bmp", "*.gif"));
+    }
+    
+    private void initImageSourceText(){
+        txtImageSource.setEditable(false);
+        txtImageSource.setFocusTraversable(false);
     }
     
     private void initCmbContactType() {
@@ -108,15 +169,16 @@ public class AddContactController implements Initializable {
         cmbContactType.setButtonCell( factory.call( null ) );
     }
     
-    private void initCmbPhoneType(){
-        List<Pair<String,SourceType>> phoneTypes = new ArrayList<>();
+    
+    private void initCmbTypo(ComboBox cmbTypos) {
+        List<Pair<String,SourceType>> types = new ArrayList<>();
 
-        phoneTypes.add( new Pair<>("Personal", SourceType.PERSONAL) );
-        phoneTypes.add( new Pair<>("Trabajo", SourceType.WORK) );
+        types.add( new Pair<>("Personal", SourceType.PERSONAL) );
+        types.add( new Pair<>("Trabajo", SourceType.WORK) );
         
-        cmbPhoneType.getItems().add( EMPTY_TYPES_PAIR );
-        cmbPhoneType.getItems().addAll( phoneTypes );
-        cmbPhoneType.setValue( EMPTY_TYPES_PAIR );
+        cmbTypos.getItems().add( EMPTY_TYPES_PAIR );
+        cmbTypos.getItems().addAll( types );
+        cmbTypos.setValue( EMPTY_TYPES_PAIR );
         
         
         Callback<ListView<Pair<String,SourceType>>, ListCell<Pair<String,SourceType>>> factory =
@@ -133,19 +195,29 @@ public class AddContactController implements Initializable {
                         }
                     };
 
-        cmbPhoneType.setCellFactory( factory );
-        cmbPhoneType.setButtonCell( factory.call( null ) );
+        cmbTypos.setCellFactory( factory );
+        cmbTypos.setButtonCell( factory.call( null ) );
     }
 
     @FXML
     private void addPerson(ActionEvent event) {
         ContactType contactType = ContactType.PERSON;
-        PhoneNumber phoneNumber = new PhoneNumber(
-                txtPhoneNumber.getText(),
-                cmbPhoneType.getValue().getValue());
+        String phoneNumberString = txtPhoneNumber.getText();
+        SourceType phoneType = cmbPhoneType.getValue().getValue();
         
-        Contact person = new Contact(contactType, phoneNumber);
+        String firstName = txtName.getText();
+        String lastName = txtLastName.getText();
+        
+        String locationDescription = txtLocationDescription.getText();
+        String locationURL = txtLocationURL.getText();
+        
+        LocalDate birthDate = dateBirth.getValue();
+        
+        
+        // Contact person = new Contact(contactType, phoneNumber);
     }
+    
+    
         
 
 }
