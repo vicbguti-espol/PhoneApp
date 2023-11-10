@@ -22,9 +22,15 @@ public class Contact {
         attributes.add(new Generic(contactType));
         attributes.add(phoneNumber);
     }
+
+    public Contact() {}
     
     public void addAttribute(Attribute attribute){
         attributes.add(attribute);
+    }
+
+    public ArrayList<Attribute> getAttributes() {
+        return attributes;
     }
     
     

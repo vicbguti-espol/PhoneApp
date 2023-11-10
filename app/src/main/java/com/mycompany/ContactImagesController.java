@@ -4,8 +4,10 @@
  */
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -23,4 +25,8 @@ public class ContactImagesController implements Initializable {
         // TODO
     }    
     
+    @FXML
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact");
+    }
 }

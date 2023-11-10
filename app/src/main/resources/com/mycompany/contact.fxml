@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.ContactController">
    <top>
       <HBox prefHeight="36.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
+            <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#returnContactListPage" text="Volver" />
             <CheckBox fx:id="cboxFavorite" mnemonicParsing="false" text="Favorito" />
             <Button fx:id="btnDeleteContact" mnemonicParsing="false" text="Eliminar Contacto" />
          </children>
@@ -26,7 +26,7 @@
             <Label fx:id="lblName" text="Nombre" />
             <Label fx:id="lblName1" text="Descricpción para empresa" />
             <ImageView fx:id="imgvPicture" fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnViewImages" mnemonicParsing="false" text="Ver imagenes" />
+            <Button fx:id="btnViewImages" mnemonicParsing="false" onAction="#goContactImagesPage" text="Ver imagenes" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Número" />
