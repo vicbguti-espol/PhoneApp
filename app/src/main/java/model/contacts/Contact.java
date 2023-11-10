@@ -4,10 +4,12 @@
  */
 package model.contacts;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javafx.scene.image.Image;
 import model.attributes.Attribute;
 import model.attributes.Generic;
-import model.attributes.PhoneNumber;
+import model.attributes.PhoneNumbers;
 import model.enums.ContactType;
 
 /**
@@ -15,17 +17,45 @@ import model.enums.ContactType;
  * @author vicbguti
  */
 public class Contact {
-    private ArrayList<Attribute> attributes;
+    private ContactType contactType;
+    private LinkedList<Attribute> attributes;
 
-    public Contact(ContactType contactType, PhoneNumber phoneNumber) {
-        attributes = new ArrayList<>();
+    public Contact(ContactType contactType, PhoneNumbers phoneNumber) {
+        attributes = new LinkedList<>();
+        this.contactType = contactType;
         attributes.add(new Generic(contactType));
         attributes.add(phoneNumber);
     }
     
-    public void addAttribute(Attribute attribute){
-        attributes.add(attribute);
+    public LinkedList<Attribute> getAttributes(){
+        return attributes;
     }
     
+//    public Attribute getAttribute(Attribute attribute){
+//        // TO-DO
+//    }
+    
+//    public ArrayList<Attribute> findAll(
+//            Comparator<Attribute> cmp, 
+//            Attribute attribute
+//            ){
+//        // TO DO
+//        // attributes.findAll(cmp, attribute);
+//    } 
+    
+//    public static void main(String[] args) {
+//        
+//        // TO DO
+//        
+////        Comparator<Attribute> cmpByClass = new Comparator<>(){
+////            @Override
+////            public int compare(Attribute t, Attribute t1) {
+////                if (t.getClass().getSimpleName().equals(t1.getClass().getSimpleName())) return 0;
+////                else return 20;
+////            }
+////            
+////        };
+//
+//    }
     
 }

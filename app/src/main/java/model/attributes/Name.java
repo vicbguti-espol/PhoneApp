@@ -8,6 +8,6 @@ package model.attributes;
  *
  * @author vicbguti
  */
-public class Location {
-    
+public class Name extends Attribute {
+    String name;
 }

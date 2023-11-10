@@ -3,6 +3,7 @@ com/mycompany/ContactController.class
 model/enums/SocialMediaType.class
 model/enums/ContactType.class
 com/mycompany/App.class
+model/attributes/Images.class
 com/mycompany/AddContactController$2.class
 com/mycompany/ContactListController.class
 com/mycompany/AddContactController.class
@@ -11,13 +12,16 @@ model/attributes/Attribute.class
 com/mycompany/PrimaryController.class
 module-info.class
 com/mycompany/AddCompanyController$1.class
+model/attributes/Images$Image.class
 com/mycompany/AddReminderController.class
 model/contacts/Contact.class
 com/mycompany/SecondaryController.class
 model/attributes/Location.class
+model/user/MobilePhone.class
 model/attributes/PhoneNumber.class
 com/mycompany/AddContactController$1.class
 com/mycompany/ContactImagesController.class
+model/serialization/SerializationUtil.class
 model/enums/SourceType.class
 com/mycompany/AddAtributeController.class
 com/mycompany/AddCompanyController.class

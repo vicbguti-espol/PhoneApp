@@ -1,3 +1,4 @@
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/user/MobilePhone.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/attributes/Location.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/EditPresetAtributeController.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddPresetAtributeController.java
@@ -10,6 +11,7 @@
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddCompanyController.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/SecondaryController.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/enums/SourceType.java
+/home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/serialization/SerializationUtil.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/contacts/Contact.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/com/mycompany/AddReminderController.java
 /home/vicbguti/Desktop/PhoneApp/app/src/main/java/model/attributes/Generic.java

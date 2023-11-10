@@ -10,7 +10,7 @@ package model.attributes;
  */
 public class Generic<T> extends Attribute {
     private String attributeName;
-    private T value;
+    private T value; 
     
     public Generic(String attributeName, T value) {
         this.attributeName = attributeName;
