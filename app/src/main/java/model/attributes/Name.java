@@ -6,14 +6,8 @@ package model.attributes;
 
 /**
  *
- * @author arauj
+ * @author vicbguti
  */
-public class Image extends Attribute {
-    private String path;
-
-    public Image(String path) {
-        this.path = path;
-    }
-    
+public class Name extends Attribute {
+    String name;
 }
-

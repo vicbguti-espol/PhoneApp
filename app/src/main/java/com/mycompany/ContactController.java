@@ -19,8 +19,6 @@ import javafx.scene.layout.VBox;
 import model.attributes.Attribute;
 import model.attributes.PhoneNumber;
 import model.contacts.Contact;
-import model.contacts.Company;
-import model.contacts.Person;
 
 /**
  * FXML Controller class
@@ -55,7 +53,7 @@ public class ContactController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Contact contact = new Contact();
         createHeader(contact);
-        ArrayList<Attribute> attributes = contact.getAttributes();
+        //ArrayList<Attribute> attributes = contact.getAttributes();
         /*for (Attribute attribute: attributes){
             Label title = new Label(attribute.getAttributeName());
             if (attribute instanceof ArrayList<PhoneNumber  >){

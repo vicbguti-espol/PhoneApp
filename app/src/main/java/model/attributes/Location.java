@@ -8,9 +8,9 @@ import model.enums.SourceType;
 
 /**
  *
- * @author vicbguti
+ * @author arauj
  */
-public class Location {
+public class Location extends Attribute implements Typable{
     private SourceType locationType;
     private String details;
     private String mapsURL;
@@ -20,7 +20,4 @@ public class Location {
         this.details = details;
         this.mapsURL = mapsURL;
     }
-    
-    
-    
 }

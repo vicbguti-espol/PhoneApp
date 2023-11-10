@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -31,6 +33,7 @@ import javafx.util.Pair;
 import model.contacts.Contact;
 import model.enums.ContactType;
 import model.enums.SourceType;
+import model.user.MobilePhone;
 /**
  * FXML Controller class
  *
@@ -71,12 +74,15 @@ public class AddContactController implements Initializable {
     private Pagination pagination;
     
     
+    ContactType contactType;
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        contactType = ContactType.PERSON;
         lblContact.setText("Agregar Persona");
         initCmbContactType();
         initCmbTypo(cmbPhoneType);
@@ -198,25 +204,35 @@ public class AddContactController implements Initializable {
         cmbTypos.setCellFactory( factory );
         cmbTypos.setButtonCell( factory.call( null ) );
     }
-
-    @FXML
-    private void addPerson(ActionEvent event) {
-        ContactType contactType = ContactType.PERSON;
-        String phoneNumberString = txtPhoneNumber.getText();
-        SourceType phoneType = cmbPhoneType.getValue().getValue();
-        
-        String firstName = txtName.getText();
-        String lastName = txtLastName.getText();
-        
-        String locationDescription = txtLocationDescription.getText();
-        String locationURL = txtLocationURL.getText();
-        
-        LocalDate birthDate = dateBirth.getValue();
-        
-        
-        // Contact person = new Contact(contactType, phoneNumber);
-    }
     
+    private boolean isPrepared(){
+        return !txtPhoneNumber.getText().equals("")
+                && cmbPhoneType.getValue().getValue() != null
+                && !txtName.getText().equals("")
+                && !txtLastName.getText().equals("")
+                && !txtLocationDescription.getText().equals("")
+                && !txtLocationURL.getText().equals("")
+                && dateBirth.getValue() != null
+                ;
+    }
+//
+//    @FXML
+//    private void addPerson(ActionEvent event) throws IOException {
+//        
+//        if (isPrepared()){
+//            PhoneNumber phone = new PhoneNumber(
+//                    txtPhoneNumber.getText(),
+//                    cmbPhoneType.getValue().getValue());
+//            MobilePhone.addContact(new Contact(contactType, phone)); 
+//        } else{
+//            Alert a = new Alert(AlertType.NONE);
+//            
+//            a.setAlertType(AlertType.ERROR);
+//            a.setContentText("Faltan datos para agregar contacto");
+//            a.show();
+//        }
+//    }
+//    
     
         
 

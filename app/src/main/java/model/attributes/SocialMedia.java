@@ -4,16 +4,13 @@
  */
 package model.attributes;
 
+import model.enums.SourceType;
+
 /**
  *
- * @author arauj
+ * @author naomi
  */
-public class Image extends Attribute {
-    private String path;
 
-    public Image(String path) {
-        this.path = path;
-    }
+public class SocialMedia {
     
 }
-
