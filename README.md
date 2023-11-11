@@ -13,9 +13,6 @@
 
 ## Demo implementación Agregar Persona
 
-[![Watch the video](https://img.youtube.com/vi/<VIDEO_ID>/hqdefault.jpg)](https://eu-central.storage.cloudconvert.com/tasks/8bc9ae8f-3260-4829-866d-a80174b51a73/Screencast%20from%2010-11-23%2021%3A16%3A17.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20231111%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20231111T022319Z&X-Amz-Expires=86400&X-Amz-Signature=cf17864974e2481a16942b92f6ee4d89e5a1a5e4989be927dac46b3731877dd6&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Screencast%20from%2010-11-23%2021%3A16%3A17.mp4%22&response-content-type=video%2Fmp4&x-id=GetObject)
-
-[<img src="https://img.youtube.com/vi/<VIDEO_ID>/hqdefault.jpg" width="600" height="300"
-/>](https://www.youtube.com/embed/<VIDEO_ID>)
+<video src="Screencast%20from%2010-11-23%2021_16_17.mp4" controls title="Title"></video>
 
 
