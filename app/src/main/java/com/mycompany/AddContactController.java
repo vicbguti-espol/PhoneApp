@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
@@ -15,8 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.Pair;
-import model.attributes.Attribute;
-import model.attributes.Location;
+import model.attributes.Location.PersonLocation;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.reminders.Birthday;
@@ -46,6 +46,10 @@ public class AddContactController extends AddContactTypeController
     private DatePicker dateBirth;
     @FXML
     private VBox boxImages;
+    @FXML
+    private Button btnReturn;
+    @FXML
+    private Button btnAdd;
 
     private Birthday birthday;
     private final static Pair<String, SourceType> EMPTY_TYPES_PAIR =
@@ -56,6 +60,8 @@ public class AddContactController extends AddContactTypeController
         super.initialize();
         initCmbTypo(cmbPhoneType);
         initCmbTypo(cmbLocationType);
+        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnAdd.setOnAction(e -> super.addContact());
     }    
     
     @FXML
@@ -66,11 +72,6 @@ public class AddContactController extends AddContactTypeController
             pagination.setPageCount(imageList.size());
             txtImageSource.setText(imageList.get(0).getParent());
         }
-    }
-    
-    @FXML
-    protected void returnHomePage(){
-        super.returnHomePage();
     }
     
     @Override
@@ -121,7 +122,7 @@ public class AddContactController extends AddContactTypeController
     void loadContact(){
         // create person contact
         contact = new Person(phone);
-        contact.attributes.add(new PersonName(
+        addAttribute(new PersonName(
         txtName.getText(), 
         txtLastName.getText()));
     }
@@ -129,28 +130,15 @@ public class AddContactController extends AddContactTypeController
     @Override
     void loadLocation(){
         // handling location and birthday contact info
-        location = new Location(
+        location = new PersonLocation(
                 cmbLocationType.getValue().getValue(),
                 txtLocationDescription.getText(),
                 txtLocationURL.getText());    
     }
     
-    private void loadBirthday(){
+    @Override
+    void loadTypeData(){
         birthday = new Birthday(dateBirth.getValue());
-    }
-    
-    @Override
-    void loadInfo(){
-        super.loadInfo();
-        loadBirthday();
-    }
-
-    @Override
-    void addAttributes(){
-        super.addAttributes();
-        List<Attribute> attributes = contact.attributes;
-        attributes.add(birthday);
-        
     }
     
     @Override
@@ -158,22 +146,20 @@ public class AddContactController extends AddContactTypeController
         boxImages.getChildren().add(pagination);
     }
 
-    @FXML
-    private void addPerson(ActionEvent event){
-        super.addContact();
-    }
-
     @Override
-    boolean isPrepared(){
+    boolean isTypePrepared(){
         return !txtPhoneNumber.getText().equals("")
                 && cmbPhoneType.getValue().getValue() != null
                 && !txtName.getText().equals("")
                 && !txtLastName.getText().equals("")
                 && !txtLocationDescription.getText().equals("")
                 && !txtLocationURL.getText().equals("")
-                && dateBirth.getValue() != null
-                && imageList != null
-                ;
+                && dateBirth.getValue() != null;
     }    
+
+    @Override
+    void addTypeAttributes() {
+        addAttribute(birthday);
+    }
 
 }
