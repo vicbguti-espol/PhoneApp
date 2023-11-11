@@ -4,7 +4,8 @@
  */
 package model.attributes;
 
-import model.enums.SourceType;
+import model.enums.SocialMediaType;
+
 
 /**
  *
@@ -12,5 +13,11 @@ import model.enums.SourceType;
  */
 
 public class SocialMedia {
-    
+     private String User;// se usa o no?
+    private SocialMediaType SocialMedia; 
+
+    public SocialMedia(String User, SocialMediaType SocialMedia) {
+        this.User = User;
+        this.SocialMedia = SocialMedia;
+    }
 }
