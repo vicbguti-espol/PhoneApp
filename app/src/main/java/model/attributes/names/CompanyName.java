@@ -1,7 +1,11 @@
 package model.attributes.names;
 
-import model.attributes.names.Name;
-
 public class CompanyName extends Name {
+    String companyName;
+
+    public CompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+    
     
 }

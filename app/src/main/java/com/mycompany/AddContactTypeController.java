@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
 import model.attributes.Image;
-import model.attributes.Location;
+import model.attributes.Location.Location;
 import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
 import model.user.MobilePhone;
@@ -60,6 +60,12 @@ public abstract class AddContactTypeController extends Controller {
         List<Attribute> attributes = contact.attributes;
         attributes.add(location);
         attributes.addAll(images);
+        addTypeAttributes();
+    }
+    
+    void addAttribute(Attribute attribute){
+        List<Attribute> attributes = contact.attributes;
+        attributes.add(attribute);
     }
     
     void loadInfo(){
@@ -67,6 +73,7 @@ public abstract class AddContactTypeController extends Controller {
         loadContact();
         loadLocation();
         loadImages();
+        loadTypeData();
     }
     
     private void loadImages(){
@@ -159,6 +166,11 @@ public abstract class AddContactTypeController extends Controller {
         addPagination();
     }
     
+    boolean isPrepared(){
+        return imageList != null && 
+                isTypePrepared();
+    }
+    
     
     abstract void initImageSourceText();
     abstract void openImages(ActionEvent event);
@@ -166,7 +178,7 @@ public abstract class AddContactTypeController extends Controller {
     abstract void loadPhone(); 
     abstract void loadContact();
     abstract void loadLocation();
-    abstract boolean isPrepared();
-    
-
+    abstract void addTypeAttributes();
+    abstract boolean isTypePrepared();
+    abstract void loadTypeData();
 }
