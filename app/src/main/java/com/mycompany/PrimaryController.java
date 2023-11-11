@@ -5,8 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class PrimaryController {
 
+public class PrimaryController {
     @FXML
     private Button primaryButton;
 
@@ -16,7 +16,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private void switchToAddPerson(ActionEvent event) throws IOException {
-        App.setRoot("addContact");
+    private void switchToAddContact(ActionEvent event) throws IOException {
+        App.setRoot("chooseContactType", new ChooseContactTypeController());
     }
 }

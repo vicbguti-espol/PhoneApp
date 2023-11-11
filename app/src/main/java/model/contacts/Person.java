@@ -1,6 +1,6 @@
 package model.contacts;
 
-import model.attributes.PhoneNumber;
+import model.attributes.phone.PhoneNumber;
 
 public class Person extends Contact {
     

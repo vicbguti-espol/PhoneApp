@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicLong;
 import model.attributes.Attribute;
-import model.attributes.PhoneNumber;
+import model.attributes.phone.PhoneNumber;
 
 public abstract class Contact implements Serializable {
     private static final long serialVersionUID = 1L;

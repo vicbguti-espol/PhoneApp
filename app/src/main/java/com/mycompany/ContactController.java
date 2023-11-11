@@ -17,7 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import model.attributes.Attribute;
-import model.attributes.PhoneNumber;
+import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
 
 /**

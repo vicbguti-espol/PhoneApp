@@ -24,13 +24,26 @@ public class App extends Application {
         this.stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+    }
+    
+    static void setRoot(String fxml, Controller controller) 
+            throws IOException {
+        scene.setRoot(loadFXML(fxml, controller));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 App.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
+    
+    private static Parent loadFXML(String fxml, Controller controller)
+            throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                App.class.getResource(fxml + ".fxml"));
+        fxmlLoader.setController(controller);
         return fxmlLoader.load();
     }
     

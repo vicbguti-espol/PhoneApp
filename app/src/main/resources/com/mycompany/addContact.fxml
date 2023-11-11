@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddContactController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="600.0" spacing="24.0" BorderPane.alignment="CENTER">
          <children>
@@ -26,13 +27,10 @@
                   <Insets left="30.0" />
                </padding>
             </StackPane>
-            <Label fx:id="lblContact" text="Añadir contacto" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Label text="Seleccionar tipo de contacto" />
-                  <ComboBox fx:id="cmbContactType" onAction="#afterSelection" prefWidth="150.0" />
-               </children>
-            </HBox>
+            <Label text="Añadir Persona">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
          </children>
          <padding>
             <Insets bottom="30.0" top="30.0" />
@@ -88,7 +86,7 @@
                   <Label text="Imagenes" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="txtImageSource" text="Buscar imágenes" />
+                        <TextField fx:id="txtImageSource" promptText="Buscar imágenes" />
                         <Button mnemonicParsing="false" onAction="#openImages" text="..." />
                      </children>
                   </HBox>
@@ -96,8 +94,11 @@
             </VBox>
          </children>
          <padding>
-            <Insets left="30.0" right="30.0" />
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
          </padding>
+         <BorderPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
       </VBox>
    </center>
    <bottom>
@@ -110,4 +111,7 @@
          </padding>
       </StackPane>
    </bottom>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
 </BorderPane>
