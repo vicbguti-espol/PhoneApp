@@ -18,9 +18,8 @@ public class prueba {
      */
     public static void main(String[] args) throws ParseException {
          
-        
-String fechaNacimiento = "20/03/2003";
-     Reminder.calculateRemainingDays(fechaNacimiento);
+         LocalDate fechaEspecifica = LocalDate.of(2003, 11, 13);
+        System.out.println(Reminder.calculateRemainingDays(fechaEspecifica));
        
         
     }
