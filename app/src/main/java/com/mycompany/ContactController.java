@@ -52,10 +52,10 @@ public class ContactController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Contact contact = new Contact();
-        createHeader(contact);
-        LinkedList<Attribute> attributes = contact.getAttributes();
-        LinkedList.
+        // Contact contact = new Contact(); // Contact now is an abstract class
+        // Person and Company are sons of Contact
+        // createHeader(contact);
+        //ArrayList<Attribute> attributes = contact.getAttributes();
         /*for (Attribute attribute: attributes){
             Label title = new Label(attribute.getAttributeName());
             if (attribute instanceof ArrayList<PhoneNumber  >){

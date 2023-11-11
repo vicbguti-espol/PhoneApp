@@ -1,17 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.attributes;
 
-/**
- *
- * @author arauj
- */
-public class Image extends Attribute {
-    private String path;
+import java.util.concurrent.atomic.AtomicLong;
 
-    public Image(String path) {
+public class Image extends Attribute {
+    private static final long serialVersionUID = 1L;
+    private static final AtomicLong atomicRefId = new AtomicLong();
+    // transient field is not serialized
+    private transient long refId;
+    String path;
+    
+    public Image(){
+        refId = atomicRefId.incrementAndGet();
+    }
+
+    public Image(String path){
+        this();
+        this.path = path;
+    }
+    
+    public long getRefId() {
+        return refId;
+    }
+    
+    public void setPath(String path){
         this.path = path;
     }
     

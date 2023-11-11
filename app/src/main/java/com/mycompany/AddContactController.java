@@ -6,8 +6,11 @@ package com.mycompany;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.time.LocalDate;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,15 +33,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
 import javafx.util.Pair;
-import model.contacts.Contact;
-import model.enums.ContactType;
+import model.attributes.Attribute;
+import model.attributes.Image;
+import model.attributes.Location;
+import model.attributes.names.PersonName;
+import model.attributes.PhoneNumber;
+import model.attributes.reminders.Birthday;
+import model.contacts.Person;
 import model.enums.SourceType;
 import model.user.MobilePhone;
-/**
- * FXML Controller class
- *
- * @author vicbguti
- */
+
 public class AddContactController implements Initializable {
 
     @FXML
@@ -66,15 +70,22 @@ public class AddContactController implements Initializable {
     @FXML
     private VBox boxImages;
     
-    private final static Pair<String, String> EMPTY_PAIR = new Pair<>("", "");
-    private final static Pair<String, SourceType> EMPTY_TYPES_PAIR = new Pair<>("", null);
+    private final static Pair<String, String> EMPTY_PAIR = 
+            new Pair<>("", "");
+    private final static Pair<String, SourceType> EMPTY_TYPES_PAIR =
+            new Pair<>("", null);
     
     private FileChooser fileDialog;
     private List<File> imageList;
     private Pagination pagination;
     
     
-    ContactType contactType;
+    PhoneNumber personPhone;
+    Location location;
+    List<Image> images;
+    Birthday birthday;
+    Person person;
+    
     
 
     /**
@@ -82,7 +93,6 @@ public class AddContactController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        contactType = ContactType.PERSON;
         lblContact.setText("Agregar Persona");
         initCmbContactType();
         initCmbTypo(cmbPhoneType);
@@ -105,8 +115,13 @@ public class AddContactController implements Initializable {
     
     
     @FXML
-    private void returnHomePage() throws IOException{
-        App.setRoot("primary");
+    private void returnHomePage(){
+        try {
+            App.setRoot("primary");
+        } catch (IOException ex) {
+            System.err.println("Failed to return to home page");
+            ex.printStackTrace();
+        }
     }
     
     @FXML
@@ -130,7 +145,7 @@ public class AddContactController implements Initializable {
             return imageView;
 
         } else {
-            return new Label("No hay imagen seleccionada.");
+            return new Label("No hay imágenes seleccionadas");
         }
         });
     }
@@ -213,26 +228,118 @@ public class AddContactController implements Initializable {
                 && !txtLocationDescription.getText().equals("")
                 && !txtLocationURL.getText().equals("")
                 && dateBirth.getValue() != null
+                && imageList != null
                 ;
     }
-//
-//    @FXML
-//    private void addPerson(ActionEvent event) throws IOException {
-//        
-//        if (isPrepared()){
-//            PhoneNumber phone = new PhoneNumber(
-//                    txtPhoneNumber.getText(),
-//                    cmbPhoneType.getValue().getValue());
-//            MobilePhone.addContact(new Contact(contactType, phone)); 
-//        } else{
-//            Alert a = new Alert(AlertType.NONE);
-//            
-//            a.setAlertType(AlertType.ERROR);
-//            a.setContentText("Faltan datos para agregar contacto");
-//            a.show();
-//        }
-//    }
-//    
+    
+    private void loadPhone(){
+        // create attribute instances
+        personPhone = new PhoneNumber(
+        txtPhoneNumber.getText(),
+        cmbPhoneType.getValue().getValue());
+    }
+    
+    private void loadContact(){
+        // create person contact
+        person = new Person(personPhone);
+        person.attributes.add(new PersonName(
+        txtName.getText(), 
+        txtLastName.getText()));
+    }
+    
+    private void loadLocation(){
+        // handling location and birthday contact info
+        location = new Location(
+                cmbLocationType.getValue().getValue(),
+                txtLocationDescription.getText(),
+                txtLocationURL.getText());    
+    }
+    
+    private void loadImages(){
+        // handling image attribute
+        images = new ArrayList<>();
+        for (File file: imageList){
+            try{
+                Image newImage = new Image();
+                String source = "images/" + person.getRefId() + "/";
+                Files.createDirectories(Paths.get(source));
+                String targetPath = source + newImage.getRefId() + ".jpg";
+                
+                File target = new File(targetPath);
+                //get Url and open stream
+                String urlString = file.toURI().toString();
+                InputStream inputStream = new URL(urlString).openStream();
+
+                //copy bytes from the stream to the target file
+                Files.copy(inputStream, 
+                        target.toPath(), 
+                        StandardCopyOption.REPLACE_EXISTING);
+                newImage.setPath(targetPath);
+                images.add(newImage);
+            } catch (Exception x){
+                System.err.println("Failed to save Image");
+                x.printStackTrace();
+            }   
+        }     
+    }
+    
+    private void loadBirthday(){
+        birthday = new Birthday(dateBirth.getValue());
+    }
+    
+    private void loadInfo(){
+        loadPhone();
+        loadContact();
+        loadLocation();
+        loadImages();
+        loadBirthday();
+    }
+
+    private void addAttributes(){
+        List<Attribute> attributes = person.attributes;
+        attributes.add(location);
+        attributes.add(birthday);
+        attributes.addAll(images);
+    }
+    
+    private void noDataAlert(){
+        Alert a = new Alert(AlertType.NONE);
+
+        a.setAlertType(AlertType.ERROR);
+        a.setContentText("Faltan datos para agregar contacto");
+        a.show();
+    }
+    
+    private void sucessDialog(){
+        Alert a = new Alert(AlertType.NONE);
+        
+        a.setAlertType(AlertType.INFORMATION);
+        a.setContentText("Contacto tipo persona agregado con éxito");
+        a.show();
+    }
+    
+    private void saveContact(){
+        try {
+            MobilePhone.addContact(person);
+        } catch (IOException ex) {
+            System.err.println("Failed to save contact");
+            ex.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void addPerson(ActionEvent event){
+        if (isPrepared()){
+            loadInfo();
+            addAttributes();
+            saveContact();
+            returnHomePage();
+            sucessDialog();
+        } else{
+            noDataAlert();
+        }
+    }
+    
     
         
 

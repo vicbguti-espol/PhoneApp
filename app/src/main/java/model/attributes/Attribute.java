@@ -4,12 +4,15 @@
  */
 package model.attributes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author vicbguti
  */
-public class Attribute {
+public class Attribute implements Serializable {
     public String getAttributeName(){
         return this.getClass().getSimpleName();
     }
+    
 }
