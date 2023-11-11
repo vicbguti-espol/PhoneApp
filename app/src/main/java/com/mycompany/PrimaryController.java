@@ -16,7 +16,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private void switchToAddCompany(ActionEvent event) throws IOException {
-        App.setRoot("addCompany");
+    private void switchToAddPerson(ActionEvent event) throws IOException {
+        App.setRoot("addContact");
     }
 }

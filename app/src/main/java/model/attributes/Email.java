@@ -8,9 +8,16 @@ import model.enums.SourceType;
 
 /**
  *
- * @author naomi
+ * @author arauj
  */
+public class Email extends Attribute {
+    private SourceType emailType;
+    private String email;
 
-public class SocialMedia {
+    public Email(SourceType emailType, String email) {
+        this.emailType = emailType;
+        this.email = email;
+    }
+    
     
 }

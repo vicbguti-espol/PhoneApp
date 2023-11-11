@@ -250,9 +250,9 @@ public class AddContactController implements Initializable {
     private void loadLocation(){
         // handling location and birthday contact info
         location = new Location(
-        txtLocationDescription.getText(),
-                txtLocationURL.getText()
-        );    
+                cmbLocationType.getValue().getValue(),
+                txtLocationDescription.getText(),
+                txtLocationURL.getText());    
     }
     
     private void loadImages(){

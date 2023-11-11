@@ -1,13 +1,15 @@
 package model.attributes;
 
-public class Location extends Attribute {
-    String description;
-    String mapsURL;
+import model.enums.SourceType;
 
-    public Location(String description, String mapsURL) {
-        this.description = description;
+public class Location extends Attribute implements Typable{
+    private SourceType locationType;
+    private String details;
+    private String mapsURL;
+
+    public Location(SourceType locationType, String details, String mapsURL) {
+        this.locationType = locationType;
+        this.details = details;
         this.mapsURL = mapsURL;
     }
-    
-    
 }

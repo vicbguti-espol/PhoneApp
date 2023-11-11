@@ -25,4 +25,6 @@ public class Image extends Attribute {
     public void setPath(String path){
         this.path = path;
     }
+    
 }
+

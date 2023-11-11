@@ -34,8 +34,6 @@ public abstract class Contact implements Serializable {
         }
         return null;
     }
-   
-    
     
 //    public Attribute getAttribute(Attribute attribute){
 //        // TO-DO
