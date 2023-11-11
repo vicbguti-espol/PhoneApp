@@ -9,7 +9,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import model.attributes.Attribute;
 import model.attributes.Generic;
-import model.attributes.PhoneNumbers;
+import model.attributes.PhoneNumber;
 import model.enums.ContactType;
 
 /**
@@ -20,7 +20,7 @@ public class Contact {
     private ContactType contactType;
     private LinkedList<Attribute> attributes;
 
-    public Contact(ContactType contactType, PhoneNumbers phoneNumber) {
+    public Contact(ContactType contactType, PhoneNumber phoneNumber) {
         attributes = new LinkedList<>();
         this.contactType = contactType;
         attributes.add(new Generic(contactType));
@@ -33,9 +33,9 @@ public class Contact {
         return attributes;
     }
 
-    public ArrayList<Attribute> getAttributes() {
+    /*public ArrayList<Attribute> getAttributes() {
         return attributes;
-    }
+    }*/
     
 //    public Attribute getAttribute(Attribute attribute){
 //        // TO-DO

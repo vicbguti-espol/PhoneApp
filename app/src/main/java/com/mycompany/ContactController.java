@@ -7,6 +7,7 @@ package com.mycompany;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +54,8 @@ public class ContactController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Contact contact = new Contact();
         createHeader(contact);
-        //ArrayList<Attribute> attributes = contact.getAttributes();
+        LinkedList<Attribute> attributes = contact.getAttributes();
+        LinkedList.
         /*for (Attribute attribute: attributes){
             Label title = new Label(attribute.getAttributeName());
             if (attribute instanceof ArrayList<PhoneNumber  >){
