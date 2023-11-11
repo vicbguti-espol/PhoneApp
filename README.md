@@ -13,6 +13,5 @@
 
 ## Demo implementación Agregar Persona
 
-<video src="[Screencast%20from%2010-11-23%2021_16_17.mp4](https://github.com/vicbguti-espol/PhoneApp/blob/main/Screencast%20from%2010-11-23%2021_16_17.mp4)https://github.com/vicbguti-espol/PhoneApp/blob/main/Screencast%20from%2010-11-23%2021_16_17.mp4" controls title="Title"></video>
-
+https://github.com/vicbguti-espol/PhoneApp/assets/133924738/9b0674f8-dc8c-4ffe-b4c0-c9c8609afe10
 
