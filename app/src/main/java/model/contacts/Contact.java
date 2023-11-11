@@ -26,6 +26,7 @@ public abstract class Contact implements Serializable {
         attributes.add(phone);
     }
     
+   
     public Attribute find(Comparator<Attribute> cmp, Attribute object) {
         for ( Attribute attribute: attributes ) {
             if ( cmp.compare(attribute, object) == 0 ) {
