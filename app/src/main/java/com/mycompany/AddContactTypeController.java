@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
 import model.attributes.Image;
-import model.attributes.Location.Location;
+import model.attributes.location.Location;
 import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
 import model.user.MobilePhone;
@@ -81,15 +81,17 @@ public abstract class AddContactTypeController extends Controller {
     images = new ArrayList<>();
     for (File file: imageList){
         try{
-            Image newImage = new Image();
-            String source = "images/" + contact.getRefId() + "/";
-            Files.createDirectories(Paths.get(source));
-            String targetPath = source + newImage.getRefId() + ".jpg";
-
-            File target = new File(targetPath);
             //get Url and open stream
             String urlString = file.toURI().toString();
+            String[] splittedPath = urlString.split("/");
+            String imageSRC = splittedPath[splittedPath.length - 1];
             InputStream inputStream = new URL(urlString).openStream();
+            
+            Image newImage = new Image();
+            String source = "images/" + contact.getUID() + "/";
+            Files.createDirectories(Paths.get(source));
+            String targetPath = source + imageSRC;
+            File target = new File(targetPath);
 
             //copy bytes from the stream to the target file
             Files.copy(inputStream, 

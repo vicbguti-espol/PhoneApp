@@ -6,6 +6,6 @@ public class Person extends Contact {
     
     public Person(PhoneNumber phoneNumber) {
         super(phoneNumber);
+        uid = "P" + super.uid;
     }
-    
 }

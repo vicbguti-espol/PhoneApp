@@ -1,6 +1,6 @@
-package model.attributes.Location;
+package model.attributes.location;
 
-import model.attributes.Location.Location;
+import model.attributes.location.Location;
 import model.enums.SourceType;
 
 public class PersonLocation extends Location {

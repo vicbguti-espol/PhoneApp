@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.attributes.company.CompanyDescription;
-import model.attributes.Location.CompanyLocation;
+import model.attributes.location.CompanyLocation;
 import model.attributes.company.CompanyWebPage;
 import model.attributes.names.CompanyName;
 import model.attributes.phone.CompanyPhone;
