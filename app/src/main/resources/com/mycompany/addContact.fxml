@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddContactController">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="600.0" spacing="24.0" BorderPane.alignment="CENTER">
          <children>
@@ -90,6 +90,11 @@
                         <Button mnemonicParsing="false" onAction="#openImages" text="..." />
                      </children>
                   </HBox>
+                  <StackPane prefHeight="0.0" prefWidth="657.0">
+                     <padding>
+                        <Insets bottom="30.0" top="30.0" />
+                     </padding>
+                  </StackPane>
                </children>
             </VBox>
          </children>
@@ -101,17 +106,10 @@
          </BorderPane.margin>
       </VBox>
    </center>
-   <bottom>
-      <StackPane prefHeight="0.0" prefWidth="657.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#addPerson" text="Añadir" />
-         </children>
-         <padding>
-            <Insets bottom="30.0" top="30.0" />
-         </padding>
-      </StackPane>
-   </bottom>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
    </padding>
+   <bottom>
+      <Button mnemonicParsing="false" onAction="#addPerson" text="Añadir" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
