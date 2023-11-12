@@ -13,7 +13,7 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#returnContactPage" text="volver" />
+            <Button fx:id="btnReturn" mnemonicParsing="false" text="volver" />
             <Label fx:id="lblTitle" text="Fotos de Pepe" />
          </children>
       </HBox>

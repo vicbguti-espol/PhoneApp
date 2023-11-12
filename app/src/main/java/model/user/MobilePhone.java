@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.user;
 
 import java.io.IOException;
@@ -10,21 +6,47 @@ import java.util.List;
 import model.contacts.Contact;
 import model.serialization.SerializationUtil;
 
-/**
- *
- * @author vicbguti
- */
 public class MobilePhone {
-    private static final List<Contact> contactList = new ArrayList<>();
-    private static final String path = "ser/contactList.ser";
+    private static List<Contact> contactList;
+    private static final String contactListPath = "ser/contactList.ser";
     
-    public static void addContact(Contact c) throws IOException{
-        contactList.add(c);
-        SerializationUtil.serialize(contactList, path);
+    public static List<Contact> getContactList(){
+        if (contactList == null){
+            initContactList();
+        }
+        return contactList;
     }
     
-    public static List<Contact> getContactList() throws IOException, ClassNotFoundException{
-        List<Contact> contactList2 = (List<Contact>) SerializationUtil.deserialize(path);
-        return contactList2;
+    public static void addContact(Contact c) {
+        try {
+            if (contactList == null) initContactList();
+            contactList.add(c);
+            SerializationUtil.serialize(contactList, contactListPath);
+        } catch (IOException ex) {
+            System.err.println("Failed to add a contact");
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void removeContact(Contact c){
+        try {
+            if (contactList == null) initContactList();
+            contactList.remove(c);
+            SerializationUtil.serialize(contactList, contactListPath);
+        } catch (IOException ex) {
+            System.out.println("Failed to remove the contact");
+            ex.printStackTrace();
+        }
+    }
+    
+    private static void initContactList(){
+        try {
+            contactList =
+                    (ArrayList<Contact>) SerializationUtil.
+                            deserialize(contactListPath);
+        } catch (Exception e){
+            e.printStackTrace();
+            contactList = new ArrayList<>();
+        }
     }
 }

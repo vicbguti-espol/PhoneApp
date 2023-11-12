@@ -1,88 +1,115 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.util.Callback;
-import javafx.util.Pair;
-/**
- * FXML Controller class
- *
- * @author vicbguti
- */
-public class AddCompanyController implements Initializable {
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import model.attributes.company.CompanyDescription;
+import model.attributes.location.CompanyLocation;
+import model.attributes.company.CompanyWebPage;
+import model.attributes.names.CompanyName;
+import model.attributes.phone.CompanyPhone;
+import model.contacts.Company;
 
 
+public class AddCompanyController extends AddContactTypeController
+        implements Initializable {
+    
     @FXML
-    private ComboBox<Pair<String, String>> cmbContactType;
+    private TextField txtName;
+    @FXML
+    private TextField txtDescription;
+    @FXML
+    private TextField txtPhoneNumber;
+    @FXML
+    private TextField txtWebPage;
+    @FXML
+    private TextField txtLocationDescription;
+    @FXML
+    private TextField txtLocationURL;
+    @FXML
+    private TextField txtImageSource;
+    @FXML
+    private VBox boxImages;
+    @FXML
+    private Button btnReturn;
     @FXML
     private Button btnAdd;
-    @FXML
-    private Label lblContact;
     
-    private final static Pair<String, String> EMPTY_PAIR = new Pair<>("", "");
-
-    /**
-     * Initializes the controller class.
-     */
+    private CompanyDescription description;
+    private CompanyWebPage webpage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        lblContact.setText("Agregar Empresa");
-        initCombo();
+        super.initialize();
+        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnAdd.setOnAction(e -> super.addContact());
+        
     }
-    
+
+    @Override
+    protected void loadPhone() {
+        phone = new CompanyPhone(txtPhoneNumber.getText());
+    }
+
+    @Override
+    void initImageSourceText(){
+        txtImageSource.setEditable(false);
+        txtImageSource.setFocusTraversable(false);
+    }
+
+    @Override
     @FXML
-    private void returnHomePage() throws IOException{
-        App.setRoot("primary");
+    void openImages(ActionEvent event) {
+        fileDialog.setTitle("Abrir imagenes");
+        imageList = fileDialog.showOpenMultipleDialog(App.stage);
+        if(imageList != null) {
+            pagination.setPageCount(imageList.size());
+            txtImageSource.setText(imageList.get(0).getParent());
+        }
     }
-    
-    @FXML
-    private void afterSelection(ActionEvent event) throws IOException {
-        String fxml = cmbContactType.getValue().getValue();
-        App.setRoot(fxml);
+
+    @Override
+    void addPagination(){
+        boxImages.getChildren().add(pagination);
     }
+
+
+    @Override
+    void loadContact() {
+        contact = new Company(phone);
+        contact.attributes.add(new CompanyName(txtName.getText()));
+    }
+
+    @Override
+    void loadLocation() {
+        location = new CompanyLocation(txtLocationDescription.getText(),
+        txtLocationURL.getText());
+    }
+
+    @Override
+    boolean isTypePrepared() {
+        return !txtName.getText().equals("")
+                && !txtDescription.getText().equals("")
+                && !txtPhoneNumber.getText().equals("")
+                && !txtWebPage.getText().equals("")
+                && !txtLocationDescription.getText().equals("")
+                && !txtLocationURL.getText().equals("");
+    } 
     
-    private void initCombo() {
+    @Override
+    void addTypeAttributes(){
+        addAttribute(description);
+        addAttribute(webpage);
+    }
 
-        List<Pair<String,String>> accounts = new ArrayList<>();
-
-        accounts.add( new Pair<>("Persona", "addContact") );
-        accounts.add( new Pair<>("Empresa", "addCompany") );
-
-        cmbContactType.getItems().add( EMPTY_PAIR );
-        cmbContactType.getItems().addAll( accounts );
-        cmbContactType.setValue( EMPTY_PAIR );
-
-        Callback<ListView<Pair<String,String>>, ListCell<Pair<String,String>>> factory =
-            (lv) ->
-                    new ListCell<Pair<String,String>>() {
-                        @Override
-                        protected void updateItem(Pair<String, String> item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if( empty ) {
-                                setText("");
-                            } else {
-                                setText( item.getKey() );
-                            }
-                        }
-                    };
-
-        cmbContactType.setCellFactory( factory );
-        cmbContactType.setButtonCell( factory.call( null ) );
+    @Override
+    void loadTypeData() {
+        description = new CompanyDescription(txtDescription.getText());
+        webpage = new CompanyWebPage(txtWebPage.getText());
     }
 }

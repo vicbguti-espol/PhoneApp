@@ -1,75 +1,44 @@
 package model.contacts;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 import model.attributes.Attribute;
-import model.attributes.PhoneNumber;
+import model.attributes.names.Name;
+import model.attributes.phone.PhoneNumber;
+import model.comparator.ComparatorUtil;
 
 public abstract class Contact implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static final AtomicLong atomicRefId = new AtomicLong();
-    // transient field is not serialized
-    private transient long refId;
-
     public LinkedList<Attribute> attributes;
-
-    // default constructor will be called on base class even during deserialization
-    public Contact() {
-       refId = atomicRefId.incrementAndGet();
-    }
-
+    protected String uid;   
+    
     public Contact(PhoneNumber phone) {
-        this();
-        attributes = new LinkedList<>();
-        attributes.add(phone);
+        initAttributesList(phone);
+        initUID(phone);
     }
     
-   
-    public Attribute find(Comparator<Attribute> cmp, Attribute object) {
+    public List<Attribute> findAttributes(Comparator<Attribute> cmp, Attribute object) {
+        List<Attribute> found = new ArrayList<>();
         for ( Attribute attribute: attributes ) {
             if ( cmp.compare(attribute, object) == 0 ) {
-                return attribute;
+                found.add(attribute);
             }
         }
-        return null;
+        return found;
     }
     
-//    public Attribute getAttribute(Attribute attribute){
-//        // TO-DO
-//    }
-    
-//    public ArrayList<Attribute> findAll(
-//            Comparator<Attribute> cmp, 
-//            Attribute attribute
-//            ){
-//        // TO DO
-//        // attributes.findAll(cmp, attribute);
-//    } 
-    
-//    public static void main(String[] args) {
-//        
-//        // TO DO
-//        
-////        Comparator<Attribute> cmpByClass = new Comparator<>(){
-////            @Override
-////            public int compare(Attribute t, Attribute t1) {
-////                if (t.getClass().getSimpleName().equals(t1.getClass().getSimpleName())) return 0;
-////                else return 20;
-////            }
-////            
-////        };
-//
-//    }
-
-    public long getRefId() {
-        return refId;
-    }
-
-    @Override
-    public String toString() {
-        return "Contact{" + "attributes=" + attributes + '}';
+    public String getUID(){
+        return uid;
     }
     
+    private void initAttributesList(PhoneNumber phone){
+        attributes = new LinkedList<>();
+        attributes.add(phone);   
+    }
+    
+    private void initUID(PhoneNumber phone){
+        uid = phone.getPhoneNumber();
+    }
 }

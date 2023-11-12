@@ -19,11 +19,19 @@ public class Email extends Attribute {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Email{" + "emailType=" + emailType + ", email=" + email + '}';
+    public SourceType getEmailType() {
+        return emailType;
     }
-    
-    
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmailType(SourceType emailType) {
+        this.emailType = emailType;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

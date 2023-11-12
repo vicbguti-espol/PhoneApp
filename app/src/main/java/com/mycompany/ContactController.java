@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 import model.attributes.Attribute;
 import model.attributes.*;
 import model.attributes.names.PersonName;
+import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
 
 /**
@@ -31,7 +33,7 @@ import model.contacts.Contact;
  *
  * @author arauj
  */
-public class ContactController implements Initializable {
+public class ContactController extends Controller implements Initializable {
 
     @FXML
     private Button btnReturn;
@@ -94,7 +96,7 @@ public class ContactController implements Initializable {
     }
     
     private void goContactImagesPage(Contact contact) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("contactImages.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(App.class.getResource("contactImages.fxml"));
         ContactImagesController contactImagesController = new ContactImagesController(contact);
         loader.setController(contactImagesController);
         
@@ -102,7 +104,9 @@ public class ContactController implements Initializable {
         
         Scene scene = new Scene(root);
         Stage stage = new Stage();//(Stage) contactListView.getScene().getWindow();
-        stage.setScene(scene);;
+        stage.setScene(scene);;*/
+        Controller contactImagesController = new ContactImagesController(contact);
+        App.setRoot("contactImages",contactImagesController);
     }
 
     private void createHeader() {
@@ -114,20 +118,22 @@ public class ContactController implements Initializable {
             }
         };
         
-        Attribute name = contact.find(cmpByClass, new PersonName("Jose","Jose"));
-        model.attributes.Image imgProfile = (model.attributes.Image) contact.find(cmpByClass, new model.attributes.Image());
+        List<Attribute> name = contact.findAttributes(cmpByClass, new PersonName("Jose","Jose"));
+        System.out.println(name);
+        PersonName nombre = (PersonName) name.get(0);
+        //model.attributes.Image imgProfile = (model.attributes.Image) contact.findAttributes(cmpByClass, new model.attributes.Image());
         
         //lblName.setText(name.getAttributeName());
-        lblName.setText("Pepe");
+        lblName.setText(nombre.getFirstName()+""+nombre.getLastName());
         
-        String path = "/" + imgProfile.getPath();
+        /*String path = imgProfile.getPath();
         System.out.println(path);
         try {
             javafx.scene.image.Image image = new javafx.scene.image.Image(path);
             ImageView imgView = new ImageView(image);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         //vbContent.getChildren().add(lblName);
         
         //root.setCenter(content);

@@ -18,7 +18,7 @@ import model.contacts.Contact;
  *
  * @author arauj
  */
-public class ContactImagesController implements Initializable {
+public class ContactImagesController extends Controller implements Initializable {
 
     @FXML
     private Button btnReturn;
@@ -39,10 +39,18 @@ public class ContactImagesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        btnReturn.setOnAction(r -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                System.out.println("PEPE");
+                ex.printStackTrace();
+            }
+        });
     }    
     
     @FXML
     private void returnContactPage() throws IOException{
-        App.setRoot("contact");
+        App.setRoot("contact", new ContactController(contact));
     }
 }

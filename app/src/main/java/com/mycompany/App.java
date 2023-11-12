@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import model.contacts.Contact;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 /**
  * JavaFX App
@@ -19,14 +21,33 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("contactList"), 880, 870);
+        //scene = new Scene(loadFXML("contactList"), 880, 870);
+        scene = new Scene(loadFXML("primary"));
         this.stage = stage;
+
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        this.stage.setX(bounds.getMinX());
+        this.stage.setY(bounds.getMinY());
+        this.stage.setWidth(bounds.getWidth());
+        this.stage.setHeight(bounds.getHeight());
+        
         this.stage.setScene(scene);
         this.stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    public static void setRoot(String fxml){
+        try {
+            scene.setRoot(loadFXML(fxml));
+        } catch (IOException ex) {
+            System.err.println("Failed to load fxml: " + fxml);
+            ex.printStackTrace();
+        }
+    }
+    
+    static void setRoot(String fxml, Controller controller) 
+            throws IOException {
+        scene.setRoot(loadFXML(fxml, controller));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -34,7 +55,15 @@ public class App extends Application {
                 App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-        
+    
+    private static Parent loadFXML(String fxml, Controller controller)
+            throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                App.class.getResource(fxml + ".fxml"));
+        fxmlLoader.setController(controller);
+        return fxmlLoader.load();
+    }
+    
     public Stage getStage(){
         return stage;
     }

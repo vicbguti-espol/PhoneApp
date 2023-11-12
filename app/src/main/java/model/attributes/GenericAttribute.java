@@ -1,7 +1,6 @@
 package model.attributes;
 
 public class GenericAttribute<T> extends Attribute {
-    private String attributeName;
     private T value; 
     
     public GenericAttribute(String attributeName, T value) {
@@ -18,11 +17,9 @@ public class GenericAttribute<T> extends Attribute {
     public String getAttributeName(){
         return attributeName;
     }
-
-    @Override
-    public String toString() {
-        return "GenericAttribute{" + "attributeName=" + attributeName + ", value=" + value + '}';
-    }
     
+    public T getValue() {
+        return value;
+    }
     
 }

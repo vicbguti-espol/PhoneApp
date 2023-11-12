@@ -42,16 +42,9 @@ public class ContactListController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Contact> contactList;
-        try {
-            contactList = MobilePhone.getContactList();
-            ObservableList<Contact> contactObservableList = FXCollections.observableList(contactList);
-            contactListView = new ListView<>(contactObservableList);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        List<Contact> contactList = MobilePhone.getContactList();
+        ObservableList<Contact> contactObservableList = FXCollections.observableList(contactList);
+        contactListView = new ListView<>(contactObservableList);
         root.setCenter(contactListView);
         contactListView.setOnMouseClicked(eh -> {
             Contact selectedContact = contactListView.getSelectionModel().getSelectedItem();
@@ -66,7 +59,7 @@ public class ContactListController implements Initializable {
     }
     
     private void goContactPage(Contact selectedContact) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("contact.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(App.class.getResource("contact.fxml"));
         ContactController contactController = new ContactController(selectedContact);
         loader.setController(contactController);
         
@@ -74,7 +67,10 @@ public class ContactListController implements Initializable {
         
         Scene scene = new Scene(root);
         Stage stage = (Stage) contactListView.getScene().getWindow();
-        stage.setScene(scene);
+        stage.setScene(scene);*/
+        
+        Controller contactController = new ContactController(selectedContact);
+        App.setRoot("contact",contactController);
     }
     
     
