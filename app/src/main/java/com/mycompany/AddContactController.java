@@ -58,26 +58,6 @@ public class AddContactController extends AddContactTypeController
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize();
-        initCmbTypo(cmbPhoneType);
-        initCmbTypo(cmbLocationType);
-        btnReturn.setOnAction(e -> super.returnHomePage());
-        btnAdd.setOnAction(e -> super.addContact());
-    }    
-    
-    @FXML
-    void openImages(ActionEvent event){
-        fileDialog.setTitle("Abrir imagenes");
-        imageList = fileDialog.showOpenMultipleDialog(App.stage);
-        if(imageList != null) {
-            pagination.setPageCount(imageList.size());
-            txtImageSource.setText(imageList.get(0).getParent());
-        }
-    }
-    
-    @Override
-    void initImageSourceText(){
-        txtImageSource.setEditable(false);
-        txtImageSource.setFocusTraversable(false);
     }
     
     
@@ -160,6 +140,19 @@ public class AddContactController extends AddContactTypeController
     @Override
     void addTypeAttributes() {
         addAttribute(birthday);
+    }
+
+    @Override
+    void typeInitialization() {
+        initCmbTypo(cmbPhoneType);
+        initCmbTypo(cmbLocationType);
+        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnAdd.setOnAction(e -> super.addContact());
+    }
+
+    @Override
+    void initImageTextField() {
+        imageSourceTextField = txtImageSource;
     }
 
 }

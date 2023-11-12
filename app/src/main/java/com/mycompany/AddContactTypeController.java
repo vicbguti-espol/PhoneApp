@@ -1,7 +1,6 @@
 package com.mycompany;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
@@ -9,10 +8,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
@@ -28,6 +26,7 @@ public abstract class AddContactTypeController extends DataEntryController {
     protected FileChooser fileDialog;
     protected List<File> imageList;
     protected Pagination pagination;
+    protected TextField imageSourceTextField;
     
     
     protected PhoneNumber phone;
@@ -70,6 +69,21 @@ public abstract class AddContactTypeController extends DataEntryController {
         loadImages();
         loadTypeData();
     }
+    
+    void openImagesDialog(){
+        fileDialog.setTitle("Abrir imagenes");
+        imageList = fileDialog.showOpenMultipleDialog(App.stage);
+        if(imageList != null) {
+            pagination.setPageCount(imageList.size());
+            imageSourceTextField.setText(imageList.get(0).getParent());
+        }
+    }
+    
+    void initImageSourceText(){
+        imageSourceTextField.setEditable(false);
+        imageSourceTextField.setFocusTraversable(false);
+    }
+    
     
     private void loadImages(){
     // handling image attribute
@@ -134,8 +148,12 @@ public abstract class AddContactTypeController extends DataEntryController {
     }
     
     void initialize(){
+        typeInitialization();
+        initImageTextField();
         initImageChooser();
         addPagination();
+        initImageSourceText();
+
     }
     
     boolean isPrepared(){
@@ -144,8 +162,8 @@ public abstract class AddContactTypeController extends DataEntryController {
     }
     
     
-    abstract void initImageSourceText();
-    abstract void openImages(ActionEvent event);
+    abstract void initImageTextField();
+    abstract void typeInitialization();
     abstract void addPagination();
     abstract void loadPhone(); 
     abstract void loadContact();
