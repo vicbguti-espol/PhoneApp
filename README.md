@@ -1,7 +1,7 @@
 # PhoneApp
+https://github.com/vicbguti-espol/PhoneApp/assets/133924738/b9c73bb5-ed94-4413-8a3b-8c3316ffd1df
 
 # White Box Utils
-
 **Metodología de trabajo**
 
 [MobilePhone para agregar, remover y editar contactos](#mobilephone-class)   
@@ -56,4 +56,13 @@ Agregar un contacto tiene campos obligatorios, algo que hace que siempre existan
 - Se elimina el método `getAttributes()`, puesto que ahora la lista `attributes` es un atributo público el cual se puede acceder desde una instancia. Con este cambio se pueden acceder a métodos como `add()`, en modificación directa a la lista. Es decir si tengo un `Contact contacto` puedo hacer uso de la lista mediante `contacto.attributes`.
 - Se hizo la implementación de el método `find()` en `Contact`, directamente para la lista `attributes` donde se hace uso de un comparador y un objeto de tipo `Attribute`. Se espera que en inicio cuando se haga uso de este método el comparador implemente una solución de tal forma que la comparación salga igual a `0` una vez que entre dos `Attribute` sean iguales en tipo de clase, es decir hacer uso del método `getAttributeName()` en ambos objetos de tal forma que al hacer uso del método `equals()` salga verdadero.
 - Creación de la clase `GenericReminder` que hereda de `Reminder`. Se diferencia de demás `Reminder` porque es un `Reminder` y además incluye un atributo `description: String`.
+
+
+
+
+
+
+
+
+
 
