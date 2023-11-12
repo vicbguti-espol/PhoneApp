@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import model.attributes.Attribute;
 
 public abstract class Reminder extends Attribute {
-   protected LocalDate date;
+    protected LocalDate date;
 
     public Reminder(LocalDate date) {
         this.date = date;
