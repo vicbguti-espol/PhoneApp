@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import model.contacts.Contact;
 
 /**
  * JavaFX App
@@ -18,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 880, 870);
+        scene = new Scene(loadFXML("contactList"), 880, 870);
         this.stage = stage;
         this.stage.setScene(scene);
         this.stage.show();
@@ -33,11 +34,11 @@ public class App extends Application {
                 App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-    
+        
     public Stage getStage(){
         return stage;
     }
-
+    
     public static void main(String[] args) {
         launch();
     }

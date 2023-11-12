@@ -66,5 +66,10 @@ public abstract class Contact implements Serializable {
     public long getRefId() {
         return refId;
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" + "attributes=" + attributes + '}';
+    }
     
 }

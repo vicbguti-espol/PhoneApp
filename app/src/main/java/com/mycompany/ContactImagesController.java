@@ -9,6 +9,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import model.contacts.Contact;
 
 /**
  * FXML Controller class
@@ -16,6 +19,19 @@ import javafx.fxml.Initializable;
  * @author arauj
  */
 public class ContactImagesController implements Initializable {
+
+    @FXML
+    private Button btnReturn;
+    @FXML
+    private Label lblTitle;
+    
+    private Contact contact;
+    
+    public ContactImagesController(){}
+
+    public ContactImagesController(Contact contact) {
+        this.contact = contact;
+    }
 
     /**
      * Initializes the controller class.

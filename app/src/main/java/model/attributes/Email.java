@@ -18,6 +18,12 @@ public class Email extends Attribute {
         this.emailType = emailType;
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "Email{" + "emailType=" + emailType + ", email=" + email + '}';
+    }
+    
     
     
 }

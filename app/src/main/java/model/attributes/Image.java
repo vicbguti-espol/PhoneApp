@@ -25,6 +25,17 @@ public class Image extends Attribute {
     public void setPath(String path){
         this.path = path;
     }
+
+    public String getPath() {
+        return path;
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" + '}';
+    }
+    
+    
     
 }
 

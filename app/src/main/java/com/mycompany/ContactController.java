@@ -6,19 +6,24 @@ package com.mycompany;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.attributes.Attribute;
-import model.attributes.PhoneNumber;
+import model.attributes.*;
+import model.attributes.names.PersonName;
 import model.contacts.Contact;
 
 /**
@@ -37,52 +42,101 @@ public class ContactController implements Initializable {
     @FXML
     private VBox vbContent;
     @FXML
-    private Label lblName11;
-    @FXML
     private Label lblName;
-    @FXML
-    private Label lblName1;
     @FXML
     private ImageView imgvPicture;
     @FXML
     private Button btnViewImages;
+    @FXML
+    private BorderPane root;
+    
+    private Contact contact;
+    @FXML
+    private VBox vbPhoneNumbers;
+    @FXML
+    private VBox vbLocations;
+    
+    public ContactController(){}
+
+    public ContactController(Contact selectedContact) {
+        contact = selectedContact;
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Contact contact = new Contact(); // Contact now is an abstract class
-        // Person and Company are sons of Contact
-        // createHeader(contact);
-        //ArrayList<Attribute> attributes = contact.getAttributes();
-        /*for (Attribute attribute: attributes){
-            Label title = new Label(attribute.getAttributeName());
-            if (attribute instanceof ArrayList<PhoneNumber  >){
-                
+        createHeader();
+        btnViewImages.setOnAction(r -> {
+            try {
+                goContactImagesPage(contact);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-        }*/
+        });
+        btnReturn.setOnAction(r -> {
+            try {
+                returnContactListPage();
+            } catch (IOException ex) {
+                System.out.println("PEPE");
+                ex.printStackTrace();
+            }
+        });
+        System.out.println("Se logro");
+        System.out.println(contact);
         
     }
-    
+        
     @FXML
     private void returnContactListPage() throws IOException{
         App.setRoot("contactList");
     }
     
-    @FXML
-    private void goContactImagesPage() throws IOException {
-        App.setRoot("contactImages");
+    private void goContactImagesPage(Contact contact) throws IOException {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("contactImages.fxml"));
+        ContactImagesController contactImagesController = new ContactImagesController(contact);
+        loader.setController(contactImagesController);
+        
+        BorderPane root = (BorderPane) loader.load();
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();//(Stage) contactListView.getScene().getWindow();
+        stage.setScene(scene);;
     }
 
-    private void createHeader(Contact c) {
-        /*if (c instanceof Company){
-            Label tipo = new Label("Empresa");
+    private void createHeader() {
+        Comparator<Attribute> cmpByClass = new Comparator<>(){
+            @Override
+            public int compare(Attribute t, Attribute t1) {
+                if (t.getAttributeName().equals(t1.getAttributeName())) return 0;
+                else return 20;
+            }
+        };
+        
+        Attribute name = contact.find(cmpByClass, new PersonName("Jose","Jose"));
+        model.attributes.Image imgProfile = (model.attributes.Image) contact.find(cmpByClass, new model.attributes.Image());
+        
+        //lblName.setText(name.getAttributeName());
+        lblName.setText("Pepe");
+        
+        String path = "/" + imgProfile.getPath();
+        System.out.println(path);
+        try {
+            javafx.scene.image.Image image = new javafx.scene.image.Image(path);
+            ImageView imgView = new ImageView(image);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Label nombre = new Label(c.getUserName());
-        String path = c.getAttributes().getImageProfile();
-        Image imageProfile = new Image(path);
-        ImageView imageView = new ImageView(imageProfile);*/
+        //vbContent.getChildren().add(lblName);
+        
+        //root.setCenter(content);
     }
+    
+    /*private void makeList(){
+        contact.find
+    }*/
+
+   
     
 }

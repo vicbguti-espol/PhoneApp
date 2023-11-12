@@ -22,4 +22,9 @@ public class MobilePhone {
         contactList.add(c);
         SerializationUtil.serialize(contactList, path);
     }
+    
+    public static List<Contact> getContactList() throws IOException, ClassNotFoundException{
+        List<Contact> contactList2 = (List<Contact>) SerializationUtil.deserialize(path);
+        return contactList2;
+    }
 }

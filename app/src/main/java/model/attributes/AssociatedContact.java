@@ -18,6 +18,11 @@ public class AssociatedContact extends Attribute {
         this.contact = contact;
         this.relation = relation;
     }
+
+    @Override
+    public String toString() {
+        return "AssociatedContact{" + "contact=" + contact + ", relation=" + relation + '}';
+    }
     
     
 }

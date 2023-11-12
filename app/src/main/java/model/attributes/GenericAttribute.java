@@ -18,4 +18,11 @@ public class GenericAttribute<T> extends Attribute {
     public String getAttributeName(){
         return attributeName;
     }
+
+    @Override
+    public String toString() {
+        return "GenericAttribute{" + "attributeName=" + attributeName + ", value=" + value + '}';
+    }
+    
+    
 }
