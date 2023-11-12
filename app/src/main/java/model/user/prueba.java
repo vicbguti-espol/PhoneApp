@@ -7,7 +7,8 @@ package model.user;
 import java.io.IOException;
 import java.time.LocalDate;
 import model.attributes.Email;
-import model.attributes.Location;
+
+
 import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
@@ -25,7 +26,7 @@ public class prueba {
      */
     public static void main(String[] args) throws IOException {
         
-        Location lo= new Location(SourceType.PERSONAL, "casa", "wwww");
+        //Location lo= new Location(SourceType.PERSONAL, "casa", "wwww");
         Email em=new Email(SourceType.PERSONAL, "correo");
         PersonName n=new PersonName("A","B");
         PersonPhone ph =new PersonPhone("0123456789", SourceType.PERSONAL);
