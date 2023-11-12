@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.Pair;
-import model.attributes.Location.PersonLocation;
+import model.attributes.location.PersonLocation;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.reminders.Birthday;

@@ -1,4 +1,4 @@
-package model.attributes.Location;
+package model.attributes.location;
 
 import model.attributes.Attribute;
 import model.attributes.Typable;

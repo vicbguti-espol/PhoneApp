@@ -1,7 +1,6 @@
 package model.attributes;
 
 public class GenericAttribute<T> extends Attribute {
-    private String attributeName;
     private T value; 
     
     public GenericAttribute(String attributeName, T value) {
