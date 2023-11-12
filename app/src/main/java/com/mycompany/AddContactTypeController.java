@@ -72,20 +72,7 @@ public abstract class AddContactTypeController extends DataEntryController {
         loadTypeData();
     }
     
-    void openImagesDialog(){
-        fileDialog.setTitle("Abrir imagenes");
-        imageList = fileDialog.showOpenMultipleDialog(App.stage);
-        if(imageList != null) {
-            pagination.setPageCount(imageList.size());
-            imageSourceTextField.setText(imageList.get(0).getParent());
-        }
-    }
-    
-    void initImageSourceText(){
-        imageSourceTextField.setEditable(false);
-        imageSourceTextField.setFocusTraversable(false);
-    }
-    
+
     
     private void loadImages(){
     // handling image attribute
@@ -117,10 +104,23 @@ public abstract class AddContactTypeController extends DataEntryController {
         }     
     }
     
-    private void initFileDialog(){
-        fileDialog = new FileChooser();
-        fileDialog.getExtensionFilters()
-                .add(new FileChooser.ExtensionFilter("Imagen", "*.jpg", "*.png", "*.bmp", "*.gif"));
+    private void initImageChooser(){
+        initImageSourceText();
+        initBtnImageDialog();
+        initPagination();
+        initFileDialog();
+        addPagination();
+    }
+        
+    private void initImageSourceText(){
+        initImageTextField();
+        imageSourceTextField.setEditable(false);
+        imageSourceTextField.setFocusTraversable(false);
+    }
+    
+    private void initBtnImageDialog(){
+        initBtnImageAdding();
+        btnImageAdding.setOnAction(e -> openImagesDialog());
     }
     
     private void initPagination(){
@@ -142,30 +142,30 @@ public abstract class AddContactTypeController extends DataEntryController {
         }
         });
     }
-    
-    private void initImageChooser(){
-        initPagination();
-        initImageSourceText();
-        initFileDialog();
+        
+    private void initFileDialog(){
+        fileDialog = new FileChooser();
+        fileDialog.getExtensionFilters()
+                .add(new FileChooser.
+                        ExtensionFilter("Imagen", 
+                                "*.jpg", 
+                                "*.png", 
+                                "*.bmp", 
+                                "*.gif"));
     }
     
-    private void initBtnImageDialog(){
-        btnImageAdding.setOnAction(e -> openImagesDialog());
-    }
-    
-    
-    private void imageDialogInitialization(){
-        initBtnImageAdding();
-        initBtnImageDialog();
-        initImageTextField();
-        initImageChooser();
-        addPagination();
-        initImageSourceText();  
+    private void openImagesDialog(){
+        fileDialog.setTitle("Abrir imagenes");
+        imageList = fileDialog.showOpenMultipleDialog(App.stage);
+        if(imageList != null) {
+            pagination.setPageCount(imageList.size());
+            imageSourceTextField.setText(imageList.get(0).getParent());
+        }
     }
     
     void initialize(){
+        initImageChooser();
         typeInitialization();
-        imageDialogInitialization();
     }
     
     boolean isPrepared(){

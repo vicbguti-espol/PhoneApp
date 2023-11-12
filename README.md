@@ -57,7 +57,3 @@ Agregar un contacto tiene campos obligatorios, algo que hace que siempre existan
 - Se hizo la implementación de el método `find()` en `Contact`, directamente para la lista `attributes` donde se hace uso de un comparador y un objeto de tipo `Attribute`. Se espera que en inicio cuando se haga uso de este método el comparador implemente una solución de tal forma que la comparación salga igual a `0` una vez que entre dos `Attribute` sean iguales en tipo de clase, es decir hacer uso del método `getAttributeName()` en ambos objetos de tal forma que al hacer uso del método `equals()` salga verdadero.
 - Creación de la clase `GenericReminder` que hereda de `Reminder`. Se diferencia de demás `Reminder` porque es un `Reminder` y además incluye un atributo `description: String`.
 
-## Demo implementación Agregar Persona
-
-https://github.com/vicbguti-espol/PhoneApp/assets/133924738/9b0674f8-dc8c-4ffe-b4c0-c9c8609afe10
-
