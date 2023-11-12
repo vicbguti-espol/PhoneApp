@@ -16,6 +16,10 @@ public abstract class Contact implements Serializable {
         initAttributesList(phone);
         initUID(phone);
     }
+
+    public LinkedList<Attribute> getAttributes() {
+        return attributes;
+    }
     
     public List<Attribute> findAttributes(Comparator<Attribute> cmp, Attribute object) {
         List<Attribute> found = new ArrayList<>();

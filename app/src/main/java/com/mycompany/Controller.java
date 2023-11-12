@@ -1,7 +1,7 @@
 package com.mycompany;
 
 public abstract class Controller {
-    void returnHomePage(){
+    protected void returnHomePage(){
         App.setRoot("primary");
     }
     

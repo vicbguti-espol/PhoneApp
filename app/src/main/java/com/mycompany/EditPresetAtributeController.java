@@ -25,6 +25,7 @@ import java.util.Comparator;
 import javafx.scene.control.ComboBox;
 import model.attributes.AssociatedContact;
 import model.attributes.Email;
+import model.attributes.Image;
 import model.attributes.company.CompanyDescription;
 import model.attributes.company.CompanyWebPage;
 import model.attributes.location.Location;
@@ -52,40 +53,74 @@ public class EditPresetAtributeController implements Initializable {
     private CompanyName companyName;
     private PhoneNumber phoneNumber;
     ComparatorUtil cmd;
-    private Boolean confir=false;
-    @FXML
-    private Button btnAdd;
-    @FXML
-    private Label nombredeatributo;
+    
     @FXML
     private TextField box_dato;
     @FXML
     private ComboBox<Attribute> tiposA;
+    private Boolean confirma=false;
+    private List<Contact> Tcontactos;
+    private List<Contact> modificar;
+    private List<Attribute>  Alista;
+    private String editar="";
+    @FXML
+    private Label mensaje;
+    @FXML
+    private Button btn_volver;
 //    @Override
     public void initialize(URL url, ResourceBundle rb) {
-         contactList=MobilePhone.getContactList();
-         tiposA.getItems().addAll(encontrarA());
-                        }
-    
-    
-    @FXML
-    private void btn_volver(MouseEvent event) throws IOException {
-         App.setRoot("primary");
+//         btn_volver.setOnAction(e -> {
+//            App.setRoot("primary");
+//        });
+        
+         Tcontactos=MobilePhone.getContactList();
+         modificar=new ArrayList<>();
+         Alista=modificar.get(0).attributes; 
+        //tiposA.getItems().addAll(Alista);
+         if(confirma){
+         String caja="";
+         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
+         modificar.add(usu);
+         MobilePhone.removeContact(usu);//C1 
+         for(Attribute atributos:Alista){
+          if(atributos.getAttributeName().equals(editar)){
+    //[Attribute Name: CompanyPhone, Attribute Name: CompanyName, Attribute Name: CompanyLocation,
+    //Attribute Name: Image, Attribute Name: CompanyDescription, Attribute Name: CompanyWebPage]
+          if(editar.equals("CompanyPhone")){
+                PhoneNumber ph = (PhoneNumber) atributos;     
+                ph.setPhoneNumber(editar);
+          }else if(editar.equals("CompanyName")){
+             CompanyName cn = (CompanyName) atributos;
+             cn.setCompanyName(caja);
+          }else if(editar.equals("CompanyLocation")){
+             Location loc = (Location) atributos;
+             loc.setDetails(caja);
+             //loc.getMapsURL(caja);
+          }else if(editar.equals("Image")){
+            Image im = (Image) atributos;
+            im.setPath(caja);
+          }else if(editar.equals("CompanyDescription")){
+             CompanyDescription cd = (CompanyDescription) atributos;
+             cd.setDescription(caja);
+          }else if(editar.equals("CompanyWebPage")){
+             CompanyWebPage cw = (CompanyWebPage) atributos;
+             cw.setWebPage(caja);
+          }
+          ///// Persona
+          
+          
+          MobilePhone.addContact(usu);
     }
-
-    public List<Attribute> encontrarA(){
-        List nueva= new ArrayList<Attribute>();
-        for(Contact c:contactList){
-            c.findAttributes(cmp, email);
-            nueva= (List) c;
-        }
-        return nueva;
+   
     }
+    } 
+    }
+    
     
     @FXML
     private void btn_confirmar(MouseEvent event) {
-    Boolean confir=true;
-
+    Boolean confirma=true;
+    mensaje.setText("Cambio realizado");
         }
     
 
@@ -94,25 +129,11 @@ public class EditPresetAtributeController implements Initializable {
         String dato= box_dato.getText();
         ComboBox<Attribute> cb = (ComboBox) event.getSource();
         Attribute tipo = cb.getValue();
-        if(confir){
-            if(tipo.equals(location)){
-            location.setMapsURL(dato); 
-            location.setDetails(dato);
-            }else if(tipo.equals(personaname)){
-            personaname.setFirstName(dato);
-            personaname.setLastName(dato);             
-            }else if(tipo.equals(associatedContact)){
-            associatedContact.setRelation(dato);
-            }else if(tipo.equals(email)){
-            email.setEmail(dato);
-            }else if(tipo.equals(companyWebPage)){
-            companyWebPage.setWebPage(dato);
-            }else if(tipo.equals(companyDescription)){
-            companyDescription.setDescription(dato);
-    }    else if(tipo.equals(companyName)){
-            companyName.setCompanyName(dato);
-    }else if(tipo.equals(phoneNumber )){
-            phoneNumber.setPhoneNumber(dato);
-}}
+        editar=tipo.getAttributeName();
 }
+
+    @FXML
+    private void g(MouseEvent event) {
+    }
+    
 }

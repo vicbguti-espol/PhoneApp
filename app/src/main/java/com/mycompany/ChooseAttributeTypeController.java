@@ -9,8 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.Pair;
 
-public class ChooseAttributeTypeController extends Controller 
-        implements Initializable {
+public class ChooseAttributeTypeController extends Controller implements Initializable {
     @FXML
     private Button btnReturn;
     @FXML

@@ -25,9 +25,10 @@ public class App extends Application {
 //        
 //        
 // Stashed changes
-        scene = new Scene(loadFXML("primary"));
+//contactList
+        scene = new Scene(loadFXML("editPresetAtribute"));
         this.stage = stage;
-
+//primary
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         this.stage.setX(bounds.getMinX());

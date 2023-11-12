@@ -12,8 +12,8 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" onMouseClicked="#btn_volver" text="Volver" />
-            <Label fx:id="nombredeatributo" text="Editar (Nombre Atributo)" />
+            <Button fx:id="btn_volver" mnemonicParsing="false" text="Volver" />
+            <Label fx:id="mensaje" onMouseClicked="#g" text="Editar (Nombre Atributo)" />
          </children>
       </HBox>
    </top>

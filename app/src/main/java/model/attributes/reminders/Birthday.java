@@ -9,7 +9,7 @@ public class Birthday extends Reminder {
         super(birthDay);
     }
     
-    @Override
+   
     public int calculateRemainingDays(){
         LocalDate today = LocalDate.now();
         LocalDate dateWithCurrentYear = date.withYear(today.getYear());
