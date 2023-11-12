@@ -1,3 +1,4 @@
-/target/
-/images/
-/ser/
+**/target
+**/images
+**/ser
+/app/target/
