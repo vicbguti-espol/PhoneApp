@@ -26,7 +26,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Tipo" />
-                  <ComboBox onAction="#Tipos" prefWidth="150.0" promptText="Tipo" />
+                  <ComboBox fx:id="tiposA" onAction="#seleccion" prefWidth="150.0" promptText="Tipo" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">

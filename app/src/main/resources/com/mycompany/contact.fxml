@@ -16,6 +16,7 @@
             <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#returnContactListPage" text="Volver" />
             <CheckBox fx:id="cboxFavorite" mnemonicParsing="false" text="Favorito" />
             <Button fx:id="btnDeleteContact" mnemonicParsing="false" text="Eliminar Contacto" />
+            <Button mnemonicParsing="false" onMouseClicked="#Configurar" text="Configurar" />
          </children>
       </HBox>
    </top>
@@ -39,7 +40,7 @@
                      <children>
                         <Label text="Tipo" />
                         <Label text="Dato" />
-                        <Button mnemonicParsing="false" text="Editar" />
+                        <Button fx:id="eeeee" mnemonicParsing="false" text="Editar" />
                         <Button mnemonicParsing="false" text="Eliminar" />
                      </children>
                   </HBox>

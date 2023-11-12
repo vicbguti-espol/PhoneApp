@@ -8,6 +8,14 @@ public class CompanyWebPage extends Attribute {
     public CompanyWebPage(String webPage) {
         this.webPage = webPage;
     }
+
+    public void setWebPage(String webPage) {
+        this.webPage = webPage;
+    }
+
+    public String getWebPage() {
+        return webPage;
+    }
    
    
 }

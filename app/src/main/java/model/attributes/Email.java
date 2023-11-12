@@ -18,6 +18,23 @@ public class Email extends Attribute {
         this.emailType = emailType;
         this.email = email;
     }
+
+    public SourceType getEmailType() {
+        return emailType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmailType(SourceType emailType) {
+        this.emailType = emailType;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     
     
 }

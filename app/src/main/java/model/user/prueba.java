@@ -30,6 +30,7 @@ public class prueba {
         Email em=new Email(SourceType.PERSONAL, "correo");
         PersonName n=new PersonName("A","B");
         PersonPhone ph =new PersonPhone("0123456789", SourceType.PERSONAL);
+        
         //LocalDate ld= new LocalDate();
 //        Contact c1= new Contact(PhoneNumber());
 //        MobilePhone.addContact(c1);

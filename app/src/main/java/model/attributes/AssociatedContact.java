@@ -18,6 +18,28 @@ public class AssociatedContact extends Attribute {
         this.contact = contact;
         this.relation = relation;
     }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
+    }
+
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
+    }
+
+    
     
     
 }

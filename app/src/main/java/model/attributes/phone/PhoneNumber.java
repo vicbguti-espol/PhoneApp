@@ -11,6 +11,10 @@ public abstract class PhoneNumber extends Attribute implements Typable  {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }

@@ -20,6 +20,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+<<<<<<< Updated upstream
+=======
+        
+        
+>>>>>>> Stashed changes
         scene = new Scene(loadFXML("primary"));
         this.stage = stage;
 

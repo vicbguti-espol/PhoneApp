@@ -11,4 +11,21 @@ public abstract class Location extends Attribute implements Typable{
         this.details = details;
         this.mapsURL = mapsURL;
     }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public String getMapsURL() {
+        return mapsURL;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setMapsURL(String mapsURL) {
+        this.mapsURL = mapsURL;
+    }
+    
 }

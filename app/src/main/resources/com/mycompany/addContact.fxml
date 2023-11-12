@@ -12,7 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< Updated upstream
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+=======
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddContactController">
+>>>>>>> Stashed changes
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="600.0" spacing="24.0" BorderPane.alignment="CENTER">
          <children>
@@ -26,6 +30,7 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
+            <Button fx:id="btnAdd" mnemonicParsing="false" text="Añadir" />
          </children>
          <padding>
             <Insets bottom="30.0" top="30.0" />
