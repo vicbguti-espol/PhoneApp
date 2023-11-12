@@ -20,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         
         
-        scene = new Scene(loadFXML("primary"));
+        scene = new Scene(loadFXML("primary"), 797, 682);
         this.stage = stage;
         this.stage.setScene(scene);
         this.stage.show();
