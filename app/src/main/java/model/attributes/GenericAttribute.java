@@ -17,7 +17,7 @@ public class GenericAttribute<T> extends Attribute {
     public String getAttributeName(){
         return attributeName;
     }
-
+    
     public T getValue() {
         return value;
     }

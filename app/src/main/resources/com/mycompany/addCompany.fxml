@@ -73,7 +73,7 @@
                   <HBox prefHeight="0.0" prefWidth="700.0">
                      <children>
                         <TextField fx:id="txtImageSource" promptText="Buscar imagenes" />
-                        <Button mnemonicParsing="false" onAction="#openImages" text="..." />
+                        <Button fx:id="btnImageDialog" mnemonicParsing="false" text="..." />
                      </children>
                   </HBox>
                </children>

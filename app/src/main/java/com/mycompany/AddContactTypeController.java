@@ -1,7 +1,6 @@
 package com.mycompany;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
@@ -9,10 +8,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
@@ -28,6 +27,8 @@ public abstract class AddContactTypeController extends DataEntryController {
     protected FileChooser fileDialog;
     protected List<File> imageList;
     protected Pagination pagination;
+    protected TextField imageSourceTextField;
+    protected Button btnImageAdding;
     
     
     protected PhoneNumber phone;
@@ -71,6 +72,8 @@ public abstract class AddContactTypeController extends DataEntryController {
         loadTypeData();
     }
     
+
+    
     private void loadImages(){
     // handling image attribute
     images = new ArrayList<>();
@@ -101,10 +104,23 @@ public abstract class AddContactTypeController extends DataEntryController {
         }     
     }
     
-    private void initFileDialog(){
-        fileDialog = new FileChooser();
-        fileDialog.getExtensionFilters()
-                .add(new FileChooser.ExtensionFilter("Imagen", "*.jpg", "*.png", "*.bmp", "*.gif"));
+    private void initImageChooser(){
+        initImageSourceText();
+        initBtnImageDialog();
+        initPagination();
+        initFileDialog();
+        addPagination();
+    }
+        
+    private void initImageSourceText(){
+        initImageTextField();
+        imageSourceTextField.setEditable(false);
+        imageSourceTextField.setFocusTraversable(false);
+    }
+    
+    private void initBtnImageDialog(){
+        initBtnImageAdding();
+        btnImageAdding.setOnAction(e -> openImagesDialog());
     }
     
     private void initPagination(){
@@ -126,16 +142,30 @@ public abstract class AddContactTypeController extends DataEntryController {
         }
         });
     }
+        
+    private void initFileDialog(){
+        fileDialog = new FileChooser();
+        fileDialog.getExtensionFilters()
+                .add(new FileChooser.
+                        ExtensionFilter("Imagen", 
+                                "*.jpg", 
+                                "*.png", 
+                                "*.bmp", 
+                                "*.gif"));
+    }
     
-    private void initImageChooser(){
-        initPagination();
-        initImageSourceText();
-        initFileDialog();
+    private void openImagesDialog(){
+        fileDialog.setTitle("Abrir imagenes");
+        imageList = fileDialog.showOpenMultipleDialog(App.stage);
+        if(imageList != null) {
+            pagination.setPageCount(imageList.size());
+            imageSourceTextField.setText(imageList.get(0).getParent());
+        }
     }
     
     void initialize(){
         initImageChooser();
-        addPagination();
+        typeInitialization();
     }
     
     boolean isPrepared(){
@@ -144,8 +174,9 @@ public abstract class AddContactTypeController extends DataEntryController {
     }
     
     
-    abstract void initImageSourceText();
-    abstract void openImages(ActionEvent event);
+    abstract void initImageTextField();
+    abstract void initBtnImageAdding();
+    abstract void typeInitialization();
     abstract void addPagination();
     abstract void loadPhone(); 
     abstract void loadContact();

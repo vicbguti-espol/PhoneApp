@@ -1,6 +1,8 @@
 package model.user;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import model.contacts.Contact;
@@ -21,7 +23,8 @@ public class MobilePhone {
         try {
             if (contactList == null) initContactList();
             contactList.add(c);
-            SerializationUtil.serialize(contactList, contactListPath);
+            SerializationUtil.serialize(contactList, 
+                    contactListPath);
         } catch (IOException ex) {
             System.err.println("Failed to add a contact");
             ex.printStackTrace();
@@ -41,12 +44,21 @@ public class MobilePhone {
     
     private static void initContactList(){
         try {
+            String source = "ser";
+            Files.createDirectories(Paths.get(source));
             contactList =
                     (ArrayList<Contact>) SerializationUtil.
                             deserialize(contactListPath);
         } catch (Exception e){
-            e.printStackTrace();
-            contactList = new ArrayList<>();
+            System.err.println("No serialized file found, creating a new one");
+            try {
+                contactList = new ArrayList<>();
+                SerializationUtil.serialize(contactList,
+                        contactListPath);
+            } catch (IOException ex) {
+                System.err.println("Failed to serialize");
+                ex.printStackTrace();
+            }
         }
     }
 }

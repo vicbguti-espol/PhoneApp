@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import model.contacts.Contact;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
@@ -20,15 +21,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-//Updated upstream
-//
-//        
-//        
-// Stashed changes
-//contactList
-        scene = new Scene(loadFXML("editPresetAtribute"));
+        //scene = new Scene(loadFXML("contactList"), 880, 870);
+        scene = new Scene(loadFXML("primary"));
         this.stage = stage;
-//primary
+
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         this.stage.setX(bounds.getMinX());
@@ -71,7 +67,7 @@ public class App extends Application {
     public Stage getStage(){
         return stage;
     }
-
+    
     public static void main(String[] args) {
         launch();
     }

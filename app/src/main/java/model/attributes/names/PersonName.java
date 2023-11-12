@@ -1,6 +1,7 @@
 package model.attributes.names;
 
 public class PersonName extends Name {
+    private static final long serialVersionUID = 7121038299013450624L;
     String firstName;
     String lastName;
 
@@ -24,6 +25,13 @@ public class PersonName extends Name {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+    
+    
     
     
     

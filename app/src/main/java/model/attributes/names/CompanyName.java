@@ -1,6 +1,7 @@
 package model.attributes.names;
 
 public class CompanyName extends Name {
+    private static final long serialVersionUID = 5839214870383950486L;
     String companyName;
 
     public CompanyName(String companyName) {
@@ -15,5 +16,8 @@ public class CompanyName extends Name {
         this.companyName = companyName;
     }
     
-    
+    @Override
+    public String toString() {
+        return companyName;
+    }
 }

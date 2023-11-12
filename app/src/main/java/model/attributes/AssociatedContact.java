@@ -19,6 +19,11 @@ public class AssociatedContact extends Attribute {
         this.relation = relation;
     }
 
+    @Override
+    public String toString() {
+        return "AssociatedContact{" + "contact=" + contact + ", relation=" + relation + '}';
+    }
+    
     public Contact getContact() {
         return contact;
     }
@@ -38,8 +43,6 @@ public class AssociatedContact extends Attribute {
     public void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
     }
-
-    
     
     
 }

@@ -2,7 +2,6 @@ package com.mycompany;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -39,38 +38,20 @@ public class AddCompanyController extends AddContactTypeController
     private Button btnReturn;
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnImageDialog;
     
     private CompanyDescription description;
     private CompanyWebPage webpage;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        super.initialize();
-        btnReturn.setOnAction(e -> super.returnHomePage());
-        btnAdd.setOnAction(e -> super.addContact());
-        
+        super.initialize();   
     }
 
     @Override
     protected void loadPhone() {
         phone = new CompanyPhone(txtPhoneNumber.getText());
-    }
-
-    @Override
-    void initImageSourceText(){
-        txtImageSource.setEditable(false);
-        txtImageSource.setFocusTraversable(false);
-    }
-
-    @Override
-    @FXML
-    void openImages(ActionEvent event) {
-        fileDialog.setTitle("Abrir imagenes");
-        imageList = fileDialog.showOpenMultipleDialog(App.stage);
-        if(imageList != null) {
-            pagination.setPageCount(imageList.size());
-            txtImageSource.setText(imageList.get(0).getParent());
-        }
     }
 
     @Override
@@ -111,5 +92,21 @@ public class AddCompanyController extends AddContactTypeController
     void loadTypeData() {
         description = new CompanyDescription(txtDescription.getText());
         webpage = new CompanyWebPage(txtWebPage.getText());
+    }
+
+    @Override
+    void typeInitialization() {
+        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnAdd.setOnAction(e -> super.addContact());
+    }
+
+    @Override
+    void initImageTextField() {
+        imageSourceTextField = txtImageSource;
+    }
+
+    @Override
+    void initBtnImageAdding() {
+        btnImageAdding = btnImageDialog;
     }
 }
