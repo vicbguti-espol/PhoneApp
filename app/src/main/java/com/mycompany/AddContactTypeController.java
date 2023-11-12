@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
@@ -27,6 +28,7 @@ public abstract class AddContactTypeController extends DataEntryController {
     protected List<File> imageList;
     protected Pagination pagination;
     protected TextField imageSourceTextField;
+    protected Button btnImageAdding;
     
     
     protected PhoneNumber phone;
@@ -147,13 +149,23 @@ public abstract class AddContactTypeController extends DataEntryController {
         initFileDialog();
     }
     
-    void initialize(){
-        typeInitialization();
+    private void initBtnImageDialog(){
+        btnImageAdding.setOnAction(e -> openImagesDialog());
+    }
+    
+    
+    private void imageDialogInitialization(){
+        initBtnImageAdding();
+        initBtnImageDialog();
         initImageTextField();
         initImageChooser();
         addPagination();
-        initImageSourceText();
-
+        initImageSourceText();  
+    }
+    
+    void initialize(){
+        typeInitialization();
+        imageDialogInitialization();
     }
     
     boolean isPrepared(){
@@ -163,6 +175,7 @@ public abstract class AddContactTypeController extends DataEntryController {
     
     
     abstract void initImageTextField();
+    abstract void initBtnImageAdding();
     abstract void typeInitialization();
     abstract void addPagination();
     abstract void loadPhone(); 

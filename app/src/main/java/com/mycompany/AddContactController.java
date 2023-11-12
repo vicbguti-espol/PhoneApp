@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -50,6 +49,8 @@ public class AddContactController extends AddContactTypeController
     private Button btnReturn;
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnImageDialog;
 
     private Birthday birthday;
     private final static Pair<String, SourceType> EMPTY_TYPES_PAIR =
@@ -153,6 +154,11 @@ public class AddContactController extends AddContactTypeController
     @Override
     void initImageTextField() {
         imageSourceTextField = txtImageSource;
+    }
+
+    @Override
+    void initBtnImageAdding() {
+        btnImageAdding = btnImageDialog;
     }
 
 }

@@ -38,6 +38,8 @@ public class AddCompanyController extends AddContactTypeController
     private Button btnReturn;
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnImageDialog;
     
     private CompanyDescription description;
     private CompanyWebPage webpage;
@@ -94,7 +96,6 @@ public class AddCompanyController extends AddContactTypeController
 
     @Override
     void typeInitialization() {
-;
         btnReturn.setOnAction(e -> super.returnHomePage());
         btnAdd.setOnAction(e -> super.addContact());
     }
@@ -102,5 +103,10 @@ public class AddCompanyController extends AddContactTypeController
     @Override
     void initImageTextField() {
         imageSourceTextField = txtImageSource;
+    }
+
+    @Override
+    void initBtnImageAdding() {
+        btnImageAdding = btnImageDialog;
     }
 }
