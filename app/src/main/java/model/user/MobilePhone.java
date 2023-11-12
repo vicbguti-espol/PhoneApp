@@ -7,7 +7,7 @@ import model.contacts.Contact;
 import model.serialization.SerializationUtil;
 
 public class MobilePhone {
-    private static List<Contact> contactList;
+    private static List<Contact> contactList = new ArrayList<>();
 
     static final String contactListPath = "ser/contactList.ser";
     
