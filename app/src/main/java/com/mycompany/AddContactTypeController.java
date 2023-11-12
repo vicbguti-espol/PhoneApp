@@ -36,12 +36,7 @@ public abstract class AddContactTypeController extends Controller {
     protected Contact contact;
     
     private void saveContact(){
-        try {
-            MobilePhone.addContact(contact);
-        } catch (IOException ex) {
-            System.err.println("Failed to save contact");
-            ex.printStackTrace();
-        }
+        MobilePhone.addContact(contact);
     }
     
     void addContact(){

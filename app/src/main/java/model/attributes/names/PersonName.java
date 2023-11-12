@@ -1,7 +1,5 @@
 package model.attributes.names;
 
-import model.attributes.names.Name;
-
 public class PersonName extends Name {
     String firstName;
     String lastName;

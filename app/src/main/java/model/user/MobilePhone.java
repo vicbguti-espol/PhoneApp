@@ -8,15 +8,38 @@ import model.serialization.SerializationUtil;
 
 public class MobilePhone {
     private static List<Contact> contactList;
-    static final String contactListPath = "ser/contactList.ser";
+    private static final String contactListPath = "ser/contactList.ser";
     
-    public static void addContact(Contact c) throws IOException{
-        if (contactList == null) initContactList();
-        contactList.add(c);    
-        SerializationUtil.serialize(contactList, contactListPath);
+    public static List<Contact> getContactList(){
+        if (contactList == null){
+            initContactList();
+        }
+        return contactList;
     }
     
-    public static void initContactList(){
+    public static void addContact(Contact c) {
+        try {
+            if (contactList == null) initContactList();
+            contactList.add(c);
+            SerializationUtil.serialize(contactList, contactListPath);
+        } catch (IOException ex) {
+            System.err.println("Failed to add a contact");
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void removeContact(Contact c){
+        try {
+            if (contactList == null) initContactList();
+            contactList.remove(c);
+            SerializationUtil.serialize(contactList, contactListPath);
+        } catch (IOException ex) {
+            System.out.println("Failed to remove the contact");
+            ex.printStackTrace();
+        }
+    }
+    
+    private static void initContactList(){
         try {
             contactList =
                     (ArrayList<Contact>) SerializationUtil.
@@ -25,12 +48,5 @@ public class MobilePhone {
             e.printStackTrace();
             contactList = new ArrayList<>();
         }
-    }
-    
-    public static List<Contact> getContactList(){
-        if (contactList == null){
-            initContactList();
-        }
-        return contactList;
     }
 }

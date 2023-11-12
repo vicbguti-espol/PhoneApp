@@ -10,21 +10,11 @@ import model.attributes.phone.PhoneNumber;
 
 public abstract class Contact implements Serializable {
     public LinkedList<Attribute> attributes;
-    protected String uid;
-
+    protected String uid;   
     
     public Contact(PhoneNumber phone) {
         initAttributesList(phone);
         initUID(phone);
-    }
-    
-    public final void initAttributesList(PhoneNumber phone){
-        attributes = new LinkedList<>();
-        attributes.add(phone);   
-    }
-    
-    public final void initUID(PhoneNumber phone){
-        uid = phone.getPhoneNumber();
     }
     
     public List<Attribute> findAttributes(Comparator<Attribute> cmp, Attribute object) {
@@ -44,5 +34,14 @@ public abstract class Contact implements Serializable {
     @Override
     public String toString(){
         return uid;
+    }
+    
+    private void initAttributesList(PhoneNumber phone){
+        attributes = new LinkedList<>();
+        attributes.add(phone);   
+    }
+    
+    private void initUID(PhoneNumber phone){
+        uid = phone.getPhoneNumber();
     }
 }

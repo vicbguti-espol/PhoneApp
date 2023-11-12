@@ -2,6 +2,48 @@
 
 # White Box Utils
 
+**Metodología de trabajo**
+
+[MobilePhone para agregar, remover y editar contactos](#mobilephone-class)   
+[Contact y findAttributes para encontrar atributos de un mismo tipo](#contact-class)      
+
+**Conciencia de la estructura**      
+
+[¿Qué atributos sí o sí tendrán los contactos?](#agregar-un-contacto)
+
+## Metodología de trabajo
+
+## MobilePhone: Class
+- `MobilePhone: Class` es prácticamente usuario principal. Es decir `MobilePhone: Class` tiene los atributos necesarios para representar quien maneja la aplicación, quien tiene el jar, quien ejecuta el proyecto. Por ello en esta clase existe únicamente por el momento una lista de contactos, `static List<Contact> getContactList()`.
+- Además se cuenta con otros métodos estáticos para poder agregar un contacto `static void addContact(Contact: c)` y eliminar un contacto `static void removeContact(Contact: c)`. Hacer uso de estos métodos es importante al momento de agregar, remover o incluso editar contactos. Interesante en editar un contacto, porque en el mejor de los casos sería remover el contacto previo y agregar luego el contacto que cuenta con las modificaciones. Se recomienda hacer uso de estos métodos a diferencia de acceder directamente a los métodos de la lista que se obtiene con `static List<Contact> getContactList()`, puesto que los métodos mencionados anteriormente hacen uso de la serialización de la lista cada que se agrega o elimina algún elemento.
+
+## Contact: Class
+- Todos las clases hijas de `Contact: Abstract Class` tienen un mismo constructor, es decir `Contact.Person: Class` y `Contact.Company: Class` se construyen a partir de pedir un único atributo, `Attribute.PhoneNumber: Abstract Class`, donde en este se tiene que ingresar un `Attribute.PhoneNumber.CompanyPhone: Class` o un `Attribute.PhoneNumber.PersonPhone: Class` dependiendo del caso.
+- Cuenta con el método `List<Attribute> findAttributes(Comparator<Attribute> cmp, Attribute attribute)`. 
+
+    Este método el cual entre sus usos se encuentra el obtener una lista de atributos de un tipo en específico (por ejemplo de `Attribute.PhoneNumber` o `Attribute.Location`). Pues existe un `ComparatorUtil.cmpByAttribute` el cual se encarga de actuar de comparador, y en `Attribute attribute` prácticamente va una instanciación vacía de el atributo a buscar. 
+
+    Por ejemplo, si me gustaría buscar todos los números de teléfono de un contacto en específico `pepito: Contact.Person`, entonces se haría uso del método de la siguiente manera: `pepito.findAttributes(ComparatorUtil.cmpByAttribute, new PhoneNumber())`.
+
+## SourceType: Enum
+- A partir del enum `SourceType: Enum` se puede conocer de, un `Attribute.Email: Class` (correo electrónico), `Attribute.Location.PersonLocation: Class` (ubicación de una persona) o `Attribute.PhoneNumber.PersonPhone: Class` (teléfono de una persona), si es de tipo `SourceType.WORK` (trabajo) o de tipo `SourceType.PERSONAL` (personal).
+
+## Conciencia de la estructura
+
+## Agregar un contacto 
+Agregar un contacto tiene campos obligatorios, algo que hace que siempre existan esos atributos. A continuación se muestra una tabla con estos atributos que siempre existirán en un tipo de contacto en específico.
+
+| **Contact.Person**                | **Contact.Company**                |
+|-----------------------------------|------------------------------------|
+| Attribute.PhoneNumber.PersonPhone | Attribute.PhoneNumber.CompanyPhone |
+| Attribute.Name.PersonName         | Attribute.Name.CompanyName         |
+| Attribute.Location.PersonLocation | Attribute.Location.CompanyLocation |
+| Attribute.Reminder.Birthday       | Attribute.CompanyDescription       |
+|                                   | Attribute.CompanyWebPage           |
+| Attribute.Image                   | Attribute.Image                    |
+
+** De comienzo la multiplicidad de `Attribute.Image: Class` es de `1..*`, esto puesto que se pueden recibir varias imágenes.   
+** El uso de `GeneralClass.ParticularClass` es usado para representar herencia entre clases.
 
 
 
