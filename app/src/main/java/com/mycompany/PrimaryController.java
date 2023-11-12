@@ -1,22 +1,26 @@
 package com.mycompany;
 
 import java.io.IOException;
-import javafx.event.ActionEvent;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 
-public class PrimaryController {
+public class PrimaryController implements Initializable {
     @FXML
-    private Button primaryButton;
+    private Button btnAddContact;
+    @FXML
+    private Button btnAddAtribute;
 
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
-
-    @FXML
-    private void switchToAddContact(ActionEvent event) throws IOException {
-        App.setRoot("chooseContactType", new ChooseContactTypeController());
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        btnAddContact.setOnAction(e -> {
+            App.setRoot("chooseContactType");
+        });
+        btnAddAtribute.setOnAction(e -> {
+            App.setRoot("chooseAttributeType");
+        });
     }
 }

@@ -15,7 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
-public class ChooseContactTypeController extends Controller 
+public class ChooseContactTypeController extends Controller  
         implements Initializable {
 
 
@@ -30,6 +30,7 @@ public class ChooseContactTypeController extends Controller
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCmbContactType();
+        btnReturn.setOnAction(e -> super.returnHomePage());
     }   
     
     @FXML
@@ -48,16 +49,6 @@ public class ChooseContactTypeController extends Controller
             
         }
 
-    }
-    
-    @FXML
-    private void returnHomePage(){
-        try {
-            App.setRoot("primary");
-        } catch (IOException ex) {
-            System.err.println("Failed to return to home page");
-            ex.printStackTrace();
-        }  
     }
     
     private void initCmbContactType() {

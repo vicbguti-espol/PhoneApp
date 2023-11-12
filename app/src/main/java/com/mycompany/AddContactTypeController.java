@@ -23,7 +23,7 @@ import model.contacts.Contact;
 import model.user.MobilePhone;
 
 
-public abstract class AddContactTypeController extends Controller {
+public abstract class AddContactTypeController extends DataEntryController {
     
     protected FileChooser fileDialog;
     protected List<File> imageList;
@@ -99,31 +99,6 @@ public abstract class AddContactTypeController extends Controller {
             x.printStackTrace();
         }   
         }     
-    }
-    
-    void returnHomePage(){
-        try {
-            App.setRoot("primary");
-        } catch (IOException ex) {
-            System.err.println("Failed to return to homepage");
-            ex.printStackTrace();
-        }
-    }
-
-    void sucessDialog(){
-        Alert a = new Alert(Alert.AlertType.NONE);
-        
-        a.setAlertType(Alert.AlertType.INFORMATION);
-        a.setContentText("Contacto tipo persona agregado con éxito");
-        a.show();
-    }
-    
-    void noDataAlert(){
-        Alert a = new Alert(Alert.AlertType.NONE);
-
-        a.setAlertType(Alert.AlertType.ERROR);
-        a.setContentText("Faltan datos");
-        a.show();
     }
     
     private void initFileDialog(){
