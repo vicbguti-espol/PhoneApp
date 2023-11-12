@@ -8,17 +8,17 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddPresetAtributeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnAdd" mnemonicParsing="false" text="Volver" />
-            <Label fx:id="mensaje" text="Agegar (Nombre Atributo)" />
+            <Label text="Agregar Atributo Personalizado" />
          </children>
       </HBox>
    </top>
    <bottom>
-      <Button mnemonicParsing="false" onMouseClicked="#Agregar" text="Agregar" BorderPane.alignment="CENTER" />
+      <Button mnemonicParsing="false" text="Agregar" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -26,13 +26,19 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Tipo" />
-                  <ComboBox fx:id="combo" onAction="#seleccion" prefWidth="150.0" />
+                  <ComboBox prefHeight="25.0" prefWidth="568.0" promptText="Genérico" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Descripción" />
+                  <TextField />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Dato" />
-                  <TextField fx:id="caja" promptText="número" />
+                  <TextField />
                </children>
             </HBox>
          </children>

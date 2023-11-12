@@ -29,9 +29,12 @@ import model.attributes.Image;
 import model.attributes.company.CompanyDescription;
 import model.attributes.company.CompanyWebPage;
 import model.attributes.location.Location;
+import model.attributes.location.PersonLocation;
 import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
+import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
+import model.attributes.reminders.Birthday;
 import model.comparator.ComparatorUtil;
 
 /**
@@ -69,18 +72,18 @@ public class EditPresetAtributeController implements Initializable {
     private Button btn_volver;
 //    @Override
     public void initialize(URL url, ResourceBundle rb) {
-//         btn_volver.setOnAction(e -> {
-//            App.setRoot("primary");
-//        });
+         btn_volver.setOnAction(e -> {
+            App.setRoot("primary");
+        });
         
          Tcontactos=MobilePhone.getContactList();
          modificar=new ArrayList<>();
-         Alista=modificar.get(0).attributes; 
-        //tiposA.getItems().addAll(Alista);
-         if(confirma){
          String caja="";
          Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
          modificar.add(usu);
+         Alista=modificar.get(0).attributes; 
+         tiposA.getItems().addAll(Alista);
+         if(confirma){
          MobilePhone.removeContact(usu);//C1 
          for(Attribute atributos:Alista){
           if(atributos.getAttributeName().equals(editar)){
@@ -107,8 +110,18 @@ public class EditPresetAtributeController implements Initializable {
              cw.setWebPage(caja);
           }
           ///// Persona
+//          [Attribute Name: PersonPhone, diego javier, Attribute Name: PersonLocation, 
+//          Attribute Name: Image, Attribute Name: Birthday]
+          else if(editar.equals("PersonPhone")){
+             PersonPhone pp = (PersonPhone) atributos;
+             pp.setPhoneNumber(caja);
+          }
+          else if(editar.equals("PersonLocation")){
+             PersonLocation pl = (PersonLocation) atributos;
+             pl.setDetails(caja);
+          }
           
-          
+           
           MobilePhone.addContact(usu);
     }
    

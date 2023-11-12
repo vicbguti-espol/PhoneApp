@@ -38,29 +38,31 @@ public class prueba {
      */
     public static void main(String[] args) throws IOException, ClassNotFoundException {
        
-     List<Contact> contactos=MobilePhone.getContactList(); // c1,c2
-     List<Contact> modificar=new ArrayList<>();//c1
-        System.out.println(contactos.size()); //2
-        System.out.println(contactos.get(0));
-        modificar.add(contactos.get(0));
-        MobilePhone.removeContact(contactos.get(0));//contact1
-        System.out.println(contactos.size());
-        System.out.println(modificar.size());
-       List<Attribute>  lista=modificar.get(0).attributes; 
-       
-        for(Attribute atributos:lista){
-          if(atributos.getAttributeName().equals("CompanyLocation")){
-              Location location = (Location) atributos;
-              System.out.println(location.getDetails());
-              System.out.println(location.getMapsURL());
-              location.setDetails("qaaz");
-              location.setMapsURL("agua");
-              System.out.println(location.getDetails());
-              System.out.println(location.getMapsURL());
-              MobilePhone.addContact(modificar.get(0));
-          }}
+//     List<Contact> contactos=MobilePhone.getContactList(); // c1,c2
+//     List<Contact> modificar=new ArrayList<>();//c1
+//        System.out.println(contactos.size()); //2
+//        System.out.println(contactos.get(0));
+//        modificar.add(contactos.get(0));
+//        MobilePhone.removeContact(contactos.get(0));//contact1
+//        System.out.println(contactos.size());
+//        System.out.println(modificar.size());
+//       List<Attribute>  lista=modificar.get(0).attributes; 
+//       
+//        for(Attribute atributos:lista){
+//          if(atributos.getAttributeName().equals("CompanyLocation")){
+//              Location location = (Location) atributos;
+//              System.out.println(location.getDetails());
+//              System.out.println(location.getMapsURL());
+//              location.setDetails("qaaz");
+//              location.setMapsURL("agua");
+//              System.out.println(location.getDetails());
+//              System.out.println(location.getMapsURL());
+//              MobilePhone.addContact(modificar.get(0));
+//          }}
         
-        
+        List<Contact> contactos=MobilePhone.getContactList();
+              List<Attribute>  lista=contactos.get(1).attributes; 
+              System.out.println(lista);
 //          }
           //     for(Contact con:c){
 //         System.out.println(con.attributes.element());//Attribute Name: CompanyPhone
