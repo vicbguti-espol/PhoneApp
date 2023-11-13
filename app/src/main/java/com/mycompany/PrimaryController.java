@@ -25,6 +25,8 @@ public class PrimaryController implements Initializable {
     private Button btnAddAtribute;
     @FXML
     private VBox primaryVBox;
+    @FXML
+    private Button btnReturn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -34,7 +36,9 @@ public class PrimaryController implements Initializable {
         btnAddAtribute.setOnAction(e -> {
             App.setRoot("chooseAttributeType");
         });
-        
+        btnReturn.setOnAction(e -> {
+            App.setRoot("contactList");
+        });
 //        
 //        Contact contact = MobilePhone.getContactList().get(0);
 //        List<Attribute> images = contact.findAttributes(

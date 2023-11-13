@@ -20,7 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.attributes.phone.PersonPhone;
+import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
+import model.contacts.Person;
+import model.enums.SourceType;
 import model.user.MobilePhone;
 
 /**
@@ -59,20 +63,14 @@ public class ContactListController implements Initializable {
     }
     
     private void goContactPage(Contact selectedContact) throws IOException {
-        /*FXMLLoader loader = new FXMLLoader(App.class.getResource("contact.fxml"));
-        ContactController contactController = new ContactController(selectedContact);
-        loader.setController(contactController);
-        
-        BorderPane root = (BorderPane) loader.load();
-        
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) contactListView.getScene().getWindow();
-        stage.setScene(scene);*/
-        
         Controller contactController = new ContactController(selectedContact);
         App.setRoot("contact",contactController);
     }
     
+    @FXML
+    private void goPrimaryPage(){
+        App.setRoot("primary");
+    }
     
     
 }

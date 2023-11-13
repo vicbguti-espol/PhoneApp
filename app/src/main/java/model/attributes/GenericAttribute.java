@@ -3,6 +3,8 @@ package model.attributes;
 public class GenericAttribute<T> extends Attribute {
     private T value; 
     
+    public GenericAttribute() {}
+    
     public GenericAttribute(String attributeName, T value) {
         this.attributeName = attributeName;
         this.value = value;

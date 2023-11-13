@@ -6,7 +6,9 @@ package com.mycompany;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 /**
  * FXML Controller class
@@ -15,12 +17,21 @@ import javafx.fxml.Initializable;
  */
 public class AddAtributeController implements Initializable {
 
+    
+    @FXML
+    private Button btnReturn;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        
+    }
+    
+    @FXML
+    public void goContactListPage(){
+        App.setRoot("contactList");
+    }
+    
     
 }

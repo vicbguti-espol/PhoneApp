@@ -9,6 +9,8 @@ public class CompanyDescription extends Attribute {
         this.description = description;
     }
 
+    public CompanyDescription() {}
+
     public void setDescription(String description) {
         this.description = description;
     }

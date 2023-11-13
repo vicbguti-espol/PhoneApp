@@ -5,7 +5,9 @@ import model.attributes.Attribute;
 
 public abstract class Reminder extends Attribute {
     protected LocalDate date;
-
+    
+    public Reminder() {}
+    
     public Reminder(LocalDate date) {
         this.date = date;
     }
@@ -15,4 +17,8 @@ public abstract class Reminder extends Attribute {
     }
     
     abstract int calculateRemainingDays();
+
+    public LocalDate getDate() {
+        return date;
+    }
 }

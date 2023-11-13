@@ -6,6 +6,8 @@ import java.time.temporal.ChronoUnit;
 public class GenericReminder extends Reminder {
     private String description;
     
+    public GenericReminder() {}
+    
     public GenericReminder(LocalDate date, String description){
         super(date);
         this.description = description;
@@ -19,6 +21,9 @@ public class GenericReminder extends Reminder {
                 date);
         return remainingDays;
     }
-    
+
+    public String getDescription() {
+        return description;
+    }
     
 }
