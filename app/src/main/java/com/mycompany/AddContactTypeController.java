@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
-import model.attributes.Image;
+import model.attributes.ContactImage;
 import model.attributes.location.Location;
 import model.attributes.phone.PhoneNumber;
 import model.contacts.Contact;
@@ -33,14 +33,14 @@ public abstract class AddContactTypeController extends DataEntryController {
     
     protected PhoneNumber phone;
     protected Location location;
-    protected List<Image> images;
+    protected List<ContactImage> images;
     protected Contact contact;
     
-    private void saveContact(){
+    private void saveContact() {
         MobilePhone.addContact(contact);
     }
     
-    void addContact(){
+    void addContact() {
         if (isPrepared()){
             loadInfo();
             addAttributes();
@@ -85,7 +85,7 @@ public abstract class AddContactTypeController extends DataEntryController {
             String imageSRC = splittedPath[splittedPath.length - 1];
             InputStream inputStream = new URL(urlString).openStream();
             
-            Image newImage = new Image();
+            ContactImage newImage = new ContactImage();
             String source = "images/" + contact.getUID() + "/";
             Files.createDirectories(Paths.get(source));
             String targetPath = source + imageSRC;

@@ -5,9 +5,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.PrimaryController">
+<VBox fx:id="primaryVBox" alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.PrimaryController">
    <children>
-      <Label text="Holistics" />
+      <Label text="Heuristics" />
       <Button fx:id="btnAddContact" mnemonicParsing="false" text="Add a contact" />
       <Button fx:id="btnAddAtribute" mnemonicParsing="false" text="Add an atrribute" />
    </children>

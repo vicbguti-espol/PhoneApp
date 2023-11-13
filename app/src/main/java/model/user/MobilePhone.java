@@ -1,9 +1,10 @@
 package model.user;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import model.contacts.Contact;
 import model.serialization.SerializationUtil;
@@ -13,52 +14,52 @@ public class MobilePhone {
     private static final String contactListPath = "ser/contactList.ser";
     
     public static List<Contact> getContactList(){
-        if (contactList == null){
-            initContactList();
-        }
+        initContactList();
         return contactList;
     }
     
     public static void addContact(Contact c) {
-        try {
-            if (contactList == null) initContactList();
-            contactList.add(c);
-            SerializationUtil.serialize(contactList, 
-                    contactListPath);
-        } catch (IOException ex) {
-            System.err.println("Failed to add a contact");
-            ex.printStackTrace();
-        }
+        initContactList();
+        contactList.add(c);
+        serialize();
     }
     
     public static void removeContact(Contact c){
+        initContactList();
+        contactList.remove(c);
+        serialize();
+    }
+    
+    private static void initContactList() {
+        
+        File f = new File(contactListPath);
+        if(!f.isFile()) { 
+            try {
+                Files.createDirectories(Paths.get("ser"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            contactList = new LinkedList<>();
+            serialize();
+        } else if (contactList == null){
+            deserialize();
+        }
+    }
+    
+    private static void deserialize(){
         try {
-            if (contactList == null) initContactList();
-            contactList.remove(c);
-            SerializationUtil.serialize(contactList, contactListPath);
-        } catch (IOException ex) {
-            System.out.println("Failed to remove the contact");
+            contactList = (LinkedList<Contact>) SerializationUtil.
+                    deserialize(contactListPath);
+        } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
     
-    private static void initContactList(){
+    private static void serialize() {
         try {
-            String source = "ser";
-            Files.createDirectories(Paths.get(source));
-            contactList =
-                    (ArrayList<Contact>) SerializationUtil.
-                            deserialize(contactListPath);
-        } catch (Exception e){
-            System.err.println("No serialized file found, creating a new one");
-            try {
-                contactList = new ArrayList<>();
-                SerializationUtil.serialize(contactList,
-                        contactListPath);
-            } catch (IOException ex) {
-                System.err.println("Failed to serialize");
-                ex.printStackTrace();
-            }
+            SerializationUtil.serialize(contactList,contactListPath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
