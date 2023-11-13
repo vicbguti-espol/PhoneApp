@@ -21,7 +21,7 @@ public class ChooseAttributeTypeController extends Controller implements Initial
     public void initialize(URL url, ResourceBundle rb) {
         initContinueButton();
         initCmb();
-        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnReturn.setOnAction(e -> super.returnHomePage()); 
     }    
     
     private void initContinueButton(){

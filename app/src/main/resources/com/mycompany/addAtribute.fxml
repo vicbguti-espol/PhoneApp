@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.AddAtributeController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -18,7 +18,7 @@
       </HBox>
    </top>
    <bottom>
-      <Button mnemonicParsing="false" text="Agregar" BorderPane.alignment="CENTER" />
+      <Button fx:id="btn_A" mnemonicParsing="false" onMouseClicked="#Guardar" text="Agregar" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -26,19 +26,19 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Tipo" />
-                  <ComboBox prefHeight="25.0" prefWidth="568.0" promptText="Genérico" />
+                  <ComboBox fx:id="Cbx_G" onAction="#selecion" prefHeight="25.0" prefWidth="568.0" promptText="Genérico" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Descripción" />
-                  <TextField />
+                  <TextField fx:id="decrip" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Dato" />
-                  <TextField />
+                  <TextField fx:id="Dato" />
                </children>
             </HBox>
          </children>

@@ -1,14 +1,15 @@
 package model.attributes;
 
-public class GenericAttribute<T> extends Attribute {
-    private T value; 
+public class GenericAttribute extends Attribute {
+    private String value; 
+    private String Descripcion;
     
-    public GenericAttribute(String attributeName, T value) {
+    public GenericAttribute(String attributeName, String value) {
         this.attributeName = attributeName;
         this.value = value;
     }
     
-    public GenericAttribute(T value){
+    public GenericAttribute(String value){
         this.attributeName = value.getClass().getSimpleName();
         this.value = value;
     }
@@ -17,8 +18,16 @@ public class GenericAttribute<T> extends Attribute {
     public String getAttributeName(){
         return attributeName;
     }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setDescripcion(String Descripcion) {
+        this.Descripcion = Descripcion;
+    }
     
-    public T getValue() {
+    public String getValue() {
         return value;
     }
     

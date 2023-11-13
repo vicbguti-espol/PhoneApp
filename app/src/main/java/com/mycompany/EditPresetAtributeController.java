@@ -122,7 +122,7 @@ public class EditPresetAtributeController implements Initializable {
           }
           
            
-          MobilePhone.addContact(usu);
+          MobilePhone.addContact(modificar.get(0));
     }
    
     }
