@@ -24,7 +24,6 @@
             <Label fx:id="lblName" text="Nombre" />
             <ImageView fx:id="imgvPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             <Button fx:id="btnViewImages" mnemonicParsing="false" text="Ver imagenes" />
-            <VBox fx:id="vbPhoneNumbers" />
          </children>
       </VBox>
    </center>
