@@ -5,6 +5,8 @@ import model.attributes.Attribute;
 public class CompanyWebPage extends Attribute {
     String webPage;
 
+    public CompanyWebPage() {}
+    
     public CompanyWebPage(String webPage) {
         this.webPage = webPage;
     }

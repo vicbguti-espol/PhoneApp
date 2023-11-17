@@ -21,8 +21,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+<<<<<<< HEAD
         //scene = new Scene(loadFXML("contactList"), 880, 870);
         scene = new Scene(loadFXML("editPresetAtribute"));
+=======
+        scene = new Scene(loadFXML("contactList"), 880, 870);
+        //scene = new Scene(loadFXML("primary"));
+>>>>>>> 2566038b85a0e54c1345947c768409895a17ef3c
         this.stage = stage;
 
         Screen screen = Screen.getPrimary();

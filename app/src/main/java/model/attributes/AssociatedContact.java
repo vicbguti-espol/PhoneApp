@@ -13,6 +13,8 @@ import model.contacts.Contact;
 public class AssociatedContact extends Attribute {
     private Contact contact;
     private String relation;
+    
+    public AssociatedContact() {}
 
     public AssociatedContact(Contact contact, String relation) {
         this.contact = contact;

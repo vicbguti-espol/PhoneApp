@@ -6,6 +6,8 @@ import model.attributes.Typable;
 public abstract class Location extends Attribute implements Typable{
     private String details;
     private String mapsURL;
+    
+    public Location() {}
 
     public Location() {
             }

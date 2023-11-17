@@ -19,6 +19,8 @@ public class Email extends Attribute {
         this.email = email;
     }
 
+    public Email() {}
+
     public SourceType getEmailType() {
         return emailType;
     }

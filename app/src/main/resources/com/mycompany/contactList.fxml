@@ -10,7 +10,7 @@
       <ListView fx:id="ListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <Button fx:id="btnAdd" mnemonicParsing="false" text="Agregar" BorderPane.alignment="CENTER" />
+      <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#goPrimaryPage" text="Agregar" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
       <Label text="Contactos" BorderPane.alignment="CENTER" />

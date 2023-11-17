@@ -15,9 +15,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+<<<<<<< HEAD
 import static javafx.scene.input.KeyCode.R;
 import model.contacts.Contact;
 import model.serialization.SerializationUtil;
+=======
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import model.attributes.phone.PersonPhone;
+import model.attributes.phone.PhoneNumber;
+import model.contacts.Contact;
+import model.contacts.Person;
+import model.enums.SourceType;
+import model.user.MobilePhone;
+>>>>>>> 2566038b85a0e54c1345947c768409895a17ef3c
 
 /**
  * FXML Controller class
@@ -56,5 +67,18 @@ public class ContactListController implements Initializable {
         }
     }
     
+<<<<<<< HEAD
+=======
+    private void goContactPage(Contact selectedContact) throws IOException {
+        Controller contactController = new ContactController(selectedContact);
+        App.setRoot("contact",contactController);
+    }
+    
+    @FXML
+    private void goPrimaryPage(){
+        App.setRoot("primary");
+    }
+    
+>>>>>>> 2566038b85a0e54c1345947c768409895a17ef3c
     
 }

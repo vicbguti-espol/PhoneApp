@@ -12,7 +12,7 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" text="Volver" />
+            <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#goContactListPage" text="Volver" />
             <Label text="Agregar Atributo Personalizado" />
          </children>
       </HBox>

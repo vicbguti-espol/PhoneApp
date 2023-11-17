@@ -16,7 +16,7 @@ public class Person extends Contact {
     
     @Override
     public String toString(){
-        List<Attribute> names = findAttributes(ComparatorUtil.cmpByAttribute, new PersonName("p","p"));
+        List<Attribute> names = findAttributes(ComparatorUtil.cmpByAttribute, new PersonName("",""));
         PersonName name = (PersonName) names.get(0);
         return name.toString();
     }

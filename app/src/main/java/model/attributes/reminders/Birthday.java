@@ -5,6 +5,8 @@ import java.time.temporal.ChronoUnit;
 
 public class Birthday extends Reminder {
 
+    public Birthday() {}
+    
     public Birthday(LocalDate birthDay) {
         super(birthDay);
     }

@@ -11,5 +11,9 @@ public class PersonPhone extends PhoneNumber {
     }
 
     public PersonPhone() {
-    }   
+    }
+
+    public SourceType getPhoneType() {
+        return phoneType;
+    }
 }
