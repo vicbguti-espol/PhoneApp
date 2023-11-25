@@ -1,4 +1,4 @@
-package model.serialization;
+package model.user;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class SerializationUtil {
+class SerializationUtil {
     // deserialize to Object from given file
     public static Object deserialize(String fileName) throws IOException,
                     ClassNotFoundException {

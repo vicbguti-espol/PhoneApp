@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import model.contacts.Contact;
-import model.serialization.SerializationUtil;
 
 public class MobilePhone {
     private static List<Contact> contactList;
