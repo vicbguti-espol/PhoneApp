@@ -1,4 +1,11 @@
+.classpath
+.project
+.settings/
+/app/target/
+target/
 **/target
 **/images
 **/ser
-/app/target/
+
+
+
