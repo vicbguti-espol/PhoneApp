@@ -9,9 +9,6 @@ public abstract class Location extends Attribute implements Typable{
     
     public Location() {}
 
-    public Location() {
-            }
-
     public Location(String details, String mapsURL) {
         this.details = details;
         this.mapsURL = mapsURL;

@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import model.contacts.Contact;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
@@ -21,13 +20,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-<<<<<<< HEAD
+        //scene = new Scene(loadFXML("editPresetAtribute"));
         //scene = new Scene(loadFXML("contactList"), 880, 870);
-        scene = new Scene(loadFXML("editPresetAtribute"));
-=======
-        scene = new Scene(loadFXML("contactList"), 880, 870);
-        //scene = new Scene(loadFXML("primary"));
->>>>>>> 2566038b85a0e54c1345947c768409895a17ef3c
+        scene = new Scene(loadFXML("primary"));
         this.stage = stage;
 
         Screen screen = Screen.getPrimary();

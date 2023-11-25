@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +14,12 @@ import javafx.scene.input.MouseEvent;
 import model.attributes.Attribute;
 import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
-import model.serialization.SerializationUtil;
 import model.user.MobilePhone;
 import java.util.Comparator;
 import javafx.scene.control.ComboBox;
 import model.attributes.AssociatedContact;
+import model.attributes.ContactImage;
 import model.attributes.Email;
-import model.attributes.Image;
 import model.attributes.company.CompanyDescription;
 import model.attributes.company.CompanyWebPage;
 import model.attributes.location.Location;
@@ -34,14 +28,8 @@ import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
-import model.attributes.reminders.Birthday;
 import model.comparator.ComparatorUtil;
 
-/**
- * FXML Controller class
- *
- * @author arauj
- */
 public class EditPresetAtributeController implements Initializable {
 
     private List<Contact> contactList;
@@ -70,7 +58,8 @@ public class EditPresetAtributeController implements Initializable {
     private Label mensaje;
     @FXML
     private Button btn_volver;
-//    @Override
+
+    
     public void initialize(URL url, ResourceBundle rb) {
          btn_volver.setOnAction(e -> {
             App.setRoot("primary");
@@ -100,7 +89,7 @@ public class EditPresetAtributeController implements Initializable {
              loc.setDetails(caja);
              //loc.getMapsURL(caja);
           }else if(editar.equals("Image")){
-            Image im = (Image) atributos;
+            ContactImage im = (ContactImage) atributos;
             im.setPath(caja);
           }else if(editar.equals("CompanyDescription")){
              CompanyDescription cd = (CompanyDescription) atributos;
@@ -109,9 +98,6 @@ public class EditPresetAtributeController implements Initializable {
              CompanyWebPage cw = (CompanyWebPage) atributos;
              cw.setWebPage(caja);
           }
-          ///// Persona
-//          [Attribute Name: PersonPhone, diego javier, Attribute Name: PersonLocation, 
-//          Attribute Name: Image, Attribute Name: Birthday]
           else if(editar.equals("PersonPhone")){
              PersonPhone pp = (PersonPhone) atributos;
              pp.setPhoneNumber(caja);
