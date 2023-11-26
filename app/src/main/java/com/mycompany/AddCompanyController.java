@@ -54,11 +54,6 @@ public class AddCompanyController extends AddContactTypeController
         phone = new CompanyPhone(txtPhoneNumber.getText());
     }
 
-    @Override
-    void addPagination(){
-        boxImages.getChildren().add(pagination);
-    }
-
 
     @Override
     void loadContact() {
@@ -108,5 +103,10 @@ public class AddCompanyController extends AddContactTypeController
     @Override
     void initBtnImageAdding() {
         btnImageAdding = btnImageDialog;
+    }
+
+    @Override
+    void initImagesVBox() {
+        imageVBox = boxImages;
     }
 }

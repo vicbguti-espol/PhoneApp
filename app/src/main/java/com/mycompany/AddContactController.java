@@ -121,11 +121,6 @@ public class AddContactController extends AddContactTypeController
     void loadTypeData(){
         birthday = new Birthday(dateBirth.getValue());
     }
-    
-    @Override
-    void addPagination(){
-        boxImages.getChildren().add(pagination);
-    }
 
     @Override
     boolean isTypePrepared(){
@@ -159,6 +154,11 @@ public class AddContactController extends AddContactTypeController
     @Override
     void initBtnImageAdding() {
         btnImageAdding = btnImageDialog;
+    }
+
+    @Override
+    void initImagesVBox() {
+        imageVBox = boxImages;
     }
 
 }

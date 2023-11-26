@@ -8,7 +8,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -79,17 +78,12 @@
             <VBox fx:id="boxImages" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                <children>
                   <Label text="Imagenes" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="10.0" prefWidth="700.0">
                      <children>
                         <TextField fx:id="txtImageSource" promptText="Buscar imágenes" />
                         <Button fx:id="btnImageDialog" mnemonicParsing="false" text="..." />
                      </children>
                   </HBox>
-                  <StackPane prefHeight="0.0" prefWidth="657.0">
-                     <padding>
-                        <Insets bottom="30.0" top="30.0" />
-                     </padding>
-                  </StackPane>
                </children>
             </VBox>
          </children>
