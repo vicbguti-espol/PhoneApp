@@ -89,8 +89,6 @@ public abstract class AddContactTypeController extends DataEntryController {
         loadTypeData();
     }
     
-
-    
     private void loadImages(){
     // handling image attribute
     images = new ArrayList<>();
@@ -209,7 +207,7 @@ public abstract class AddContactTypeController extends DataEntryController {
                     
                 });
         
-        if (imageVBox.getChildren().size() > 3) 
+        if (imageVBox.getChildren().size() > 2) 
            imageVBox.getChildren().remove(imageVBox.getChildren().size()-1);
         imageVBox.getChildren().add(nodePagination.getContainer());
     }
