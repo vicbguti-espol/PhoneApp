@@ -1,5 +1,6 @@
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.comparator.ComparatorUtil;
 
-public class EditPresetAtributeController implements Initializable {
+public class EditPresetAtributeController extends Controller implements Initializable {
 
     private List<Contact> contactList;
     private Comparator<Attribute> cmp;
@@ -58,11 +59,22 @@ public class EditPresetAtributeController implements Initializable {
     private Label mensaje;
     @FXML
     private Button btn_volver;
+    
+    //contacto pasado
+    private Contact contact;
+    
+    public EditPresetAtributeController(Contact selectedContact) {
+        contact = selectedContact;
+    }
 
     
     public void initialize(URL url, ResourceBundle rb) {
          btn_volver.setOnAction(e -> {
-            App.setRoot("primary");
+             try {
+                 returnContactPage();
+             } catch (IOException ex) {
+                 ex.printStackTrace();
+             }
         });
         
          Tcontactos=MobilePhone.getContactList();
@@ -133,6 +145,10 @@ public class EditPresetAtributeController implements Initializable {
 
     @FXML
     private void g(MouseEvent event) {
+    }
+    
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
     }
     
 }

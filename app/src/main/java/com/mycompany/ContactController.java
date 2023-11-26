@@ -70,8 +70,6 @@ public class ContactController extends Controller implements Initializable {
     private Contact contact;
     private char contactType;
     
-    
-    public ContactController(){}
 
     public ContactController(Contact selectedContact) {
         contact = selectedContact;
@@ -354,10 +352,32 @@ public class ContactController extends Controller implements Initializable {
     private void createButtons(HBox hbox){
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
-            App.setRoot("editPresetAtribute");
+            try {
+                goEditPresetAttributePage(contact);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         Button btnDelete = new Button("Eliminar");
+        btnDelete.setOnAction(r -> {
+            deleteAttribute();
+        });
         hbox.getChildren().addAll(btnEdit, btnDelete);
+    }
+    
+    private void goEditPresetAttributePage(Contact selectedContact) throws IOException {
+        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact);
+        App.setRoot("editPresetAtribute",editPresetAtributeController);
+    }
+    
+    private void deleteAttribute() {
+        /*Comparator<Attribute> c = new Comparator<>() {
+
+            @Override
+            public int compare(Attribute o1, Attribute o2) {
+                
+            }
+        };*/
     }
     
     private void setHBox(HBox hbox, Collection<? extends Node> c){
@@ -375,6 +395,8 @@ public class ContactController extends Controller implements Initializable {
         showReminder();
         showGenerics();
     }
+
+    
 
     
     

@@ -2,6 +2,7 @@ package com.mycompany;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 
@@ -17,16 +19,30 @@ public class ContactListController implements Initializable {
     @FXML
     private Button btnAdd;
     @FXML
-    private ListView<Contact> ListView;
-
+    private ListView<Contact> contactListView;
+    @FXML
+    private BorderPane root;
+    
+    
+     /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Crea un ObservableList a partir de la lista de contactos
-        ObservableList<Contact> observableContactList = FXCollections.
-                observableArrayList(MobilePhone.getContactList());
-
-        // Asigna el ObservableList al ListView
-        ListView.setItems(observableContactList);           
+        List<Contact> contactList = MobilePhone.getContactList();
+        ObservableList<Contact> contactObservableList = FXCollections.observableList(contactList);
+        contactListView = new ListView<>(contactObservableList);
+        root.setCenter(contactListView);
+        contactListView.setOnMouseClicked(eh -> {
+            Contact selectedContact = contactListView.getSelectionModel().getSelectedItem();
+            if (selectedContact != null){
+                try {
+                    goContactPage(selectedContact);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     private void goContactPage(Contact selectedContact) throws IOException {
@@ -39,3 +55,4 @@ public class ContactListController implements Initializable {
         App.setRoot("primary");
     }
 }
+
