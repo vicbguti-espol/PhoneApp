@@ -49,7 +49,7 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private TextField box_dato;
     @FXML
-    private ComboBox<Attribute> tiposA;
+    private ComboBox<String> tiposA;
     private Boolean confirma=false;
     private List<Contact> Tcontactos;
     private List<Contact> modificar;
@@ -76,55 +76,9 @@ public class EditPresetAtributeController extends Controller implements Initiali
                  ex.printStackTrace();
              }
         });
-        
-         Tcontactos=MobilePhone.getContactList();
-         modificar=new ArrayList<>();
-         String caja="";
-         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
-         modificar.add(usu);
-         Alista=modificar.get(0).attributes; 
-         tiposA.getItems().addAll(Alista);
-         if(confirma){
-         MobilePhone.removeContact(usu);//C1 
-         for(Attribute atributos:Alista){
-          if(atributos.getAttributeName().equals(editar)){
-    //[Attribute Name: CompanyPhone, Attribute Name: CompanyName, Attribute Name: CompanyLocation,
-    //Attribute Name: Image, Attribute Name: CompanyDescription, Attribute Name: CompanyWebPage]
-          if(editar.equals("CompanyPhone")){
-                PhoneNumber ph = (PhoneNumber) atributos;     
-                ph.setPhoneNumber(editar);
-          }else if(editar.equals("CompanyName")){
-             CompanyName cn = (CompanyName) atributos;
-             cn.setCompanyName(caja);
-          }else if(editar.equals("CompanyLocation")){
-             Location loc = (Location) atributos;
-             loc.setDetails(caja);
-             //loc.getMapsURL(caja);
-          }else if(editar.equals("Image")){
-            ContactImage im = (ContactImage) atributos;
-            im.setPath(caja);
-          }else if(editar.equals("CompanyDescription")){
-             CompanyDescription cd = (CompanyDescription) atributos;
-             cd.setDescription(caja);
-          }else if(editar.equals("CompanyWebPage")){
-             CompanyWebPage cw = (CompanyWebPage) atributos;
-             cw.setWebPage(caja);
-          }
-          else if(editar.equals("PersonPhone")){
-             PersonPhone pp = (PersonPhone) atributos;
-             pp.setPhoneNumber(caja);
-          }
-          else if(editar.equals("PersonLocation")){
-             PersonLocation pl = (PersonLocation) atributos;
-             pl.setDetails(caja);
-          }
-          
-           
-          MobilePhone.addContact(modificar.get(0));
-    }
-   
-    }
-    } 
+       String d1= new String("Telefono");
+       String d2= new String("Direccion");
+       tiposA.getItems().addAll(d1,d2);
     }
     
     
@@ -138,9 +92,27 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private void seleccion(ActionEvent event) {
         String dato= box_dato.getText();
-        ComboBox<Attribute> cb = (ComboBox) event.getSource();
-        Attribute tipo = cb.getValue();
-        editar=tipo.getAttributeName();
+        ComboBox<String> cb = (ComboBox) event.getSource();
+        String tipo = cb.getValue();
+       
+        modificar=new ArrayList<>();
+        modificar.add(contact);  
+        Alista=modificar.get(0).attributes; 
+        if(confirma){
+        MobilePhone.removeContact(contact);
+        for(Attribute atributos:Alista){
+            if(tipo.equals("Direccion")){
+             Location loc = (Location) atributos;
+             loc.setDetails(dato);
+            }
+            if( tipo.equals("Telefono" )){
+            PhoneNumber ph = (PhoneNumber) atributos;     
+                ph.setPhoneNumber(dato);
+            }
+        }
+        MobilePhone.addContact(modificar.get(0));
+        
+        }
 }
 
     @FXML
