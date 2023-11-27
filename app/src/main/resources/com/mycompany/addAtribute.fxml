@@ -13,7 +13,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#goContactListPage" text="Volver" />
-            <Label text="Agregar Atributo Personalizado" />
+            <Label fx:id="Mensaje" text="Agregar Atributo Personalizado" />
          </children>
       </HBox>
    </top>
@@ -26,19 +26,19 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Tipo" />
-                  <ComboBox fx:id="Cbx_G" onAction="#selecion" prefHeight="25.0" prefWidth="568.0" promptText="Genérico" />
+                  <ComboBox fx:id="cbx_Generico" onAction="#selecion" prefHeight="25.0" prefWidth="568.0" promptText="Genérico" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Descripción" />
-                  <TextField fx:id="decrip" />
+                  <TextField fx:id="box_Descripcion" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Dato" />
-                  <TextField fx:id="Dato" />
+                  <TextField fx:id="box_dato" />
                </children>
             </HBox>
          </children>

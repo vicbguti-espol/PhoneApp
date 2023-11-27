@@ -84,35 +84,36 @@ public class EditPresetAtributeController extends Controller implements Initiali
     
     @FXML
     private void btn_confirmar(MouseEvent event) {
-    Boolean confirma=true;
+        String dato= box_dato.getText();
+        modificar=new ArrayList<>();
+        modificar.add(contact);  
+        Alista=modificar.get(0).attributes; 
+
+        //MobilePhone.removeContact(contact);
+        for(Attribute atributos:Alista){
+            if(editar.equals("Direccion")){
+             PersonLocation pl =(PersonLocation)atributos;
+            
+             pl.setDetails(dato);
+             pl.setMapsURL(dato);
+            }
+            if( editar.equals("Telefono" )){
+            PhoneNumber ph = (PhoneNumber) atributos;     
+                ph.setPhoneNumber(dato);
+            }
+        }
+       // MobilePhone.addContact(modificar.get(0));
+        
     mensaje.setText("Cambio realizado");
         }
     
 
     @FXML
     private void seleccion(ActionEvent event) {
-        String dato= box_dato.getText();
+
         ComboBox<String> cb = (ComboBox) event.getSource();
         String tipo = cb.getValue();
-       
-        modificar=new ArrayList<>();
-        modificar.add(contact);  
-        Alista=modificar.get(0).attributes; 
-        if(confirma){
-        MobilePhone.removeContact(contact);
-        for(Attribute atributos:Alista){
-            if(tipo.equals("Direccion")){
-             Location loc = (Location) atributos;
-             loc.setDetails(dato);
-            }
-            if( tipo.equals("Telefono" )){
-            PhoneNumber ph = (PhoneNumber) atributos;     
-                ph.setPhoneNumber(dato);
-            }
-        }
-        MobilePhone.addContact(modificar.get(0));
-        
-        }
+        editar=tipo;     
 }
 
     @FXML

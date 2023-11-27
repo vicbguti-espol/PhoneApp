@@ -8,6 +8,10 @@ public class GenericReminder extends Reminder {
     
     public GenericReminder() {}
     
+    public GenericReminder(String description) {
+         this.description = description;
+    }
+    
     public GenericReminder(LocalDate date, String description){
         super(date);
         this.description = description;
