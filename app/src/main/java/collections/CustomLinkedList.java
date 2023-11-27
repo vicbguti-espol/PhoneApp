@@ -60,13 +60,23 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public boolean add(E e) {
         Node<E> node = new Node(e);
         if ( isEmpty() ){
+            System.out.println("Adding");
             last = node;
+            System.out.println("last.previous: " + last.previous.content + 
+                    "last: " + last.content + "last.next" + last.next.content);
         }
         else {
             node.previous = last;
             node.next = last.next;
             
+            System.out.println("Adding");
+            
+            System.out.println("previous: " + node.previous.content  + " node: " + node.content  + " next: "+ node.next.content);
+            
             last.next = node;
+            if (this.size() == 1) last.previous = node;
+            
+            System.out.println("previous: " + last.previous.content +  " node.previous: " + last.content + " next: " + last.next.content);
             last = node; 
         }
         n++;
@@ -166,30 +176,58 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         return s + "]";
     }
     
-    public Iterator<E> circularIterator(){
+    public CircularIterator<E> circularIterator(){
         return new CircularIterator<>(this);
     }
     
-    private class CircularIterator<E> implements Iterator<E>{
-        Node<E> it;
+    private class CircularIterator<E> implements CustomIterator<E> {
+        private Node<E> it;
+        private boolean nextStatus;
+        private boolean previousStatus;
         
         CircularIterator(CustomLinkedList<E> list){
             if (list.last != null) it = (Node<E>) list.last.next;
             else it = null;
         }
-
+        
         @Override
         public boolean hasNext() {
             return  it != null;
         }
-
+        
         @Override
         public E next() {
+            if (previousStatus){
+                it = it.next.next;
+                previousStatus = false;
+            } 
+            
+            if (!nextStatus){
+                nextStatus = true;
+            }
+            
             E content = it.content;
             it = it.next;
+            System.out.println("next: " + content);
             return content;
         }
         
+        @Override
+        public E previous() {
+            if (nextStatus) {
+                it = it.previous.previous;
+                nextStatus = false;
+            }
+            
+            if (!previousStatus){
+                previousStatus = true;
+            }
+            
+            E content = it.content;
+            it = it.previous;
+            System.out.println("previous: " + content);
+            return content;
+        }
     }
     
     

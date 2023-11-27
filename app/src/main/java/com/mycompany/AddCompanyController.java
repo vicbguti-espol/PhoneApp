@@ -31,15 +31,11 @@ public class AddCompanyController extends AddContactTypeController
     @FXML
     private TextField txtLocationURL;
     @FXML
-    private TextField txtImageSource;
-    @FXML
-    private VBox boxImages;
-    @FXML
     private Button btnReturn;
     @FXML
     private Button btnAdd;
     @FXML
-    private Button btnImageDialog;
+    private VBox centerVBox;
     
     private CompanyDescription description;
     private CompanyWebPage webpage;
@@ -96,17 +92,7 @@ public class AddCompanyController extends AddContactTypeController
     }
 
     @Override
-    void initImageTextField() {
-        imageSourceTextField = txtImageSource;
-    }
-
-    @Override
-    void initBtnImageAdding() {
-        btnImageAdding = btnImageDialog;
-    }
-
-    @Override
-    void initImagesVBox() {
-        imageVBox = boxImages;
+    void buildCenterVBox() {
+        super.setCenterVBox(this.centerVBox);
     }
 }

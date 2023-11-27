@@ -40,17 +40,13 @@ public class AddContactController extends AddContactTypeController
     @FXML
     private TextField txtLocationURL;
     @FXML
-    private TextField txtImageSource;
-    @FXML
     private DatePicker dateBirth;
-    @FXML
-    private VBox boxImages;
     @FXML
     private Button btnReturn;
     @FXML
     private Button btnAdd;
     @FXML
-    private Button btnImageDialog;
+    private VBox centerVBox;
 
     private Birthday birthday;
     private final static Pair<String, SourceType> EMPTY_TYPES_PAIR =
@@ -147,18 +143,7 @@ public class AddContactController extends AddContactTypeController
     }
 
     @Override
-    void initImageTextField() {
-        imageSourceTextField = txtImageSource;
+    void buildCenterVBox() {
+        super.setCenterVBox(this.centerVBox);
     }
-
-    @Override
-    void initBtnImageAdding() {
-        btnImageAdding = btnImageDialog;
-    }
-
-    @Override
-    void initImagesVBox() {
-        imageVBox = boxImages;
-    }
-
 }
