@@ -12,6 +12,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.attributes.Attribute;
+import model.attributes.GenericAttribute;
 import model.contacts.Contact;
 
 
@@ -43,6 +45,8 @@ public class AddAtributeController extends Controller implements Initializable {
 
     @FXML
     private void Guardar(MouseEvent event) {
+        Attribute a = new GenericAttribute();
+        contact.getAttributes().add(a);
     }
 
     @FXML

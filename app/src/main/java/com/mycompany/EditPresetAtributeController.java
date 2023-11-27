@@ -1,6 +1,7 @@
 package com.mycompany;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,12 @@ import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 import java.util.Comparator;
+import java.util.LinkedList;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import model.attributes.AssociatedContact;
 import model.attributes.ContactImage;
 import model.attributes.Email;
@@ -30,6 +36,8 @@ import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.comparator.ComparatorUtil;
+import model.enums.SocialMediaType;
+import model.enums.SourceType;
 
 public class EditPresetAtributeController extends Controller implements Initializable {
 
@@ -59,6 +67,8 @@ public class EditPresetAtributeController extends Controller implements Initiali
     private Label mensaje;
     @FXML
     private Button btn_volver;
+    @FXML
+    private BorderPane root;
     
     //contacto pasado
     private Contact contact;
@@ -71,6 +81,7 @@ public class EditPresetAtributeController extends Controller implements Initiali
 
     
     public void initialize(URL url, ResourceBundle rb) {
+        mensaje.setText(attribute.getAttributeName());
          btn_volver.setOnAction(e -> {
              try {
                  returnContactPage();
@@ -78,9 +89,49 @@ public class EditPresetAtributeController extends Controller implements Initiali
                  ex.printStackTrace();
              }
         });
-       String d1= new String("Telefono");
+         
+         //root = new BorderPane();
+         //HBox h = new HBox();
+         //h.getChildren().addAll(btn_volver,mensaje);
+         //root.setTop(h);
+         //root.setBottom(root);
+       /*String d1= new String("Telefono");
        String d2= new String("Direccion");
-       tiposA.getItems().addAll(d1,d2);
+       tiposA.getItems().addAll(d1,d2);*/
+       
+       ArrayList<Field> allFields = new ArrayList<>();
+       Class<?> currentClass = attribute.getClass();
+       int c=1;
+        for (int i = 0; i <= c; i++){
+            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
+            for (Field f: fields){
+                allFields.add(f);
+            }
+            currentClass = currentClass.getSuperclass();
+        }
+        VBox content = new VBox();
+        //Si implementa Typable
+        for (Field f: allFields){
+            HBox hbox = new HBox();
+            Label label = new Label(f.getName());
+            hbox.getChildren().add(label);
+            if (f.getType().getSimpleName().equals("SourceType")) {
+                ComboBox<String> comboBox = new ComboBox<>();
+                comboBox.getItems().addAll(SourceType.PERSONAL.name(),SourceType.WORK.name());
+                hbox.getChildren().add(comboBox);
+            } else if (f.getType().getSimpleName().equals("SocialMediaType")){
+                ComboBox<String> comboBox = new ComboBox();
+                comboBox.getItems().addAll(SocialMediaType.INSTAGRAM.name(), SocialMediaType.X.name(),SocialMediaType.FACEBOOK.name());
+                hbox.getChildren().add(comboBox);
+            } else {
+                TextField textField = new TextField();
+                hbox.getChildren().add(textField);
+            }
+            content.getChildren().add(hbox);
+        }
+        
+        root.setCenter(content);
+       
     }
     
     
@@ -90,10 +141,14 @@ public class EditPresetAtributeController extends Controller implements Initiali
         modificar=new ArrayList<>();
         modificar.add(contact);  
         Alista=modificar.get(0).attributes; 
-
+        
+        
+        editar = attribute.getAttributeName();
+        
         //MobilePhone.removeContact(contact);
         for(Attribute atributos:Alista){
-            if(editar.equals("Direccion")){
+            
+            if(editar.equals("Location")){
              PersonLocation pl =(PersonLocation)atributos;
             
              pl.setDetails(dato);

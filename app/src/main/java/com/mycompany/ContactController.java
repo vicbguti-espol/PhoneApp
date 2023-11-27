@@ -201,8 +201,8 @@ public class ContactController extends Controller implements Initializable {
         Class<?> currentClass = attributeInstance.getClass();
         
         for (int i = 0; i <= c; i++){
-            Field[] fields = currentClass.getDeclaredFields();
-            for (Field field: fields) {
+            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
+            for (Field field: fields) { //recorres los atributos
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
                 attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
                 tableView.getColumns().add(attributeNameColumn);
@@ -355,7 +355,7 @@ public class ContactController extends Controller implements Initializable {
         }
     }
     
-    private void createMiniHeader(String title){
+    private void createMiniHeader(String title, String className){
         HBox header = new HBox();
         header.setSpacing(50);
         header.setAlignment(Pos.CENTER);
@@ -372,7 +372,7 @@ public class ContactController extends Controller implements Initializable {
         } else {
             btnAdd.setOnAction(r -> {
                 try {
-                    goAddPresetAttributePage(contact);
+                    goAddPresetAttributePage(contact, className);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -404,8 +404,8 @@ public class ContactController extends Controller implements Initializable {
     }
     
     
-    private void goAddPresetAttributePage(Contact selectedContact) throws IOException {
-        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact);
+    private void goAddPresetAttributePage(Contact selectedContact, String className) throws IOException {
+        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, className);
         App.setRoot("addPresetAtribute",addPresetAtributeController);
     }
     

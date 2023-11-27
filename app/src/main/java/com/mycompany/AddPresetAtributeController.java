@@ -52,9 +52,11 @@ public class AddPresetAtributeController extends Controller implements Initializ
     private String editar="";
     
     private Contact contact;
+    private String className;
 
-    public AddPresetAtributeController(Contact contact) {
+    public AddPresetAtributeController(Contact contact, String className) {
         this.contact = contact;
+        this.className = className;
     }
     
     
@@ -83,10 +85,10 @@ public class AddPresetAtributeController extends Controller implements Initializ
        String dato= caja.getText();//informarcion agregar
        
                 
-         Tcontactos=MobilePhone.getContactList();
+//         Tcontactos=MobilePhone.getContactList();
          modificar=new ArrayList<>();
-         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
-         modificar.add(usu);
+//         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
+         modificar.add(contact);
          Alista=modificar.get(0).attributes; 
           
          
@@ -111,7 +113,22 @@ public class AddPresetAtributeController extends Controller implements Initializ
         }
         //MobilePhone.addContact(modificar.get(0));
         mensaje.setText("Cambio realizado");
+        
+        Attribute p1 = null;
+        
+        if(className.equals("Email")){
+            p1 = new Email();
         }
+        
+        if(className.equals("Email")){
+            p1 = new Email();
+        }
+        
+        contact.getAttributes().add(p1);
+        
+        }
+    
+    
        
        
     
