@@ -21,8 +21,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
         public Node(E e) {
             content = e;
-            next = this;
-            previous = this;
+            next = previous =  this;
         }
     }
 
@@ -43,7 +42,30 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new CustomLinkedListIterator<E>(this);
+    }
+    
+    private class CustomLinkedListIterator<E> implements Iterator<E>{
+        private Node<E> it;
+        private int i = 0;
+        
+        CustomLinkedListIterator(CustomLinkedList customLinkedList){
+            it = customLinkedList.last.next;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return i < size();
+        }
+
+        @Override
+        public E next() {
+            E content = it.content;
+            it = it.next;
+            i++;
+            return content;
+        }
+    
     }
 
     @Override
@@ -66,6 +88,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             node.previous = last;
             node.next = last.next;
             
+            last.next.previous =  node;
             last.next = node;
             last = node; 
         }
@@ -105,7 +128,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        last = null;
+        n = 0;
     }
 
     @Override
@@ -166,32 +190,48 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         return s + "]";
     }
     
-    public Iterator<E> circularIterator(){
+    public CircularIterator<E> circularIterator(){
         return new CircularIterator<>(this);
     }
     
-    private class CircularIterator<E> implements Iterator<E>{
-        Node<E> it;
+    private class CircularIterator<E> implements CustomIterator<E> {
+        private Node<E> it;
+        private boolean nextStatus;
+        private boolean previousStatus;
         
         CircularIterator(CustomLinkedList<E> list){
-            if (list.last != null) it = (Node<E>) list.last.next;
+            if (list.last != null) {
+                it = (Node<E>) list.last.next; 
+                nextStatus = true;
+            }   
             else it = null;
         }
-
+        
         @Override
         public boolean hasNext() {
             return  it != null;
         }
-
+        
         @Override
         public E next() {
+            if (!nextStatus){
+                nextStatus = true; previousStatus=false;
+                it = it.next.next;
+            }
             E content = it.content;
             it = it.next;
             return content;
         }
         
+        @Override
+        public E previous() {
+            if (!previousStatus){
+                previousStatus = true; nextStatus=false;
+                it = it.previous.previous;
+            }
+            E content = it.content;
+            it = it.previous;
+            return content;
+        }
     }
-    
-    
-    
 }

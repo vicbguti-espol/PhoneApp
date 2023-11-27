@@ -32,7 +32,7 @@
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="centerVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="43.0" prefWidth="592.0">
                <children>
@@ -73,17 +73,6 @@
                <children>
                   <Label text="Fecha de nacimiento" />
                   <DatePicker fx:id="dateBirth" />
-               </children>
-            </VBox>
-            <VBox fx:id="boxImages" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label text="Imagenes" />
-                  <HBox prefHeight="10.0" prefWidth="700.0">
-                     <children>
-                        <TextField fx:id="txtImageSource" promptText="Buscar imágenes" />
-                        <Button fx:id="btnImageDialog" mnemonicParsing="false" text="..." />
-                     </children>
-                  </HBox>
                </children>
             </VBox>
          </children>

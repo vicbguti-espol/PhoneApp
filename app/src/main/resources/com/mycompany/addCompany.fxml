@@ -30,7 +30,7 @@
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="438.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="centerVBox" prefHeight="438.0" prefWidth="677.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="9.0" prefWidth="700.0">
                <children>
