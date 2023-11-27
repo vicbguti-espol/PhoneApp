@@ -7,6 +7,7 @@ package com.mycompany;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,9 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,12 +28,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.attributes.*;
 import model.attributes.company.*;
 import model.attributes.location.*;
@@ -97,10 +106,19 @@ public class ContactController extends Controller implements Initializable {
             }
         });
         btnAddGeneric.setOnAction(r -> {
-            App.setRoot("addAtribute");
+            try {
+                goAddAttributePage(contact);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         createHeader();
         showAttributes();
+    }
+    
+    private void goAddAttributePage(Contact selectedContact) throws IOException {
+        Controller addAtributeController = new AddAtributeController(contact);
+        App.setRoot("addAtribute",addAtributeController);
     }
         
     private void returnContactListPage() throws IOException{
@@ -146,40 +164,79 @@ public class ContactController extends Controller implements Initializable {
         List<Attribute> images = contact.findAttributes(ComparatorUtil.cmpByAttribute, new ContactImage());
         ContactImage imgProfile = (ContactImage) images.get(0);
         String path = imgProfile.getPath();
-        System.out.println(path);
         try {
             imageProfile = new Image(new FileInputStream(path));
         } catch (Exception e) {
             System.out.println("No se encontró la ruta de la imagen");
-            //imageProfile = new Image(new FileInputStream("images/default.png"));
         }
         return imageProfile;
     }
 
     private void showNumbers() {
         createMiniHeader("Número teléfonico");
+        
         PhoneNumber phoneNumber = null;
         if (contactType == 'C'){
             phoneNumber = new CompanyPhone();
         } else if (contactType == 'P'){
             phoneNumber = new PersonPhone();
         }
+        
         List<Attribute> phoneNumbers = contact.findAttributes(ComparatorUtil.cmpByAttribute, phoneNumber);
-        VBox vbPhoneNumbers = new VBox();
-        for(Attribute phonNumber: phoneNumbers){
-            HBox content = new HBox();
-            PhoneNumber phone = (PhoneNumber) phonNumber;
-            if(phone instanceof PersonPhone){
-                PersonPhone personPhone = (PersonPhone) phone;
-                Label type = new Label(String.valueOf(personPhone.getPhoneType()));
-                content.getChildren().add(type);
+        if (!phoneNumbers.isEmpty()) {
+            TableView<PhoneNumber> tableView = createTableView(phoneNumber,1);
+            ObservableList<PhoneNumber> data = FXCollections.observableArrayList();
+            for (Attribute number: phoneNumbers) {
+                data.add((PhoneNumber) number);
             }
-            Label number = new Label(phone.getPhoneNumber());
-            setHBox(content, new ArrayList<>(Arrays.asList(number)));
-            createButtons(content);
-            vbPhoneNumbers.getChildren().add(content);
+            tableView.setItems(data);
+            vbContent.getChildren().add(tableView);
         }
-        vbContent.getChildren().add(vbPhoneNumbers);
+        
+    }
+    
+    private <T extends Attribute> TableView<T> createTableView(T attributeInstance, int c) {
+        TableView<T> tableView = new TableView<>();
+        
+        Class<?> currentClass = attributeInstance.getClass();
+        
+        for (int i = 0; i <= c; i++){
+            Field[] fields = currentClass.getDeclaredFields();
+
+            System.out.println(fields.length);
+            for (Field field: fields) {
+                TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
+                System.out.println(field.getName());
+                attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
+                tableView.getColumns().add(attributeNameColumn);
+            }
+            currentClass = currentClass.getSuperclass();
+        }
+        TableColumn<T, Void> editColumn = new TableColumn<>("Opciones");
+        Callback<TableColumn<T, Void>, TableCell<T, Void>> cellFactory = new Callback<TableColumn<T, Void>, TableCell<T, Void>>() {
+            @Override
+            public TableCell<T, Void> call(final TableColumn<T, Void> param) {
+                TableCell<T, Void> cell = new TableCell<T, Void>() {
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox hbOpciones = new HBox(5);
+                            T att = getTableView().getItems().get(getIndex());
+                            createButtons(hbOpciones, att);
+                            setGraphic(hbOpciones);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        editColumn.setCellFactory(cellFactory);
+        tableView.getColumns().add(editColumn);
+        return tableView;
     }
 
     private void showLocations() {
@@ -191,38 +248,30 @@ public class ContactController extends Controller implements Initializable {
             location = new PersonLocation();
         }
         List<Attribute> locations = contact.findAttributes(ComparatorUtil.cmpByAttribute, location);
-        VBox vbLocations = new VBox();
-        for(Attribute locate: locations){
-            HBox content = new HBox();
-            Location loc = (Location) locate;
-            if(loc instanceof PersonLocation){
-                PersonLocation personLocation = (PersonLocation) loc;
-                System.out.println(String.valueOf(personLocation.getLocationType()));
-                Label type = new Label(String.valueOf(personLocation.getLocationType()));
-                content.getChildren().add(type);
+        
+        if (!locations.isEmpty()) {
+            TableView<Location> tableView = createTableView(location,1);
+            ObservableList<Location> data = FXCollections.observableArrayList();
+            for (Attribute l: locations) {
+                data.add((Location) l);
             }
-            Label details = new Label(loc.getDetails());
-            Label mapsUrl = new Label(loc.getMapsURL());
-            setHBox(content, new ArrayList<>(Arrays.asList(details,mapsUrl)));
-            createButtons(content);
-            vbLocations.getChildren().add(content);
+            tableView.setItems(data);
+            vbContent.getChildren().add(tableView);
         }
-        vbContent.getChildren().add(vbLocations);
     }
     
     private void showGenerics() {
         List<Attribute> genericAttributes = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
-        VBox vbGenerics = new VBox();
-        for(Attribute genericAttribute: genericAttributes){
-            HBox content = new HBox();
-            GenericAttribute genericAtt = (GenericAttribute) genericAttribute;
-            Label name = new Label(genericAtt.getAttributeName());
-            Label value = new Label(""+genericAtt.getValue());
-            setHBox(content, new ArrayList<>(Arrays.asList(name,value)));
-            createButtons(content);
-            vbGenerics.getChildren().add(content);
+        
+        if (!genericAttributes.isEmpty()) {
+            TableView<GenericAttribute> tableView = createTableView(new GenericAttribute(),0);
+            ObservableList<GenericAttribute> data = FXCollections.observableArrayList();
+            for (Attribute ga: genericAttributes) {
+                data.add((GenericAttribute) ga);
+            }
+            tableView.setItems(data);
+            vbContent.getChildren().add(tableView);
         }
-        vbContent.getChildren().add(vbGenerics);
     }    
 
     private void showDescritption() {
@@ -242,17 +291,27 @@ public class ContactController extends Controller implements Initializable {
     private void showReminder() {
         List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericReminder());
         createMiniHeader("Recordatorios");
-        VBox vbReminder = new VBox();
+        /*VBox vbReminder = new VBox();
         for(Attribute reminder: reminders){
             HBox content = new HBox();
             GenericReminder remind = (GenericReminder) reminder;
             Label name = new Label(remind.getDescription());
             Label date = new Label(""+remind.getDate());
             setHBox(content, new ArrayList<>(Arrays.asList(name,date)));
-            createButtons(content);
+            //createButtons(content);
             vbReminder.getChildren().addAll(content);
         }
-        vbContent.getChildren().add(vbReminder);
+        vbContent.getChildren().add(vbReminder);*/
+        
+        if (!reminders.isEmpty()) {
+            TableView<GenericReminder> tableView = createTableView(new GenericReminder(),1);
+            ObservableList<GenericReminder> data = FXCollections.observableArrayList();
+            for (Attribute r: reminders) {
+                data.add((GenericReminder) r);
+            }
+            tableView.setItems(data);
+            vbContent.getChildren().add(tableView);
+        }
     }
     
     /*private void showBirthday() {
@@ -283,51 +342,50 @@ public class ContactController extends Controller implements Initializable {
     private void showSocialMedia() {
         List<Attribute> socialMedia = contact.findAttributes(ComparatorUtil.cmpByAttribute, new SocialMedia());
         createMiniHeader("Redes sociales");
-        VBox vbSocialMedia = new VBox();
-        for(Attribute social: socialMedia){
-            HBox content = new HBox();
-            SocialMedia socMed = (SocialMedia) social;
-            Label type = new Label(""+socMed.getSocialMedia());
-            Label user = new Label(""+socMed.getUser());
-            setHBox(content, new ArrayList<>(Arrays.asList(type,user)));
-            createButtons(content);
-            vbSocialMedia.getChildren().addAll(content);
+        
+        if (!socialMedia.isEmpty()) {
+            TableView<SocialMedia> tableView = createTableView(new SocialMedia(),0);
+            ObservableList<SocialMedia> data = FXCollections.observableArrayList();
+            for (Attribute sm: socialMedia) {
+                data.add((SocialMedia) sm);
+            }
+            tableView.setItems(data);
+            if (contactType == 'C') vbContent.getChildren().add(tableView);
+            else if (contactType == 'P') vbContent.getChildren().add(tableView);
+            //vbContent.getChildren().add(tableView);
         }
-        if (contactType == 'C') vbContent.getChildren().add(5,vbSocialMedia);
-        else if (contactType == 'P') vbContent.getChildren().add(4,vbSocialMedia);
     }
 
     private void showEmails() {
         List<Attribute> emails = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Email());
         createMiniHeader("Correo electrónico");
-        VBox vbEmails = new VBox();
-        for(Attribute email: emails){
-            HBox content = new HBox();
-            Email mail = (Email) email;
-            Label type = new Label(""+mail.getEmailType());
-            Label user = new Label(""+mail.getEmail());
-            setHBox(content, new ArrayList<>(Arrays.asList(type,user)));
-            createButtons(content);
-            vbEmails.getChildren().add(content);
+        
+        if (!emails.isEmpty()) {
+            TableView<Email> tableView = createTableView(new Email(),0);
+            ObservableList<Email> data = FXCollections.observableArrayList();
+            for (Attribute e: emails) {
+                data.add((Email) e);
+            }
+            tableView.setItems(data);
+            if (contactType == 'C') vbContent.getChildren().add(7,tableView);
+            else if (contactType == 'P') vbContent.getChildren().add(6,tableView);
+            //vbContent.getChildren().add(tableView);
         }
-        if (contactType == 'C') vbContent.getChildren().add(7,vbEmails);
-        else if (contactType == 'P') vbContent.getChildren().add(6,vbEmails);
     }
 
     private void showAssociatedContacts() {
         List<Attribute> associatedContacts = contact.findAttributes(ComparatorUtil.cmpByAttribute, new AssociatedContact());
         createMiniHeader("Contactos Asociados");
-        VBox vbAssociated = new VBox();
-        for(Attribute associatedContact: associatedContacts){
-            HBox content = new HBox();
-            AssociatedContact associated = (AssociatedContact) associatedContact;
-            Label type = new Label(""+associated.getRelation());
-            Label contact1 = new Label(""+associated.getContact());
-            setHBox(content, new ArrayList<>(Arrays.asList(type,contact1)));
-            createButtons(content);
-            vbAssociated.getChildren().add(content);
+        
+        if (!associatedContacts.isEmpty()) {
+            TableView<AssociatedContact> tableView = createTableView(new AssociatedContact(),1);
+            ObservableList<AssociatedContact> data = FXCollections.observableArrayList();
+            for (Attribute ac: associatedContacts) {
+                data.add((AssociatedContact) ac);
+            }
+            tableView.setItems(data);
+            vbContent.getChildren().add(tableView);
         }
-        vbContent.getChildren().add(vbAssociated);
     }
     
     private void createMiniHeader(String title){
@@ -342,25 +400,26 @@ public class ContactController extends Controller implements Initializable {
             });
         } else {
             btnAdd.setOnAction(r -> {
-                App.setRoot("addPresetAttribute");
+                App.setRoot("addPresetAtribute");
             });
         }
         header.getChildren().addAll(title1,btnAdd);
         vbContent.getChildren().add(header);
     }
     
-    private void createButtons(HBox hbox){
+    private <T extends Attribute> void createButtons(HBox hbox, T att){
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
             try {
                 goEditPresetAttributePage(contact);
+                //goEditPresetAttributePage(contact, att);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
         Button btnDelete = new Button("Eliminar");
         btnDelete.setOnAction(r -> {
-            deleteAttribute();
+            deleteAttribute(att);
         });
         hbox.getChildren().addAll(btnEdit, btnDelete);
     }
@@ -370,7 +429,7 @@ public class ContactController extends Controller implements Initializable {
         App.setRoot("editPresetAtribute",editPresetAtributeController);
     }
     
-    private void deleteAttribute() {
+    private <T extends Attribute> void deleteAttribute(T att) {
         /*Comparator<Attribute> c = new Comparator<>() {
 
             @Override
@@ -378,12 +437,6 @@ public class ContactController extends Controller implements Initializable {
                 
             }
         };*/
-    }
-    
-    private void setHBox(HBox hbox, Collection<? extends Node> c){
-        hbox.getChildren().addAll(c);
-        hbox.setSpacing(20);
-        hbox.setAlignment(Pos.CENTER);
     }
     
     private void showAttributes() {

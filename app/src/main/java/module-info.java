@@ -5,4 +5,9 @@ module com.mycompany {
 
     opens com.mycompany to javafx.fxml;
     exports com.mycompany;
+    
+    opens model.attributes.phone;
+    opens model.attributes.location;
+    opens model.attributes;
+    
 }

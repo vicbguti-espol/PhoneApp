@@ -1,5 +1,6 @@
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import model.contacts.Contact;
 import model.user.MobilePhone;
 import model.attributes.GenericAttribute;
 
-public class AddAtributeController implements Initializable {
+public class AddAtributeController extends Controller implements Initializable {
     @FXML
     private Button btnAdd;
     @FXML
@@ -35,11 +36,25 @@ public class AddAtributeController implements Initializable {
     private List<Contact> modificar;
     private List<Attribute>  Alista;
     private Attribute at;
+    
+    private Contact contact;
+    
+    public AddAtributeController(Contact selectedContact) {
+        contact = selectedContact;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnAdd.setOnAction(e -> {
+        btn_A.setOnAction(e -> {
             App.setRoot("primary");
+        });
+        
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
         
         String descripcion= decrip.getText();
@@ -73,6 +88,10 @@ public class AddAtributeController implements Initializable {
     @FXML
     public void goContactListPage(){
         App.setRoot("contactList");
+    }
+    
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
     }
     
     
