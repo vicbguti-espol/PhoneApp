@@ -42,7 +42,30 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new CustomLinkedListIterator<E>(this);
+    }
+    
+    private class CustomLinkedListIterator<E> implements Iterator<E>{
+        private Node<E> it;
+        private int i = 0;
+        
+        CustomLinkedListIterator(CustomLinkedList customLinkedList){
+            it = customLinkedList.last.next;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return i < size();
+        }
+
+        @Override
+        public E next() {
+            E content = it.content;
+            it = it.next;
+            i++;
+            return content;
+        }
+    
     }
 
     @Override
@@ -105,7 +128,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        last = null;
+        n = 0;
     }
 
     @Override

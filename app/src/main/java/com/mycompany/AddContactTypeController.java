@@ -1,7 +1,6 @@
 package com.mycompany;
 
-import collections.CustomIterator;
-import collections.CustomLinkedList;
+import com.mycompany.pagination.ImagePagination;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,18 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import model.attributes.Attribute;
@@ -33,12 +27,11 @@ import model.user.MobilePhone;
 
 public abstract class AddContactTypeController extends DataEntryController {
     protected VBox centerVBox;
-    
     protected PhoneNumber phone;
     protected Location location;
     protected List<ContactImage> images;
     protected Contact contact;
-    ImagePagination imagePagination;
+    private ImagePaginationFileChooser imagePaginationFileChooser;
     
     private void saveContact() {
         MobilePhone.addContact(contact);
@@ -60,90 +53,45 @@ public abstract class AddContactTypeController extends DataEntryController {
         }
     }
     
-    private class ImagePagination {
+    private class ImagePaginationFileChooser {
         private TextField imageSourceTextField;
         private Button imageAddButton;
         private FileChooser fileChooser;
-        private List<File> imageList;
-        private CustomIterator<File> circularIterator;
+        private ImagePagination imagePagination;
+        private VBox container;
         
-        private ImageViewChanger imageViewChanger;
-        private Button rightButton;
-        private Button leftButton;
-        VBox container;
-        
-        void buildImagePagination(){
+        void buildImagePaginationFileChooser(){
             buildSourceTextField();
             buildImageAddBtn();
-            buildFileChooser();
-            buildImageList();
-            buildImageViewChanger();
-            buildButtons();
+            buildFileChooser(); 
+            
             buildContainer();
         }
         
-        VBox getContainer(){
+        Pane getContainer(){
             return container;
         }
         
-        void buildImageList(){
-            imageList = new CustomLinkedList<>();
-        }
-        
-        void buildImageViewChanger(){
-            ImageView imageView = new ImageView();
-            imageView.setPreserveRatio(true);
-            imageView.setFitHeight(400);
-            imageView.setFitWidth(600);
-            imageViewChanger = new ImageViewChanger(imageView);
+        ImagePagination getImagePagination(){
+            return imagePagination;
         }
         
         boolean isFilled(){
-            return imageList.size() > 0;
-        }
-        
-        Iterator<File> filesIterator(){
-            return new FilesIterator(imageList);
-        }
-        
-        private class FilesIterator implements Iterator<File>{
-            Iterator<File> it;
-            
-            FilesIterator(List<File> files){
-                it = files.iterator();
-            }
-            
-            @Override
-            public boolean hasNext() {
-                return it.hasNext();
-            }
-
-            @Override
-            public File next() {
-                return it.next();
-            }
-            
+            return !imagePagination.getFiles().isEmpty();
         }
         
         private void buildContainer(){
             Label imagesLabel = new Label("Imágenes");
             HBox sourceHBox = new HBox(imageSourceTextField, 
                     imageAddButton);
-            HBox buttonsHBox = new HBox(leftButton, rightButton);
-            VBox imagePaginationVBox = new VBox(buttonsHBox,
-                    imageViewChanger.getImageView());
-            
-            
+            imagePagination = new ImagePagination();
             container = new VBox(
                     imagesLabel,
                     sourceHBox, 
-                    imagePaginationVBox);
+                    imagePagination.getContainer());
         }
         
-        private void buildButtons(){
-            leftButton = new Button("◄");
-            rightButton = new Button("►");
-        }
+
         
         private void buildSourceTextField(){
             imageSourceTextField = new TextField("Buscar imágenes");
@@ -167,98 +115,15 @@ public abstract class AddContactTypeController extends DataEntryController {
                                 "*.gif"));
         }
         
-        private class ImageViewChanger {
-            ImageView imageView;
-            
-            ImageViewChanger(ImageView imageView){
-                this.imageView = imageView;
-            }
-            
-            void changeImage(File file){
-                String url = file.toURI().toString();
-                new Thread(()->{
-                    Platform.runLater(()->{
-                        imageView.setImage(new Image(url));
-                    });
-                }).start();
-            }
-            
-            ImageView getImageView(){
-                return imageView;
-            }
-        }
-        
-        private abstract class ButtonEventHandler implements EventHandler{
-            CustomIterator<File> circularIterator;
-            ImageViewChanger imageViewChanger;
-            
-            ButtonEventHandler(CustomIterator<File> circularIterator, 
-                    ImageViewChanger imageViewChanger){
-                this.circularIterator = circularIterator;
-                this.imageViewChanger = imageViewChanger;
-            }
-            
-            void setImageViewChanger(ImageViewChanger imageViewChanger){
-                this.imageViewChanger = imageViewChanger;
-            }
-                    
-            @Override
-            public void handle(Event t) {
-                File file = getFile();
-                imageViewChanger.changeImage(file);
-            }
-            
-            abstract File getFile();
-        
-        }
-        
-        private class RightButtonEventHandler extends ButtonEventHandler{
-
-            public RightButtonEventHandler(CustomIterator<File> circularIterator,
-                    ImageViewChanger imageViewChanger) {
-                super(circularIterator, imageViewChanger);
-            }
-
-            @Override
-            File getFile() {
-                return circularIterator.next();
-            }
-        
-        }
-        
-        private class LeftButtonEventHandler extends ButtonEventHandler{
-
-            public LeftButtonEventHandler(CustomIterator<File> circularIterator,
-                    ImageViewChanger imageViewChanger) {
-                super(circularIterator, imageViewChanger);
-            }
-
-            @Override
-            File getFile() {
-                return circularIterator.previous();
-            }
-        
-        }
-        
-        void buildCircularIterator(){
-            CustomLinkedList<File> circularImageList = 
-                new CustomLinkedList<>();
-            imageList.forEach(e -> circularImageList.add(e));
-            circularIterator = circularImageList.circularIterator();
-        }
         
         private void openImagesDialog(){
             fileChooser.setTitle("Abrir imagenes");
-            imageList = fileChooser.showOpenMultipleDialog(App.stage);
-            if(imageList != null) {
-                buildCircularIterator();
-                imageViewChanger.changeImage(circularIterator.next());
-                rightButton.setOnAction(new RightButtonEventHandler(
-                        circularIterator, imageViewChanger));
-                leftButton.setOnAction(new LeftButtonEventHandler(
-                        circularIterator, imageViewChanger));
-                imageSourceTextField.setText(
-                        imageList.get(0).getParent());
+            List<File> files = imagePagination.getFiles();
+            files.clear();
+            fileChooser.showOpenMultipleDialog(App.stage).
+                    forEach(e -> files.add(e));
+            if(files != null) {
+                imagePagination.initPagination();
             }
         }
         
@@ -288,11 +153,11 @@ public abstract class AddContactTypeController extends DataEntryController {
     private void loadImages(){
         // handling image attribute
         images = new ArrayList<>();
-        Iterator<File> filesIterator = imagePagination.filesIterator();
-        while (filesIterator.hasNext()){
+        for (File file: imagePaginationFileChooser.
+                getImagePagination().getFiles()){
             try{
                 //get Url and open stream
-                String urlString = filesIterator.next().toURI().toString();
+                String urlString = file.toURI().toString();
                 String[] splittedPath = urlString.split("/");
                 String imageSRC = splittedPath[splittedPath.length - 1];
                 InputStream inputStream = new URL(urlString).openStream();
@@ -318,14 +183,14 @@ public abstract class AddContactTypeController extends DataEntryController {
     
     void initialize(){
         buildCenterVBox();
-        imagePagination = new ImagePagination();
-        imagePagination.buildImagePagination();
-        centerVBox.getChildren().add(imagePagination.getContainer());
+        imagePaginationFileChooser = new ImagePaginationFileChooser();
+        imagePaginationFileChooser.buildImagePaginationFileChooser();
+        centerVBox.getChildren().add(imagePaginationFileChooser.getContainer());
         typeInitialization();
     }
     
     boolean isPrepared(){
-        return imagePagination.isFilled() && isTypePrepared();
+        return imagePaginationFileChooser.isFilled() && isTypePrepared();
     }
     
     abstract void typeInitialization();
