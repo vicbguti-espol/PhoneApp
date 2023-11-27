@@ -130,8 +130,8 @@ public abstract class AddContactTypeController extends DataEntryController {
             HBox sourceHBox = new HBox(imageSourceTextField, 
                     imageAddButton);
             HBox buttonsHBox = new HBox(leftButton, rightButton);
-            VBox imagePaginationVBox = new VBox(
-                    imageViewChanger.getImageView(), buttonsHBox);
+            VBox imagePaginationVBox = new VBox(buttonsHBox,
+                    imageViewChanger.getImageView());
             
             
             container = new VBox(
