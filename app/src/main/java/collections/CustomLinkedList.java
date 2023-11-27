@@ -21,8 +21,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
         public Node(E e) {
             content = e;
-            next = this;
-            previous = this;
+            next = previous =  this;
         }
     }
 
@@ -69,14 +68,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             node.previous = last;
             node.next = last.next;
             
-            System.out.println("Adding");
-            
-            System.out.println("previous: " + node.previous.content  + " node: " + node.content  + " next: "+ node.next.content);
-            
+            last.next.previous =  node;
             last.next = node;
-            if (this.size() == 1) last.previous = node;
-            
-            System.out.println("previous: " + last.previous.content +  " node.previous: " + last.content + " next: " + last.next.content);
             last = node; 
         }
         n++;
@@ -186,7 +179,10 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         private boolean previousStatus;
         
         CircularIterator(CustomLinkedList<E> list){
-            if (list.last != null) it = (Node<E>) list.last.next;
+            if (list.last != null) {
+                it = (Node<E>) list.last.next; 
+                nextStatus = true;
+            }   
             else it = null;
         }
         
@@ -197,15 +193,10 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         
         @Override
         public E next() {
-            if (previousStatus){
-                it = it.next.next;
-                previousStatus = false;
-            } 
-            
             if (!nextStatus){
-                nextStatus = true;
+                nextStatus = true; previousStatus=false;
+                it = it.next.next;
             }
-            
             E content = it.content;
             it = it.next;
             System.out.println("next: " + content);
@@ -214,22 +205,14 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         
         @Override
         public E previous() {
-            if (nextStatus) {
-                it = it.previous.previous;
-                nextStatus = false;
-            }
-            
             if (!previousStatus){
-                previousStatus = true;
+                previousStatus = true; nextStatus=false;
+                it = it.previous.previous;
             }
-            
             E content = it.content;
             it = it.previous;
             System.out.println("previous: " + content);
             return content;
         }
     }
-    
-    
-    
 }
