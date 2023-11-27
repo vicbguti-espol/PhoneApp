@@ -202,11 +202,8 @@ public class ContactController extends Controller implements Initializable {
         
         for (int i = 0; i <= c; i++){
             Field[] fields = currentClass.getDeclaredFields();
-
-            System.out.println(fields.length);
             for (Field field: fields) {
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
-                System.out.println(field.getName());
                 attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
                 tableView.getColumns().add(attributeNameColumn);
             }
@@ -290,19 +287,7 @@ public class ContactController extends Controller implements Initializable {
 
     private void showReminder() {
         List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericReminder());
-        createMiniHeader("Recordatorios");
-        /*VBox vbReminder = new VBox();
-        for(Attribute reminder: reminders){
-            HBox content = new HBox();
-            GenericReminder remind = (GenericReminder) reminder;
-            Label name = new Label(remind.getDescription());
-            Label date = new Label(""+remind.getDate());
-            setHBox(content, new ArrayList<>(Arrays.asList(name,date)));
-            //createButtons(content);
-            vbReminder.getChildren().addAll(content);
-        }
-        vbContent.getChildren().add(vbReminder);*/
-        
+        createMiniHeader("Recordatorios");        
         if (!reminders.isEmpty()) {
             TableView<GenericReminder> tableView = createTableView(new GenericReminder(),1);
             ObservableList<GenericReminder> data = FXCollections.observableArrayList();
@@ -313,24 +298,6 @@ public class ContactController extends Controller implements Initializable {
             vbContent.getChildren().add(tableView);
         }
     }
-    
-    /*private void showBirthday() {
-        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Birthday());
-        VBox vbBirthday = new VBox();
-        for(Attribute reminder: reminders){
-            HBox content = new HBox();
-            Birthday remind = (Birthday) reminder;
-            Label name = new Label("Birthday");
-            Label date = new Label(""+remind.getDate());
-            Button btnEdit = new Button("Editar");
-            Button btnDelete = new Button("Eliminar");
-            content.getChildren().addAll(name, date, btnEdit, btnDelete);
-            content.setSpacing(20);
-            content.setAlignment(Pos.CENTER);
-            vbBirthday.getChildren().addAll(content);
-        }
-        vbContent.getChildren().add(vbBirthday);
-    }*/
     
     private void showBirthday() {
         List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Birthday());
@@ -396,11 +363,19 @@ public class ContactController extends Controller implements Initializable {
         Button btnAdd = new Button("Agregar");
         if(title.equals("Recordatorios")){
             btnAdd.setOnAction(r -> {
-                App.setRoot("addReminder");
+                try {
+                    goAddReminderPage(contact);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
         } else {
             btnAdd.setOnAction(r -> {
-                App.setRoot("addPresetAtribute");
+                try {
+                    goAddPresetAttributePage(contact);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
         }
         header.getChildren().addAll(title1,btnAdd);
@@ -411,8 +386,7 @@ public class ContactController extends Controller implements Initializable {
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
             try {
-                goEditPresetAttributePage(contact);
-                //goEditPresetAttributePage(contact, att);
+                goEditPresetAttributePage(contact, att);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -424,9 +398,20 @@ public class ContactController extends Controller implements Initializable {
         hbox.getChildren().addAll(btnEdit, btnDelete);
     }
     
-    private void goEditPresetAttributePage(Contact selectedContact) throws IOException {
-        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact);
+    private void goEditPresetAttributePage(Contact selectedContact, Attribute att) throws IOException {
+        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
         App.setRoot("editPresetAtribute",editPresetAtributeController);
+    }
+    
+    
+    private void goAddPresetAttributePage(Contact selectedContact) throws IOException {
+        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact);
+        App.setRoot("addPresetAtribute",addPresetAtributeController);
+    }
+    
+    private void goAddReminderPage(Contact selectedContact) throws IOException {
+        Controller addReminderController = new AddReminderController(selectedContact);
+        App.setRoot("addReminder",addReminderController);
     }
     
     private <T extends Attribute> void deleteAttribute(T att) {

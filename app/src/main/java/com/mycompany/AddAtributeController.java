@@ -12,9 +12,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.contacts.Contact;
 
 
-public class AddAtributeController implements Initializable {
+public class AddAtributeController extends Controller implements Initializable {
 
     @FXML
     private Button btnReturn;
@@ -28,6 +29,12 @@ public class AddAtributeController implements Initializable {
     private TextField box_Descripcion;
     @FXML
     private TextField box_dato;
+    
+    private Contact contact;
+    
+    public AddAtributeController(Contact contact) {
+        this.contact = contact;
+    }
 
     @FXML
     private void goContactListPage(ActionEvent event) {

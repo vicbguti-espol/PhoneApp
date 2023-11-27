@@ -9,6 +9,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import model.attributes.reminders.GenericReminder;
 import model.attributes.reminders.Reminder;
+import model.contacts.Contact;
 
 public class AddReminderController 
         extends DataEntryController 
@@ -23,6 +24,14 @@ public class AddReminderController
     private DatePicker reminderDatePicker;
     
     private Reminder genericReminder;
+    
+    private Contact contact;
+
+    public AddReminderController(Contact contact) {
+        this.contact = contact;
+    }
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

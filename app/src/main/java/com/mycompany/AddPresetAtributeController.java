@@ -36,7 +36,7 @@ import model.user.MobilePhone;
  *
  * @author arauj
  */
-public class AddPresetAtributeController implements Initializable {
+public class AddPresetAtributeController extends Controller implements Initializable {
 
     @FXML
     private Button btnAdd;
@@ -50,6 +50,15 @@ public class AddPresetAtributeController implements Initializable {
     private List<Contact> modificar;
     private List<Attribute>  Alista;
     private String editar="";
+    
+    private Contact contact;
+
+    public AddPresetAtributeController(Contact contact) {
+        this.contact = contact;
+    }
+    
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -86,10 +95,10 @@ public class AddPresetAtributeController implements Initializable {
         for(Attribute atributos:Alista){
         if(editar.equals("Numero telefonico")){
             PhoneNumber ph = (PhoneNumber) atributos;
-            ph.agregarMasN(new CompanyPhone(dato));          
+            //ph.agregarMasN(new CompanyPhone(dato));          
         }else if(editar.equals("Direccion")){
             Location loc = (Location) atributos;
-            loc.agregarMasL(new CompanyLocation(dato,dato));
+            //loc.agregarMasL(new CompanyLocation(dato,dato));
         }else if(editar.equals("Redes Sociales")){
             Alista.add(new SocialMedia(dato, SocialMediaType.FACEBOOK ));           
         }else if(editar.equals("Correo Electronico")){

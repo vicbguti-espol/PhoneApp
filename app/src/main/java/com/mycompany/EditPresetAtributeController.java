@@ -62,9 +62,11 @@ public class EditPresetAtributeController extends Controller implements Initiali
     
     //contacto pasado
     private Contact contact;
+    private Attribute attribute;
     
-    public EditPresetAtributeController(Contact selectedContact) {
+    public EditPresetAtributeController(Contact selectedContact, Attribute att) {
         contact = selectedContact;
+        attribute =  att;
     }
 
     
