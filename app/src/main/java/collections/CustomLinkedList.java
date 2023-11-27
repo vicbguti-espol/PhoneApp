@@ -59,10 +59,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public boolean add(E e) {
         Node<E> node = new Node(e);
         if ( isEmpty() ){
-            System.out.println("Adding");
             last = node;
-            System.out.println("last.previous: " + last.previous.content + 
-                    "last: " + last.content + "last.next" + last.next.content);
         }
         else {
             node.previous = last;
@@ -199,7 +196,6 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             }
             E content = it.content;
             it = it.next;
-            System.out.println("next: " + content);
             return content;
         }
         
@@ -211,7 +207,6 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             }
             E content = it.content;
             it = it.previous;
-            System.out.println("previous: " + content);
             return content;
         }
     }
