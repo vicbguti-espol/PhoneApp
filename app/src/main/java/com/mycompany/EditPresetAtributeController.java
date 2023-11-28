@@ -68,6 +68,8 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private Button btnReturn;
     @FXML
+    private Button btnEdit;
+    @FXML
     private BorderPane root;
     
     //contacto pasado
@@ -104,7 +106,6 @@ public class EditPresetAtributeController extends Controller implements Initiali
             currentClass = currentClass.getSuperclass();
         }
         VBox content = new VBox();
-        //Si implementa Typable
         for (Field f: allFields){
             HBox hbox = new HBox();
             Label label = new Label(f.getName());

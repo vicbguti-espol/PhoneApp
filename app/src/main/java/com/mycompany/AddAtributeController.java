@@ -31,6 +31,8 @@ public class AddAtributeController extends Controller implements Initializable {
     private Contact contact;
     @FXML
     private Button btn_Return;
+    @FXML
+    private Button btnAdd;
 
     AddAtributeController(Contact contact) {
         this.contact = contact;

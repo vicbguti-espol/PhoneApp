@@ -17,7 +17,7 @@
       </HBox>
    </top>
    <bottom>
-      <Button mnemonicParsing="false" onMouseClicked="#Agregar" text="Agregar" BorderPane.alignment="CENTER" />
+      <Button fx:id="btnAdd" mnemonicParsing="false" onMouseClicked="#Agregar" text="Agregar" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">

@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import model.attributes.AssociatedContact;
 import model.attributes.Attribute;
 import model.attributes.Email;
@@ -54,6 +55,10 @@ public class AddPresetAtributeController extends Controller implements Initializ
     private String className;
     @FXML
     private Button btn_ReturnContact;
+    @FXML
+    private Button btn_Add;
+    @FXML
+    private BorderPane root;
 
     AddPresetAtributeController(Contact selectedContact, String className) {
         contact = selectedContact;
