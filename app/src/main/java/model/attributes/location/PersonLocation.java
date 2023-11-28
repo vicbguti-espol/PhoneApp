@@ -1,6 +1,5 @@
 package model.attributes.location;
 
-import model.attributes.location.Location;
 import model.enums.SourceType;
 
 public class PersonLocation extends Location {
@@ -16,4 +15,9 @@ public class PersonLocation extends Location {
     public SourceType getLocationType() {
         return locationType;
     }
+
+    public void setLocationType(SourceType locationType) {
+        this.locationType = locationType;
+    }
+    
 }
