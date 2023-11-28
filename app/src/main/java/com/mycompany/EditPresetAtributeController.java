@@ -17,6 +17,8 @@ import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 import java.util.Comparator;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import model.attributes.AssociatedContact;
 import model.attributes.ContactImage;
@@ -85,6 +87,14 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private void btn_confirmar(MouseEvent event) {
         String dato= box_dato.getText();
+        if(dato==""||dato.equals("Dato")){
+            Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("");
+        alert.setHeaderText(null);
+        alert.setContentText("Llenar el campo");
+
+        alert.showAndWait();
+        }else{
         modificar=new ArrayList<>();
         modificar.add(contact);  
         Alista=modificar.get(0).attributes; 
@@ -106,7 +116,7 @@ public class EditPresetAtributeController extends Controller implements Initiali
         
     mensaje.setText("Cambio realizado");
         }
-    
+    }
 
     @FXML
     private void seleccion(ActionEvent event) {

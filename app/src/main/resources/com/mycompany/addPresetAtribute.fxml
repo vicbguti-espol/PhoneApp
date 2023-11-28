@@ -12,7 +12,7 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" text="Volver" />
+            <Button fx:id="btn_ReturnContact" mnemonicParsing="false" text="Volver" />
             <Label fx:id="mensaje" text="Agegar (Nombre Atributo)" />
          </children>
       </HBox>

@@ -4,6 +4,7 @@
  */
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,7 @@ import model.user.MobilePhone;
  */
 public class AddPresetAtributeController implements Initializable {
 
-    @FXML
-    private Button btnAdd;
+    
     @FXML
     private Label mensaje;
     @FXML
@@ -50,13 +50,20 @@ public class AddPresetAtributeController implements Initializable {
     private List<Contact> modificar;
     private List<Attribute>  Alista;
     private String editar="";
+    private Contact contact;
+    @FXML
+    private Button btn_ReturnContact;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnAdd.setOnAction(e -> {
-            App.setRoot("primary");
+        btn_ReturnContact.setOnAction(e -> {
+             try {
+                 returnContactPage();
+             } catch (IOException ex) {
+                 ex.printStackTrace();
+             }
         });
 
          
@@ -112,5 +119,8 @@ public class AddPresetAtributeController implements Initializable {
         ComboBox<String> cb = (ComboBox) event.getSource(); 
         String tipo = cb.getValue(); ///lo que se quiere agregar       
         editar=tipo;
+    }
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
     }
 }

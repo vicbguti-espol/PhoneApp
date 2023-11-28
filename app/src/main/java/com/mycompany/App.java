@@ -23,7 +23,7 @@ public class App extends Application {
         //scene = new Scene(loadFXML("editPresetAtribute"));
         //addPresetAtribute
         //addAtribute
-        scene = new Scene(loadFXML("contactList"), 880, 870);
+        scene = new Scene(loadFXML("addPresetAtribute"), 880, 870);
         // scene = new Scene(loadFXML("primary"));
         this.stage = stage;
 
