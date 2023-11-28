@@ -13,12 +13,12 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
-            <Label fx:id="mensaje" onMouseClicked="#g" text="Editar (Nombre Atributo)" />
+            <Label fx:id="mensaje" text="Editar (Nombre Atributo)" />
          </children>
       </HBox>
    </top>
    <bottom>
-      <Button fx:id="btnEdit" mnemonicParsing="false" onMouseClicked="#btn_confirmar" text="Confirmar" BorderPane.alignment="CENTER" />
+      <Button fx:id="btnEdit" mnemonicParsing="false"  text="Confirmar" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -26,7 +26,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label text="Tipo" />
-                  <ComboBox fx:id="tiposA" onAction="#seleccion" prefWidth="150.0" promptText="Tipo" />
+                  <ComboBox fx:id="tiposA" prefWidth="150.0" promptText="Tipo" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">

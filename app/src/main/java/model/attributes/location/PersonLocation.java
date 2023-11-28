@@ -16,4 +16,9 @@ public class PersonLocation extends Location {
     public SourceType getLocationType() {
         return locationType;
     }
+
+    public void setLocationType(SourceType locationType) {
+        this.locationType = locationType;
+    }
+    
 }
