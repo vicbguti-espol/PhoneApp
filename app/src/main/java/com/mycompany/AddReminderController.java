@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import model.attributes.reminders.GenericReminder;
 import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
+import model.user.MobilePhone;
 
 public class AddReminderController 
         extends DataEntryController 
@@ -51,8 +52,14 @@ public class AddReminderController
                 genericReminder = new GenericReminder(
                         reminderDatePicker.getValue(), 
                         descriptionTextField.getText());
+                contact.getAttributes().add(genericReminder);
+                MobilePhone.updateContactList();
                 super.sucessDialog();
-                super.returnHomePage();
+                try {
+                    super.returnContactPage(contact);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             } else{
                 super.noDataAlert();
             }

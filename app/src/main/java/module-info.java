@@ -8,6 +8,9 @@ module com.mycompany {
     
     opens model.attributes.phone;
     opens model.attributes.location;
+    opens model.attributes.reminders;
+    opens model.attributes.names;
+    opens model.attributes.company;
     opens model.attributes;
     
 }

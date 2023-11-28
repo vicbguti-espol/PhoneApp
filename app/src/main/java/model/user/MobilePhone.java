@@ -29,6 +29,11 @@ public class MobilePhone {
         serialize();
     }
     
+    public static void updateContactList(){
+        initContactList();
+        serialize();
+    }
+    
     private static void initContactList() {
         
         File f = new File(contactListPath);
