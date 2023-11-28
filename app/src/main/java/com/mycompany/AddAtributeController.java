@@ -1,5 +1,6 @@
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.attributes.Attribute;
+import model.attributes.GenericAttribute;
+import model.contacts.Contact;
 
 
-public class AddAtributeController implements Initializable {
+public class AddAtributeController extends Controller implements Initializable {
 
     @FXML
     private Button btnReturn;
@@ -28,6 +32,12 @@ public class AddAtributeController implements Initializable {
     private TextField box_Descripcion;
     @FXML
     private TextField box_dato;
+    
+    private Contact contact;
+    
+    public AddAtributeController(Contact contact) {
+        this.contact = contact;
+    }
 
     @FXML
     private void goContactListPage(ActionEvent event) {
@@ -36,6 +46,8 @@ public class AddAtributeController implements Initializable {
 
     @FXML
     private void Guardar(MouseEvent event) {
+        Attribute a = new GenericAttribute();
+        contact.getAttributes().add(a);
     }
 
     @FXML
@@ -44,9 +56,18 @@ public class AddAtributeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
     
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
+    }
     
     
 }

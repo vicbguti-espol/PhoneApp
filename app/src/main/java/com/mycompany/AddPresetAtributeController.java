@@ -4,6 +4,7 @@
  */
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,12 @@ import model.user.MobilePhone;
  *
  * @author arauj
  */
-public class AddPresetAtributeController implements Initializable {
+public class AddPresetAtributeController extends Controller implements Initializable {
 
     @FXML
     private Button btnAdd;
+    @FXML
+    private Button btnReturn;
     @FXML
     private Label mensaje;
     @FXML
@@ -50,11 +53,30 @@ public class AddPresetAtributeController implements Initializable {
     private List<Contact> modificar;
     private List<Attribute>  Alista;
     private String editar="";
+    
+    private Contact contact;
+    private String className;
+
+    public AddPresetAtributeController(Contact contact, String className) {
+        this.contact = contact;
+        this.className = className;
+    }
+    
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        
         btnAdd.setOnAction(e -> {
             App.setRoot("primary");
         });
@@ -74,10 +96,10 @@ public class AddPresetAtributeController implements Initializable {
        String dato= caja.getText();//informarcion agregar
        
                 
-         Tcontactos=MobilePhone.getContactList();
+//         Tcontactos=MobilePhone.getContactList();
          modificar=new ArrayList<>();
-         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
-         modificar.add(usu);
+//         Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
+         modificar.add(contact);
          Alista=modificar.get(0).attributes; 
           
          
@@ -86,10 +108,10 @@ public class AddPresetAtributeController implements Initializable {
         for(Attribute atributos:Alista){
         if(editar.equals("Numero telefonico")){
             PhoneNumber ph = (PhoneNumber) atributos;
-            ph.agregarMasN(new CompanyPhone(dato));          
+            //ph.agregarMasN(new CompanyPhone(dato));          
         }else if(editar.equals("Direccion")){
             Location loc = (Location) atributos;
-            loc.agregarMasL(new CompanyLocation(dato,dato));
+            //loc.agregarMasL(new CompanyLocation(dato,dato));
         }else if(editar.equals("Redes Sociales")){
             Alista.add(new SocialMedia(dato, SocialMediaType.FACEBOOK ));           
         }else if(editar.equals("Correo Electronico")){
@@ -102,7 +124,22 @@ public class AddPresetAtributeController implements Initializable {
         }
         //MobilePhone.addContact(modificar.get(0));
         mensaje.setText("Cambio realizado");
+        
+        Attribute p1 = null;
+        
+        if(className.equals("Email")){
+            p1 = new Email();
         }
+        
+        if(className.equals("Email")){
+            p1 = new Email();
+        }
+        
+        contact.getAttributes().add(p1);
+        
+        }
+    
+    
        
        
     
@@ -112,5 +149,9 @@ public class AddPresetAtributeController implements Initializable {
         ComboBox<String> cb = (ComboBox) event.getSource(); 
         String tipo = cb.getValue(); ///lo que se quiere agregar       
         editar=tipo;
+    }
+    
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
     }
 }
