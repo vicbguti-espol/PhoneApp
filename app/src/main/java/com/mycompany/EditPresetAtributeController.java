@@ -1,6 +1,7 @@
 package com.mycompany;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,9 @@ import java.util.Comparator;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import model.attributes.AssociatedContact;
 import model.attributes.ContactImage;
 import model.attributes.Email;
@@ -32,6 +36,8 @@ import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.comparator.ComparatorUtil;
+import model.enums.SocialMediaType;
+import model.enums.SourceType;
 
 public class EditPresetAtributeController extends Controller implements Initializable {
 
@@ -60,27 +66,65 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private Label mensaje;
     @FXML
-    private Button btn_volver;
+    private Button btnReturn;
+    @FXML
+    private BorderPane root;
     
     //contacto pasado
     private Contact contact;
+    private Attribute attribute;
     
-    public EditPresetAtributeController(Contact selectedContact) {
+    EditPresetAtributeController(Contact selectedContact, Attribute att) {
         contact = selectedContact;
+        attribute = att;
     }
 
     
     public void initialize(URL url, ResourceBundle rb) {
-         btn_volver.setOnAction(e -> {
+        mensaje.setText(attribute.getAttributeName()); 
+        btnReturn.setOnAction(e -> {
              try {
                  returnContactPage();
              } catch (IOException ex) {
                  ex.printStackTrace();
              }
         });
-       String d1= new String("Telefono");
+       /*String d1= new String("Telefono");
        String d2= new String("Direccion");
-       tiposA.getItems().addAll(d1,d2);
+       tiposA.getItems().addAll(d1,d2);*/
+       
+       ArrayList<Field> allFields = new ArrayList<>();
+       Class<?> currentClass = attribute.getClass();
+       int c=1;
+        for (int i = 0; i <= c; i++){
+            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
+            for (Field f: fields){
+                allFields.add(f);
+            }
+            currentClass = currentClass.getSuperclass();
+        }
+        VBox content = new VBox();
+        //Si implementa Typable
+        for (Field f: allFields){
+            HBox hbox = new HBox();
+            Label label = new Label(f.getName());
+            hbox.getChildren().add(label);
+            if (f.getType().getSimpleName().equals("SourceType")) {
+                ComboBox<String> comboBox = new ComboBox<>();
+                comboBox.getItems().addAll(SourceType.PERSONAL.name(),SourceType.WORK.name());
+                hbox.getChildren().add(comboBox);
+            } else if (f.getType().getSimpleName().equals("SocialMediaType")){
+                ComboBox<String> comboBox = new ComboBox();
+                comboBox.getItems().addAll(SocialMediaType.INSTAGRAM.name(), SocialMediaType.X.name(),SocialMediaType.FACEBOOK.name());
+                hbox.getChildren().add(comboBox);
+            } else {
+                TextField textField = new TextField();
+                hbox.getChildren().add(textField);
+            }
+            content.getChildren().add(hbox);
+        }
+
+        root.setCenter(content);
     }
     
     
@@ -98,10 +142,12 @@ public class EditPresetAtributeController extends Controller implements Initiali
         modificar=new ArrayList<>();
         modificar.add(contact);  
         Alista=modificar.get(0).attributes; 
+        
+        editar = attribute.getAttributeName();
 
         //MobilePhone.removeContact(contact);
         for(Attribute atributos:Alista){
-            if(editar.equals("Direccion")){
+            if(editar.equals("Location")){
              PersonLocation pl =(PersonLocation)atributos;
             
              pl.setDetails(dato);

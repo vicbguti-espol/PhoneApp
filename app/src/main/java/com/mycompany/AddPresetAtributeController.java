@@ -37,7 +37,7 @@ import model.user.MobilePhone;
  *
  * @author arauj
  */
-public class AddPresetAtributeController implements Initializable {
+public class AddPresetAtributeController extends Controller implements Initializable {
 
     
     @FXML
@@ -51,8 +51,14 @@ public class AddPresetAtributeController implements Initializable {
     private List<Attribute>  Alista;
     private String editar="";
     private Contact contact;
+    private String className;
     @FXML
     private Button btn_ReturnContact;
+
+    AddPresetAtributeController(Contact selectedContact, String className) {
+        contact = selectedContact;
+        this.className = className;
+    }
     /**
      * Initializes the controller class.
      */
@@ -81,7 +87,7 @@ public class AddPresetAtributeController implements Initializable {
        String dato= caja.getText();//informarcion agregar
        
                 
-         Tcontactos=MobilePhone.getContactList();
+         /*Tcontactos=MobilePhone.getContactList();
          modificar=new ArrayList<>();
          Contact usu=Tcontactos.get(0);//el usuario seleccionado de la lista C1
          modificar.add(usu);
@@ -90,13 +96,13 @@ public class AddPresetAtributeController implements Initializable {
          
          //MobilePhone.removeContact(usu);
          
-        for(Attribute atributos:Alista){
+        /*for(Attribute atributos:Alista){
         if(editar.equals("Numero telefonico")){
             PhoneNumber ph = (PhoneNumber) atributos;
-            ph.agregarMasN(new CompanyPhone(dato));          
+            //ph.agregarMasN(new CompanyPhone(dato));          
         }else if(editar.equals("Direccion")){
             Location loc = (Location) atributos;
-            loc.agregarMasL(new CompanyLocation(dato,dato));
+            //loc.agregarMasL(new CompanyLocation(dato,dato));
         }else if(editar.equals("Redes Sociales")){
             Alista.add(new SocialMedia(dato, SocialMediaType.FACEBOOK ));           
         }else if(editar.equals("Correo Electronico")){
@@ -106,7 +112,21 @@ public class AddPresetAtributeController implements Initializable {
         }else if(editar.equals("Recodatorio")){
             Alista.add(new GenericReminder(dato));
         }
+        }*/
+        
+        Attribute p1 = null;
+
+        if(className.equals("Email")){
+            p1 = new Email();
         }
+
+        if(className.equals("Email")){
+            p1 = new Email();
+        }
+
+        contact.getAttributes().add(p1);
+        
+        
         //MobilePhone.addContact(modificar.get(0));
         mensaje.setText("Cambio realizado");
         }
@@ -120,6 +140,7 @@ public class AddPresetAtributeController implements Initializable {
         String tipo = cb.getValue(); ///lo que se quiere agregar       
         editar=tipo;
     }
+    
     private void returnContactPage() throws IOException{
         App.setRoot("contact", new ContactController(contact));
     }

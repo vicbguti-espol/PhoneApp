@@ -19,7 +19,7 @@ import model.attributes.GenericAttribute;
 import model.contacts.Contact;
 
 
-public class AddAtributeController implements Initializable {
+public class AddAtributeController extends Controller implements Initializable {
 
     
     @FXML
@@ -31,6 +31,10 @@ public class AddAtributeController implements Initializable {
     private Contact contact;
     @FXML
     private Button btn_Return;
+
+    AddAtributeController(Contact contact) {
+        this.contact = contact;
+    }
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -117,8 +117,8 @@ public class ContactController extends Controller implements Initializable {
     }
     
     private void goAddAttributePage(Contact selectedContact) throws IOException {
-        // Controller addAtributeController = new AddAtributeController(contact);
-        // App.setRoot("addAtribute",addAtributeController);
+        Controller addAtributeController = new AddAtributeController(contact);
+        App.setRoot("addAtribute",addAtributeController);
     }
         
     private void returnContactListPage() throws IOException{
