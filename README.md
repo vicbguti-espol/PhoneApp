@@ -1,6 +1,9 @@
 # PhoneApp
 https://github.com/vicbguti-espol/PhoneApp/assets/133924738/b9c73bb5-ed94-4413-8a3b-8c3316ffd1df
 
+**TODO**
+- Validar el número de teléfono ingresado
+
 # White Box Utils
 **Metodología de trabajo**
 

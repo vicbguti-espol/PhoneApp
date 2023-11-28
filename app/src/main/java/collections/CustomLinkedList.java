@@ -1,11 +1,13 @@
 package collections;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
     Node<E> last;
     int n;
     
@@ -14,7 +16,11 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         n = 0;
     }
     
-    private class Node<E> {
+    public CustomLinkedList(List<E> list){
+        addAll(list);
+    }
+    
+    private class Node<E> implements Serializable {
         E content;
         Node<E> next;
         Node<E> previous;
@@ -108,7 +114,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> clctn) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        clctn.forEach(e -> this.add(e));
+        return true;
     }
 
     @Override
@@ -130,6 +137,10 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public void clear() {
         last = null;
         n = 0;
+    }
+    
+    public E getFirst(){
+        return last.next.content;
     }
 
     @Override
@@ -166,10 +177,85 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public ListIterator<E> listIterator() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public List<E> findAll(Comparator<E> cmp, E e2) {
+        List<E> found = new CustomLinkedList<>();
+        for ( E e1: this ) {
+            if ( cmp.compare(e1, e2) == 0 ) {
+                found.add(e1);
+            }
+        }
+        return found;
+    }
 
     @Override
     public ListIterator<E> listIterator(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new CustomListIterator<>(this, i);
+    }
+    
+    private class CustomListIterator<E> implements ListIterator<E>{
+        private Node<E> it;
+        private int j = 0;
+        
+        CustomListIterator(CustomLinkedList customLinkedList, int i){
+            it = customLinkedList.last.next;
+            while (j < i){
+                it = it.next;
+                j++;
+            }
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return j < size();
+        }
+
+        @Override
+        public E next() {
+            E content = it.content;
+            it = it.next;
+            j++;
+            return content;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return j > 0;
+        }
+
+        @Override
+        public E previous() {
+            E content = it.content;
+            it = it.previous;
+            j--;
+            return content;
+        }
+
+        @Override
+        public int nextIndex() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public int previousIndex() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void set(E e) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void add(E e) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+        
     }
 
     @Override
