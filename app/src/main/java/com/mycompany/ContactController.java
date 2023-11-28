@@ -173,13 +173,15 @@ public class ContactController extends Controller implements Initializable {
     }
 
     private void showNumbers() {
+        createMiniHeader("Número teléfonico");
+        
         PhoneNumber phoneNumber = null;
         if (contactType == 'C'){
             phoneNumber = new CompanyPhone();
         } else if (contactType == 'P'){
             phoneNumber = new PersonPhone();
         }
-        createMiniHeader("Número teléfonico",phoneNumber.getAttributeName());
+        
         List<Attribute> phoneNumbers = contact.findAttributes(ComparatorUtil.cmpByAttribute, phoneNumber);
         if (!phoneNumbers.isEmpty()) {
             TableView<PhoneNumber> tableView = createTableView(phoneNumber,1);
@@ -199,9 +201,12 @@ public class ContactController extends Controller implements Initializable {
         Class<?> currentClass = attributeInstance.getClass();
         
         for (int i = 0; i <= c; i++){
-            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
-            for (Field field: fields) { //recorres los atributos
+            Field[] fields = currentClass.getDeclaredFields();
+
+            System.out.println(fields.length);
+            for (Field field: fields) {
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
+                System.out.println(field.getName());
                 attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
                 tableView.getColumns().add(attributeNameColumn);
             }
@@ -235,13 +240,13 @@ public class ContactController extends Controller implements Initializable {
     }
 
     private void showLocations() {
+        createMiniHeader("Dirección");
         Location location = null;
         if (contactType == 'C'){
             location = new CompanyLocation();
         } else if (contactType == 'P'){
             location = new PersonLocation();
         }
-        createMiniHeader("Dirección",location.getAttributeName());
         List<Attribute> locations = contact.findAttributes(ComparatorUtil.cmpByAttribute, location);
         
         if (!locations.isEmpty()) {
@@ -284,11 +289,22 @@ public class ContactController extends Controller implements Initializable {
     }
 
     private void showReminder() {
-        GenericReminder genericReminder = new GenericReminder();
-        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, genericReminder);
-        createMiniHeader("Recordatorios", genericReminder.getAttributeName());        
+        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericReminder());
+        createMiniHeader("Recordatorios");
+        /*VBox vbReminder = new VBox();
+        for(Attribute reminder: reminders){
+            HBox content = new HBox();
+            GenericReminder remind = (GenericReminder) reminder;
+            Label name = new Label(remind.getDescription());
+            Label date = new Label(""+remind.getDate());
+            setHBox(content, new ArrayList<>(Arrays.asList(name,date)));
+            //createButtons(content);
+            vbReminder.getChildren().addAll(content);
+        }
+        vbContent.getChildren().add(vbReminder);*/
+        
         if (!reminders.isEmpty()) {
-            TableView<GenericReminder> tableView = createTableView(genericReminder,1);
+            TableView<GenericReminder> tableView = createTableView(new GenericReminder(),1);
             ObservableList<GenericReminder> data = FXCollections.observableArrayList();
             for (Attribute r: reminders) {
                 data.add((GenericReminder) r);
@@ -298,6 +314,24 @@ public class ContactController extends Controller implements Initializable {
         }
     }
     
+    /*private void showBirthday() {
+        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Birthday());
+        VBox vbBirthday = new VBox();
+        for(Attribute reminder: reminders){
+            HBox content = new HBox();
+            Birthday remind = (Birthday) reminder;
+            Label name = new Label("Birthday");
+            Label date = new Label(""+remind.getDate());
+            Button btnEdit = new Button("Editar");
+            Button btnDelete = new Button("Eliminar");
+            content.getChildren().addAll(name, date, btnEdit, btnDelete);
+            content.setSpacing(20);
+            content.setAlignment(Pos.CENTER);
+            vbBirthday.getChildren().addAll(content);
+        }
+        vbContent.getChildren().add(vbBirthday);
+    }*/
+    
     private void showBirthday() {
         List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Birthday());
         Birthday remind = (Birthday) reminders.get(0);
@@ -306,12 +340,11 @@ public class ContactController extends Controller implements Initializable {
     }
     
     private void showSocialMedia() {
-        SocialMedia social = new SocialMedia();
-        List<Attribute> socialMedia = contact.findAttributes(ComparatorUtil.cmpByAttribute, social);
-        createMiniHeader("Redes sociales",social.getAttributeName());
+        List<Attribute> socialMedia = contact.findAttributes(ComparatorUtil.cmpByAttribute, new SocialMedia());
+        createMiniHeader("Redes sociales");
         
         if (!socialMedia.isEmpty()) {
-            TableView<SocialMedia> tableView = createTableView(social,0);
+            TableView<SocialMedia> tableView = createTableView(new SocialMedia(),0);
             ObservableList<SocialMedia> data = FXCollections.observableArrayList();
             for (Attribute sm: socialMedia) {
                 data.add((SocialMedia) sm);
@@ -324,12 +357,11 @@ public class ContactController extends Controller implements Initializable {
     }
 
     private void showEmails() {
-        Email email = new Email();
-        List<Attribute> emails = contact.findAttributes(ComparatorUtil.cmpByAttribute, email);
-        createMiniHeader("Correo electrónico", email.getAttributeName());
+        List<Attribute> emails = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Email());
+        createMiniHeader("Correo electrónico");
         
         if (!emails.isEmpty()) {
-            TableView<Email> tableView = createTableView(email,0);
+            TableView<Email> tableView = createTableView(new Email(),0);
             ObservableList<Email> data = FXCollections.observableArrayList();
             for (Attribute e: emails) {
                 data.add((Email) e);
@@ -342,12 +374,11 @@ public class ContactController extends Controller implements Initializable {
     }
 
     private void showAssociatedContacts() {
-        AssociatedContact asssociatedContact = new AssociatedContact();
-        List<Attribute> associatedContacts = contact.findAttributes(ComparatorUtil.cmpByAttribute, asssociatedContact);
-        createMiniHeader("Contactos Asociados",asssociatedContact.getAttributeName());
+        List<Attribute> associatedContacts = contact.findAttributes(ComparatorUtil.cmpByAttribute, new AssociatedContact());
+        createMiniHeader("Contactos Asociados");
         
         if (!associatedContacts.isEmpty()) {
-            TableView<AssociatedContact> tableView = createTableView(asssociatedContact,1);
+            TableView<AssociatedContact> tableView = createTableView(new AssociatedContact(),1);
             ObservableList<AssociatedContact> data = FXCollections.observableArrayList();
             for (Attribute ac: associatedContacts) {
                 data.add((AssociatedContact) ac);
@@ -357,7 +388,7 @@ public class ContactController extends Controller implements Initializable {
         }
     }
     
-    private void createMiniHeader(String title, String className){
+    private void createMiniHeader(String title){
         HBox header = new HBox();
         header.setSpacing(50);
         header.setAlignment(Pos.CENTER);
@@ -365,19 +396,11 @@ public class ContactController extends Controller implements Initializable {
         Button btnAdd = new Button("Agregar");
         if(title.equals("Recordatorios")){
             btnAdd.setOnAction(r -> {
-                try {
-                    goAddReminderPage(contact);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                App.setRoot("addReminder");
             });
         } else {
             btnAdd.setOnAction(r -> {
-                try {
-                    goAddPresetAttributePage(contact, className);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                App.setRoot("addPresetAtribute");
             });
         }
         header.getChildren().addAll(title1,btnAdd);
@@ -388,7 +411,8 @@ public class ContactController extends Controller implements Initializable {
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
             try {
-                goEditPresetAttributePage(contact, att);
+                goEditPresetAttributePage(contact);
+                //goEditPresetAttributePage(contact, att);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -400,20 +424,9 @@ public class ContactController extends Controller implements Initializable {
         hbox.getChildren().addAll(btnEdit, btnDelete);
     }
     
-    private void goEditPresetAttributePage(Contact selectedContact, Attribute att) throws IOException {
-        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
+    private void goEditPresetAttributePage(Contact selectedContact) throws IOException {
+        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact);
         App.setRoot("editPresetAtribute",editPresetAtributeController);
-    }
-    
-    
-    private void goAddPresetAttributePage(Contact selectedContact, String className) throws IOException {
-        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, className);
-        App.setRoot("addPresetAtribute",addPresetAtributeController);
-    }
-    
-    private void goAddReminderPage(Contact selectedContact) throws IOException {
-        Controller addReminderController = new AddReminderController(selectedContact);
-        App.setRoot("addReminder",addReminderController);
     }
     
     private <T extends Attribute> void deleteAttribute(T att) {

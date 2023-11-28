@@ -18,6 +18,4 @@ public abstract class DataEntryController extends Controller {
         a.setContentText("Agregado con éxito");
         a.show();
     }
-    
-    
 }

@@ -1,6 +1,5 @@
 package com.mycompany;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import model.attributes.reminders.GenericReminder;
 import model.attributes.reminders.Reminder;
-import model.contacts.Contact;
 
 public class AddReminderController 
         extends DataEntryController 
@@ -26,29 +24,11 @@ public class AddReminderController
     
     private Reminder genericReminder;
     
-    private Contact contact;
-
-    public AddReminderController(Contact contact) {
-        this.contact = contact;
-    }
-    
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnReturn.setOnAction(e -> {
-            try {
-                returnContactPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
+        btnReturn.setOnAction(e -> super.returnHomePage());
         initBtnAddReminder();
     }   
-    
-    private void returnContactPage() throws IOException{
-        App.setRoot("contact", new ContactController(contact));
-    }
     
     public void initBtnAddReminder(){
         btnAddReminder.setOnAction(e -> 
