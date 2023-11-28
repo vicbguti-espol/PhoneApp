@@ -194,7 +194,7 @@ public class ContactController extends DataEntryController implements Initializa
         } else if (contactType == 'P'){
             phoneNumber = new PersonPhone();
         }
-        createMiniHeader("Número teléfonico",phoneNumber.getAttributeName());
+        createMiniHeader("Número teléfonico",phoneNumber,phoneNumber.getAttributeName());
         List<Attribute> phoneNumbers = contact.findAttributes(ComparatorUtil.cmpByAttribute, phoneNumber);
         if (!phoneNumbers.isEmpty()) {
             TableView<PhoneNumber> tableView = createTableView(phoneNumber,1);
@@ -256,7 +256,7 @@ public class ContactController extends DataEntryController implements Initializa
         } else if (contactType == 'P'){
             location = new PersonLocation();
         }
-        createMiniHeader("Dirección",location.getAttributeName());
+        createMiniHeader("Dirección",location, location.getAttributeName());
         List<Attribute> locations = contact.findAttributes(ComparatorUtil.cmpByAttribute, location);
         
         if (!locations.isEmpty()) {
@@ -301,7 +301,7 @@ public class ContactController extends DataEntryController implements Initializa
     private void showReminder() {
         GenericReminder genericReminder = new GenericReminder();
         List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, genericReminder);
-        createMiniHeader("Recordatorios", genericReminder.getAttributeName());        
+        createMiniHeader("Recordatorios", genericReminder, genericReminder.getAttributeName());        
         if (!reminders.isEmpty()) {
             TableView<GenericReminder> tableView = createTableView(genericReminder,1);
             ObservableList<GenericReminder> data = FXCollections.observableArrayList();
@@ -323,7 +323,7 @@ public class ContactController extends DataEntryController implements Initializa
     private void showSocialMedia() {
         SocialMedia social = new SocialMedia();
         List<Attribute> socialMedia = contact.findAttributes(ComparatorUtil.cmpByAttribute, social);
-        createMiniHeader("Redes sociales",social.getAttributeName());
+        createMiniHeader("Redes sociales", social, social.getAttributeName());
         
         if (!socialMedia.isEmpty()) {
             TableView<SocialMedia> tableView = createTableView(social,0);
@@ -341,25 +341,25 @@ public class ContactController extends DataEntryController implements Initializa
     private void showEmails() {
         Email email = new Email();
         List<Attribute> emails = contact.findAttributes(ComparatorUtil.cmpByAttribute, email);
-        createMiniHeader("Correo electrónico", email.getAttributeName());
+        createMiniHeader("Correo electrónico", email, email.getAttributeName());
         
         if (!emails.isEmpty()) {
+            System.out.println("Entra");
             TableView<Email> tableView = createTableView(email,0);
             ObservableList<Email> data = FXCollections.observableArrayList();
             for (Attribute e: emails) {
                 data.add((Email) e);
             }
             tableView.setItems(data);
-            if (contactType == 'C') vbContent.getChildren().add(7,tableView);
-            else if (contactType == 'P') vbContent.getChildren().add(6,tableView);
-            //vbContent.getChildren().add(tableView);
+            if (contactType == 'C') vbContent.getChildren().add(tableView);
+            else if (contactType == 'P') vbContent.getChildren().add(tableView);
         }
     }
 
     private void showAssociatedContacts() {
         AssociatedContact asssociatedContact = new AssociatedContact();
         List<Attribute> associatedContacts = contact.findAttributes(ComparatorUtil.cmpByAttribute, asssociatedContact);
-        createMiniHeader("Contactos Asociados",asssociatedContact.getAttributeName());
+        createMiniHeader("Contactos Asociados", asssociatedContact, asssociatedContact.getAttributeName());
         
         if (!associatedContacts.isEmpty()) {
             TableView<AssociatedContact> tableView = createTableView(asssociatedContact,0);
@@ -373,7 +373,7 @@ public class ContactController extends DataEntryController implements Initializa
         }
     }
     
-    private void createMiniHeader(String title, String className){
+    private void createMiniHeader(String title, Attribute att, String className){
         HBox header = new HBox();
         header.setSpacing(50);
         header.setAlignment(Pos.CENTER);
@@ -390,7 +390,7 @@ public class ContactController extends DataEntryController implements Initializa
         } else {
             btnAdd.setOnAction(r -> {
                 try {
-                    goAddPresetAttributePage(contact, className);
+                    goAddPresetAttributePage(contact, att, className);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -422,8 +422,8 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     
-    private void goAddPresetAttributePage(Contact selectedContact, String className) throws IOException {
-        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, className);
+    private void goAddPresetAttributePage(Contact selectedContact, Attribute att , String className) throws IOException {
+        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, att, className);
         App.setRoot("addPresetAtribute",addPresetAtributeController);
     }
     
