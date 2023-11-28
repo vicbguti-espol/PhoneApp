@@ -16,4 +16,9 @@ public class PersonPhone extends PhoneNumber {
     public SourceType getPhoneType() {
         return phoneType;
     }
+
+    public void setPhoneType(SourceType phoneType) {
+        this.phoneType = phoneType;
+    }
+    
 }

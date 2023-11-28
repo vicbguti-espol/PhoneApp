@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import model.attributes.Attribute;
 import model.attributes.GenericAttribute;
 import model.contacts.Contact;
+import static model.user.MobilePhone.updateContactList;
 
 
 public class AddAtributeController extends Controller implements Initializable {
@@ -28,12 +29,14 @@ public class AddAtributeController extends Controller implements Initializable {
     private TextField box_Descripcion;
     @FXML
     private TextField box_dato;
-    private Contact contact;
+    
     @FXML
     private Button btn_Return;
     @FXML
     private Button btnAdd;
-
+    private Contact contact; 
+    private Attribute attribute;
+    
     AddAtributeController(Contact contact) {
         this.contact = contact;
     }
@@ -66,9 +69,10 @@ public class AddAtributeController extends Controller implements Initializable {
 
         alert.showAndWait();
         }else{
-            Mensaje.setText("Si");
+            Mensaje.setText("Atributo agregado");
             Attribute attribute= new GenericAttribute(descripcion,dato);
             contact.attributes.add(attribute);
+            updateContactList();
         }
     }
     

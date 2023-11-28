@@ -20,4 +20,13 @@ public class SocialMedia extends Attribute {
     public SocialMediaType getSocialMedia() {
         return SocialMedia;
     }
+
+    public void setUser(String User) {
+        this.User = User;
+    }
+
+    public void setSocialMedia(SocialMediaType SocialMedia) {
+        this.SocialMedia = SocialMedia;
+    }
+    
 }
