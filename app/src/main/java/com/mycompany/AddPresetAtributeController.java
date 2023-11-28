@@ -4,6 +4,7 @@
  */
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,8 @@ public class AddPresetAtributeController extends Controller implements Initializ
     @FXML
     private Button btnAdd;
     @FXML
+    private Button btnReturn;
+    @FXML
     private Label mensaje;
     @FXML
     private ComboBox<String> combo;
@@ -66,6 +69,14 @@ public class AddPresetAtributeController extends Controller implements Initializ
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        
         btnAdd.setOnAction(e -> {
             App.setRoot("primary");
         });
@@ -138,5 +149,9 @@ public class AddPresetAtributeController extends Controller implements Initializ
         ComboBox<String> cb = (ComboBox) event.getSource(); 
         String tipo = cb.getValue(); ///lo que se quiere agregar       
         editar=tipo;
+    }
+    
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
     }
 }

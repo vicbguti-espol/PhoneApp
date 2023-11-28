@@ -1,5 +1,6 @@
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -35,9 +36,19 @@ public class AddReminderController
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnReturn.setOnAction(e -> super.returnHomePage());
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         initBtnAddReminder();
     }   
+    
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
+    }
     
     public void initBtnAddReminder(){
         btnAddReminder.setOnAction(e -> 

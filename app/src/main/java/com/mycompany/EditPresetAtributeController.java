@@ -66,7 +66,7 @@ public class EditPresetAtributeController extends Controller implements Initiali
     @FXML
     private Label mensaje;
     @FXML
-    private Button btn_volver;
+    private Button btnReturn;
     @FXML
     private BorderPane root;
     
@@ -82,7 +82,7 @@ public class EditPresetAtributeController extends Controller implements Initiali
     
     public void initialize(URL url, ResourceBundle rb) {
         mensaje.setText(attribute.getAttributeName());
-         btn_volver.setOnAction(e -> {
+         btnReturn.setOnAction(e -> {
              try {
                  returnContactPage();
              } catch (IOException ex) {

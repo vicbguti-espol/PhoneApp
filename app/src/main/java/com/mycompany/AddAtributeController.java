@@ -1,5 +1,6 @@
 package com.mycompany;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +56,18 @@ public class AddAtributeController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
     
+    private void returnContactPage() throws IOException{
+        App.setRoot("contact", new ContactController(contact));
+    }
     
     
 }

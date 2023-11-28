@@ -12,13 +12,13 @@
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnAdd" mnemonicParsing="false" text="Volver" />
+            <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
             <Label fx:id="mensaje" text="Agegar (Nombre Atributo)" />
          </children>
       </HBox>
    </top>
    <bottom>
-      <Button mnemonicParsing="false" text="Agregar" BorderPane.alignment="CENTER" />
+      <Button fx:id="btnAdd" mnemonicParsing="false" text="Agregar" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
