@@ -66,8 +66,4 @@ public class MobilePhone {
             ex.printStackTrace();
         }
     }
-    public static void updateContactList(){
-        initContactList();
-        serialize();
-    }
 }
