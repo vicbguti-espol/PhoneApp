@@ -83,23 +83,23 @@ public class AddPresetAtributeController implements Initializable {
          
          //MobilePhone.removeContact(usu);
          
-        for(Attribute atributos:Alista){
-        if(editar.equals("Numero telefonico")){
-            PhoneNumber ph = (PhoneNumber) atributos;
-            ph.agregarMasN(new CompanyPhone(dato));          
-        }else if(editar.equals("Direccion")){
-            Location loc = (Location) atributos;
-            loc.agregarMasL(new CompanyLocation(dato,dato));
-        }else if(editar.equals("Redes Sociales")){
-            Alista.add(new SocialMedia(dato, SocialMediaType.FACEBOOK ));           
-        }else if(editar.equals("Correo Electronico")){
-           Alista.add( new Email(SourceType.PERSONAL, dato));
-        }else if(editar.equals("Contactos Asociados")){
-           Alista.add(new AssociatedContact(new Person(new CompanyPhone("094458710")), dato));
-        }else if(editar.equals("Recodatorio")){
-            Alista.add(new GenericReminder(dato));
-        }
-        }
+//        for(Attribute atributos:Alista){
+//        if(editar.equals("Numero telefonico")){
+//            PhoneNumber ph = (PhoneNumber) atributos;
+//            ph.agregarMasN(new CompanyPhone(dato));          
+//        }else if(editar.equals("Direccion")){
+//            Location loc = (Location) atributos;
+//            loc.agregarMasL(new CompanyLocation(dato,dato));
+//        }else if(editar.equals("Redes Sociales")){
+//            Alista.add(new SocialMedia(dato, SocialMediaType.FACEBOOK ));           
+//        }else if(editar.equals("Correo Electronico")){
+//           Alista.add( new Email(SourceType.PERSONAL, dato));
+//        }else if(editar.equals("Contactos Asociados")){
+//           Alista.add(new AssociatedContact(new Person(new CompanyPhone("094458710")), dato));
+//        }else if(editar.equals("Recodatorio")){
+//            Alista.add(new GenericReminder(dato));
+//        }
+//        }
         //MobilePhone.addContact(modificar.get(0));
         mensaje.setText("Cambio realizado");
         }
