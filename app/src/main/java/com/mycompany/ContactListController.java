@@ -1,11 +1,13 @@
 package com.mycompany;
 
+import collections.CustomIterator;
 import collections.CustomLinkedList;
+import collections.CustomList;
 import com.mycompany.customizables.CustomComponent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -69,8 +71,9 @@ public class ContactListController extends AIOController {
 
         @Override
         public void buildContainer(){
-            Label contactLabel = new Label(contact.toString());
-            container = new HBox(imageShape, contactLabel); 
+            container = new HBox(imageShape, 
+                    new VBox(new Label(contact.toString()),
+                    new Label(contact.getType()))); 
             container.setOnMouseClicked(e -> goContactPage(contact));
         }
         
@@ -88,9 +91,14 @@ public class ContactListController extends AIOController {
     }
     
     private class ContactListView extends CustomComponent {
-        private final List<ContactCard> contactCards = new CustomLinkedList<>();
+        private final CustomList<ContactCard> contactCards 
+                = new CustomLinkedList<>();
+        private CustomIterator<ContactCard> contactCardIterator;
         private VBox contactsVBox;
         private VBox buttonsVBox;
+        private Button nextButton;
+        private Button previousButton;
+        private int viewSize;
         
         ContactListView(){
             super.buildComponent();
@@ -99,26 +107,73 @@ public class ContactListController extends AIOController {
         @Override
         protected void buildSubComponents(){
             contactsVBox = new VBox();
-            
+            buildButtonsVBox();
         }
         
         @Override
         protected void buildContainer(){
-            container = new HBox(vBox, );
+            
+            container = new HBox(contactsVBox, buttonsVBox);
         }
         
         private void buildButtonsVBox(){
-            buttonsVBox = new VBox();
+            buildNextButton();
+            buildLeftButton();
+            buttonsVBox = new VBox(previousButton,nextButton);
+        }
+        
+        private void buildNextButton(){
+            nextButton = new Button("⬇");
+            nextButton.setOnAction(e -> {
+                new Thread(()->{
+                    Platform.runLater(()->{
+                        contactsVBox.getChildren().remove(0);
+                        contactsVBox.getChildren().add(contactCardIterator
+                                .next().getContainer());
+                    });
+                }).start();
+                
+            });
+        }
+        
+        private void buildLeftButton(){
+            previousButton = new Button("⬆");
+            previousButton.setOnAction(e -> {
+                int i = 0;
+                while (i++<viewSize){
+                    contactCardIterator.previous();
+                }
+                ContactCard c = contactCardIterator.previous();
+                new Thread(()->{
+                    Platform.runLater(()->{
+                        contactsVBox.getChildren().
+                        remove(contactsVBox.getChildren().size()-1);
+                        contactsVBox.getChildren().add(0,c.getContainer());
+                    });
+                }).start();
+                int j= 0;
+                while (j++<viewSize){
+                    contactCardIterator.next();
+                }
+            });
         }
         
         void initContactListView(){
-            Iterator<ContactCard> it = contactCards.iterator();
-            int i = 0;
-            while (it.hasNext() && i < 5) 
-                contactsVBox.getChildren().add(it.next().getContainer());
-                i++;
+            buildCustomIterator();
+            viewSize = 0;
+            while (viewSize<5 && viewSize<contactCards.size()){
+                contactsVBox.getChildren().add(
+                        contactCardIterator.next().getContainer());
+                viewSize++;
+            }
         }
-        List<ContactCard> getContactCards(){ return contactCards;}
+        
+        private void buildCustomIterator(){
+            contactCardIterator = contactCards.customIterator();
+        }
+        
+        CustomList<ContactCard> getContactCards(){ return contactCards;}
+        
     }
     
     private void goContactPage(Contact selectedContact) {

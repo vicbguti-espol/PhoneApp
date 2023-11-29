@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
+public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializable {
     Node<E> last;
     int n;
     
@@ -19,7 +19,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
     public CustomLinkedList(List<E> list){
         addAll(list);
     }
-    
+
+
     private class Node<E> implements Serializable {
         E content;
         Node<E> next;
@@ -127,7 +128,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
     public boolean removeAll(Collection<?> clctn) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public boolean retainAll(Collection<?> clctn) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -139,6 +140,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
         n = 0;
     }
     
+    @Override
     public E getFirst(){
         return last.next.content;
     }
@@ -276,7 +278,8 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
         return s + "]";
     }
     
-    public CircularIterator<E> circularIterator(){
+    @Override
+    public CustomIterator<E> customIterator(){
         return new CircularIterator<>(this);
     }
     

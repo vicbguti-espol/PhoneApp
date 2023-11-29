@@ -19,4 +19,9 @@ public class Person extends Contact {
         PersonName name = (PersonName) names.getFirst();
         return name.toString();
     }
+
+    @Override
+    public String getType() {
+        return "Persona";
+    }
 }

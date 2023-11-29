@@ -55,4 +55,6 @@ public abstract class Contact implements Serializable {
     private void initUID(PhoneNumber phone){
         uid = phone.getPhoneNumber();
     }
+    
+    public abstract String getType();
 }

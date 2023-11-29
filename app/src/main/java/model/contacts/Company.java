@@ -1,6 +1,6 @@
 package model.contacts;
 
-import java.util.List;
+import collections.CustomList;
 import model.attributes.Attribute;
 import model.attributes.names.CompanyName;
 import model.attributes.phone.PhoneNumber;
@@ -15,8 +15,14 @@ public class Company extends Contact {
     
     @Override
     public String toString(){
-        List<Attribute> names = findAttributes(ComparatorUtil.cmpByAttribute, new CompanyName(""));
-        CompanyName name = (CompanyName) names.get(0);
+        CustomList<Attribute> names = (CustomList<Attribute>) 
+                findAttributes(ComparatorUtil.cmpByAttribute, new CompanyName(""));
+        CompanyName name = (CompanyName) names.getFirst();
         return name.toString();
+    }
+
+    @Override
+    public String getType() {
+        return "Empresa";
     }
 }
