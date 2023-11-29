@@ -404,7 +404,7 @@ public class ContactController extends DataEntryController implements Initializa
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
             try {
-                goEditPresetAttributePage(contact, att,contact.getClass().toString());
+                goEditPresetAttributePage(contact, att);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -416,8 +416,8 @@ public class ContactController extends DataEntryController implements Initializa
         hbox.getChildren().addAll(btnEdit, btnDelete);
     }
     
-    private void goEditPresetAttributePage(Contact selectedContact, Attribute att,String c) throws IOException {
-        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att,c);
+    private void goEditPresetAttributePage(Contact selectedContact, Attribute att) throws IOException {
+        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
         App.setRoot("editPresetAtribute",editPresetAtributeController);
     }
     
