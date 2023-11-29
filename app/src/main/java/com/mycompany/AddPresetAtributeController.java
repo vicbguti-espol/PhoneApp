@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +27,7 @@ import model.attributes.location.PersonLocation;
 import model.attributes.phone.CompanyPhone;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
+import model.attributes.reminders.GenericReminder;
 import model.contacts.Contact;
 import model.enums.SocialMediaType;
 import model.enums.SourceType;
@@ -49,6 +53,8 @@ public class AddPresetAtributeController extends DataEntryController implements 
     private Button btn_Add;
     @FXML
     private BorderPane root;
+    @FXML
+    private HBox header;
 
     @FXML
     private VBox content;
@@ -94,37 +100,53 @@ public class AddPresetAtributeController extends DataEntryController implements 
             }
             currentClass = currentClass.getSuperclass();
         }
-
-        
         content = new VBox();
+        VBox labels = new VBox();
+        VBox info = new VBox();
+        HBox hbox = new HBox(labels,info);
+        labels.setSpacing(30);
+        labels.setAlignment(Pos.TOP_LEFT);
+        info.setSpacing(30);
+        info.setAlignment(Pos.TOP_LEFT);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(20);
         for (Field f: allFields){
-            HBox hbox = new HBox();
             Label label = new Label(f.getName());
-            hbox.getChildren().add(label);
+            labels.getChildren().add(label);
+            
             if (f.getType().getSimpleName().equals("SourceType")) {
                 ComboBox<String> comboBox = new ComboBox<>();
                 comboBox.getItems().addAll(SourceType.PERSONAL.name(),SourceType.WORK.name());
-                hbox.getChildren().add(comboBox);
+                info.getChildren().add(comboBox);
             } else if (f.getType().getSimpleName().equals("SocialMediaType")){
                 ComboBox<String> comboBox = new ComboBox();
                 comboBox.getItems().addAll(SocialMediaType.INSTAGRAM.name(), SocialMediaType.X.name(),SocialMediaType.FACEBOOK.name());
-                hbox.getChildren().add(comboBox);
+                info.getChildren().add(comboBox);
             } else if (f.getType().getSimpleName().equals("Contact")){
                 ComboBox<Contact> comboBox = new ComboBox();
                 comboBox.getItems().addAll(MobilePhone.getContactList());
-                hbox.getChildren().add(comboBox);
-            } else {
+                info.getChildren().add(comboBox);
+            }else {
                 TextField textField = new TextField();
-                hbox.getChildren().add(textField);
+                info.getChildren().add(textField);
             }
-            content.getChildren().add(hbox);
         }
-        
+        content.getChildren().add(hbox);
+        content.setSpacing(20);
+        content.setAlignment(Pos.CENTER);
+        content.setPadding(new Insets(30));
+
         root.setCenter(content);
         
          btn_Add.setOnAction(e -> {
             agregables();
         });
+        configureHeader(); 
+    } 
+    
+    protected void configureHeader() {
+        header.setSpacing(30);
+        header.setAlignment(Pos.CENTER);
     }
     
     public void agregables(){

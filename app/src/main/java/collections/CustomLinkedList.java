@@ -195,7 +195,22 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
 
     @Override
     public E get(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (i < 0 || i >= size()) throw new IndexOutOfBoundsException(i);
+        if (i != (size() - 1)){
+            Node<E> tmp = last.previous;
+            for (int c = 0; c < i; c++){
+                tmp = tmp.next;
+            }
+            return tmp.content;
+        }
+        return getLast();
+    }
+    
+    public E getLast(){
+        if (isEmpty()){
+            return null;
+        }
+        return last.content;
     }
 
     @Override

@@ -362,11 +362,9 @@ public class ContactController extends DataEntryController implements Initializa
     
     private void showGenerics() {
         List<Attribute> genericAttributes = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
-        System.out.println(genericAttributes);
         if (!genericAttributes.isEmpty()) {
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
-            System.out.println("PEPE");
             TableView<GenericAttribute> tableView = createTableView(new GenericAttribute(),0);
             ObservableList<GenericAttribute> data = FXCollections.observableArrayList();
             for (Attribute ga: genericAttributes) {
