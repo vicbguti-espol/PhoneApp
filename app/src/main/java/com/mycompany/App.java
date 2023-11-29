@@ -24,18 +24,18 @@ public class App extends Application {
         //addPresetAtribute
         //addAtribute
         // scene = new Scene(loadFXML("contactList"), 880, 870);
-        scene = new Scene(new ContactListController().getRoot(), 880, 870);
+        scene = new Scene(new ContactListController().getRootPane(), 480, 800);
         // scene = new Scene(loadFXML("primary"));
-//        scene = new Scene(loadFXML("contactList"), 880, 870);
-//        scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
+        // scene = new Scene(loadFXML("contactList"), 880, 870);
+        scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
         this.stage = stage;
 
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        this.stage.setX(bounds.getMinX());
-        this.stage.setY(bounds.getMinY());
-        this.stage.setWidth(bounds.getWidth());
-        this.stage.setHeight(bounds.getHeight());
+//        Screen screen = Screen.getPrimary();
+//        Rectangle2D bounds = screen.getVisualBounds();
+//        this.stage.setX(bounds.getMinX());
+//        this.stage.setY(bounds.getMinY());
+//        this.stage.setWidth(bounds.getWidth());
+//        this.stage.setHeight(bounds.getHeight());
         
         this.stage.setScene(scene);
         this.stage.show();
@@ -55,8 +55,8 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml, controller));
     }
     
-    static void setRoot(Parent rootNode){
-        scene.setRoot(rootNode);
+    static void setRoot(AIOController controller){
+        scene.setRoot(controller.getRootPane());
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

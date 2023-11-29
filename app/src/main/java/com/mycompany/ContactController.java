@@ -4,6 +4,7 @@
  */
 package com.mycompany;
 
+import collections.CustomLinkedList;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -141,8 +142,8 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     private void goContactImagesPage() throws IOException {
-        Controller contactImagesController = new ContactImagesController(contact);
-        App.setRoot("contactImages",contactImagesController);
+        App.setRoot(new ContactImagesController(contact));
+        // App.setRoot("contactImages",contactImagesController);
     }
 
     private void createHeader() {
@@ -170,14 +171,20 @@ public class ContactController extends DataEntryController implements Initializa
         } else if (contactType == 'P'){
             name = new PersonName("","");
         }
-        List<Attribute> names = contact.findAttributes(ComparatorUtil.cmpByAttribute, name);
-        return (Name) names.get(0);
+        CustomLinkedList<Attribute> names = 
+                (CustomLinkedList<Attribute>) contact.
+                        findAttributes(
+                                ComparatorUtil.cmpByAttribute, name);
+        return (Name) names.getFirst();
     }
     
     private Image getImageProfile(){
         Image imageProfile = null;
-        List<Attribute> images = contact.findAttributes(ComparatorUtil.cmpByAttribute, new ContactImage());
-        ContactImage imgProfile = (ContactImage) images.get(0);
+        CustomLinkedList<Attribute> images = 
+                (CustomLinkedList<Attribute>)
+                contact.findAttributes(
+                        ComparatorUtil.cmpByAttribute, new ContactImage());
+        ContactImage imgProfile = (ContactImage) images.getFirst();
         String path = imgProfile.getPath();
         try {
             imageProfile = new Image(new FileInputStream(path));
@@ -285,15 +292,15 @@ public class ContactController extends DataEntryController implements Initializa
     }    
 
     private void showDescritption() {
-        List<Attribute> descriptions = contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyDescription());
-        CompanyDescription description = (CompanyDescription) descriptions.get(0);
+        CustomLinkedList<Attribute> descriptions = (CustomLinkedList<Attribute>) contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyDescription());
+        CompanyDescription description = (CompanyDescription) descriptions.getFirst();
         Label descrip = new Label(description.getDescription());
         vbContent.getChildren().add(1, descrip);
     }
 
     private void showWebPage() {
-        List<Attribute> webPages = contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyWebPage());
-        CompanyWebPage webPage = (CompanyWebPage) webPages.get(0);
+        CustomLinkedList<Attribute> webPages = (CustomLinkedList<Attribute>) contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyWebPage());
+        CompanyWebPage webPage = (CompanyWebPage) webPages.getFirst();
         Label title = new Label("Página web: " + webPage.getWebPage());
         vbContent.getChildren().add(2, title);
     }
@@ -314,8 +321,10 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     private void showBirthday() {
-        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, new Birthday());
-        Birthday remind = (Birthday) reminders.get(0);
+        CustomLinkedList<Attribute> reminders = (CustomLinkedList<Attribute>)
+                contact.findAttributes(
+                        ComparatorUtil.cmpByAttribute, new Birthday());
+        Birthday remind = (Birthday) reminders.getFirst();
         Label birthday = new Label("Cumpleaños: " + remind.getDate());
         vbContent.getChildren().add(1, birthday);
     }
@@ -363,7 +372,7 @@ public class ContactController extends DataEntryController implements Initializa
         
         if (!associatedContacts.isEmpty()) {
             TableView<AssociatedContact> tableView = createTableView(asssociatedContact,0);
-            //tableView.getColumns().get(0);
+            //tableView.getColumns().getFirst();
             ObservableList<AssociatedContact> data = FXCollections.observableArrayList();
             for (Attribute ac: associatedContacts) {
                 data.add((AssociatedContact) ac);

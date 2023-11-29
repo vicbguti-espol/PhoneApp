@@ -5,7 +5,7 @@ import model.contacts.Contact;
 
 public abstract class Controller {
     protected void returnHomePage(){
-        App.setRoot(new ContactListController().getRoot());
+        App.setRoot(new ContactListController());
         // App.setRoot("contactList");
     }
     
