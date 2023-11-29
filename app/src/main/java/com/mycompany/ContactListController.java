@@ -9,8 +9,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 
@@ -44,6 +46,15 @@ public class ContactListController implements Initializable {
             }
         });
     }
+    
+    /*private void setFilters() {
+        HBox filters = new HBox();
+        for (int i = 0; i < 3; i++){
+            ComboBox
+        }
+        filters
+        
+    }*/
 
     private void goContactPage(Contact selectedContact) throws IOException {
         Controller contactController = new ContactController(selectedContact);
@@ -51,8 +62,8 @@ public class ContactListController implements Initializable {
     }
     
     @FXML
-    private void goPrimaryPage(){
-        App.setRoot("primary");
+    private void goChooseContactTypePage(){
+        App.setRoot("chooseContactType");
     }
 }
 

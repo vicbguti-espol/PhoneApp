@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,6 +37,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -92,11 +94,21 @@ public class ContactController extends DataEntryController implements Initializa
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setScrollPane();
         configureHeader();
         cboxFavorite.setStyle("-fx-text-fill: white;");
         configureButtons();
         createHeader();
         showAttributes();
+    }
+    
+    private void setScrollPane(){
+        ScrollPane scrollPane = new ScrollPane();
+        root.setCenter(scrollPane);
+        scrollPane.setContent(vbContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(true);
     }
     
     private void configureButtons(){
@@ -203,6 +215,7 @@ public class ContactController extends DataEntryController implements Initializa
                 data.add((PhoneNumber) number);
             }
             tableView.setItems(data);
+            setTableView(tableView);
             vbContent.getChildren().add(tableView);
         }
         
@@ -210,6 +223,8 @@ public class ContactController extends DataEntryController implements Initializa
     
     private <T extends Attribute> TableView<T> createTableView(T attributeInstance, int c) {
         TableView<T> tableView = new TableView<>();
+        tableView.setFixedCellSize(30);
+        tableView.setPrefWidth(20);
         
         Class<?> currentClass = attributeInstance.getClass();
         
@@ -217,6 +232,7 @@ public class ContactController extends DataEntryController implements Initializa
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field: fields) {
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
+                attributeNameColumn.setPrefWidth(150);
                 attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
                 tableView.getColumns().add(attributeNameColumn);
             }
@@ -248,6 +264,14 @@ public class ContactController extends DataEntryController implements Initializa
         tableView.getColumns().add(editColumn);
         return tableView;
     }
+    
+    private void setTableView(TableView tableView){
+        int numRows = tableView.getItems().size();
+        double tableHeight = numRows * tableView.getFixedCellSize() + tableView.getFixedCellSize();
+        tableView.setPrefHeight(tableHeight);
+        tableView.setMaxHeight(tableHeight);
+        tableView.setMinHeight(tableHeight);
+    }
 
     private void showLocations() {
         Location location = null;
@@ -266,20 +290,23 @@ public class ContactController extends DataEntryController implements Initializa
                 data.add((Location) l);
             }
             tableView.setItems(data);
+            setTableView(tableView);
             vbContent.getChildren().add(tableView);
         }
     }
     
     private void showGenerics() {
         List<Attribute> genericAttributes = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
-        
+        System.out.println(genericAttributes);
         if (!genericAttributes.isEmpty()) {
+            System.out.println("PEPE");
             TableView<GenericAttribute> tableView = createTableView(new GenericAttribute(),0);
             ObservableList<GenericAttribute> data = FXCollections.observableArrayList();
             for (Attribute ga: genericAttributes) {
                 data.add((GenericAttribute) ga);
             }
             tableView.setItems(data);
+            setTableView(tableView);
             vbContent.getChildren().add(tableView);
         }
     }    
@@ -309,6 +336,7 @@ public class ContactController extends DataEntryController implements Initializa
                 data.add((GenericReminder) r);
             }
             tableView.setItems(data);
+            setTableView(tableView);
             vbContent.getChildren().add(tableView);
         }
     }
@@ -332,9 +360,8 @@ public class ContactController extends DataEntryController implements Initializa
                 data.add((SocialMedia) sm);
             }
             tableView.setItems(data);
-            if (contactType == 'C') vbContent.getChildren().add(tableView);
-            else if (contactType == 'P') vbContent.getChildren().add(tableView);
-            //vbContent.getChildren().add(tableView);
+            setTableView(tableView);
+            vbContent.getChildren().add(tableView);
         }
     }
 
@@ -344,15 +371,14 @@ public class ContactController extends DataEntryController implements Initializa
         createMiniHeader("Correo electrónico", email, email.getAttributeName());
         
         if (!emails.isEmpty()) {
-            System.out.println("Entra");
             TableView<Email> tableView = createTableView(email,0);
             ObservableList<Email> data = FXCollections.observableArrayList();
             for (Attribute e: emails) {
                 data.add((Email) e);
             }
             tableView.setItems(data);
-            if (contactType == 'C') vbContent.getChildren().add(tableView);
-            else if (contactType == 'P') vbContent.getChildren().add(tableView);
+            setTableView(tableView);
+            vbContent.getChildren().add(tableView);
         }
     }
 
@@ -369,6 +395,7 @@ public class ContactController extends DataEntryController implements Initializa
                 data.add((AssociatedContact) ac);
             }
             tableView.setItems(data);
+            setTableView(tableView);
             vbContent.getChildren().add(tableView);
         }
     }
@@ -420,7 +447,6 @@ public class ContactController extends DataEntryController implements Initializa
         Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
         App.setRoot("editPresetAtribute",editPresetAtributeController);
     }
-    
     
     private void goAddPresetAttributePage(Contact selectedContact, Attribute att , String className) throws IOException {
         Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, att, className);
