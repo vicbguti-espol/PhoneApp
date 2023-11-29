@@ -93,54 +93,5 @@ public class ImagePagination extends CustomComponent {
         }
     }        
 
-    private abstract class ButtonEventHandler implements EventHandler{
-        CustomIterator<Image> circularIterator;
-        ImageViewChanger imageViewChanger;
 
-        ButtonEventHandler(CustomIterator<Image> circularIterator, 
-                ImageViewChanger imageViewChanger){
-            this.circularIterator = circularIterator;
-            this.imageViewChanger = imageViewChanger;
-        }
-
-        void setImageViewChanger(ImageViewChanger imageViewChanger){
-            this.imageViewChanger = imageViewChanger;
-        }
-
-        @Override
-        public void handle(Event t) {
-            imageViewChanger.changeImage(getImage());
-        }
-
-        abstract Image getImage();
-
-    }
-
-    private class RightButtonEventHandler extends ButtonEventHandler{
-
-        public RightButtonEventHandler(CustomIterator<Image> circularIterator,
-                ImageViewChanger imageViewChanger) {
-            super(circularIterator, imageViewChanger);
-        }
-
-        @Override
-        Image getImage() {
-            return circularIterator.next();
-        }
-
-    }
-
-    private class LeftButtonEventHandler extends ButtonEventHandler{
-
-        public LeftButtonEventHandler(CustomIterator<Image> circularIterator,
-                ImageViewChanger imageViewChanger) {
-            super(circularIterator, imageViewChanger);
-        }
-
-        @Override
-        Image getImage() {
-            return circularIterator.previous();
-        }
-
-    }
 }

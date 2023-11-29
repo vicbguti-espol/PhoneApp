@@ -89,6 +89,8 @@ public class ContactListController extends AIOController {
     
     private class ContactListView extends CustomComponent {
         private final List<ContactCard> contactCards = new CustomLinkedList<>();
+        private VBox contactsVBox;
+        private VBox buttonsVBox;
         
         ContactListView(){
             super.buildComponent();
@@ -96,19 +98,24 @@ public class ContactListController extends AIOController {
         
         @Override
         protected void buildSubComponents(){
+            contactsVBox = new VBox();
             
         }
         
         @Override
         protected void buildContainer(){
-            container = new VBox();
-        }   
+            container = new HBox(vBox, );
+        }
+        
+        private void buildButtonsVBox(){
+            buttonsVBox = new VBox();
+        }
         
         void initContactListView(){
             Iterator<ContactCard> it = contactCards.iterator();
             int i = 0;
-            while (it.hasNext() && i < 3) 
-                container.getChildren().add(it.next().getContainer());
+            while (it.hasNext() && i < 5) 
+                contactsVBox.getChildren().add(it.next().getContainer());
                 i++;
         }
         List<ContactCard> getContactCards(){ return contactCards;}
