@@ -76,39 +76,39 @@ public class AddPresetAtributeController extends Controller implements Initializ
         });
 //////////
         
-//   ArrayList<Field> allFields = new ArrayList<>();
-//       Class<?> currentClass = attribute.getClass();
-//       int c=1;
-//        for (int i = 0; i <= c; i++){
-//            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
-//            for (Field f: fields){
-//                allFields.add(f);
-//            }
-//            currentClass = currentClass.getSuperclass();
-//        }
-//         content = new VBox();
-//        for (Field f: allFields){
-//            HBox hbox = new HBox();
-//            Label label = new Label(f.getName());
-//            hbox.getChildren().add(label);
-//            if (f.getType().getSimpleName().equals("SourceType")) {
-//                ComboBox<String> comboBox = new ComboBox<>();
-//                comboBox.getItems().addAll(SourceType.PERSONAL.name(),SourceType.WORK.name());
-//                hbox.getChildren().add(comboBox);
-//            } else if (f.getType().getSimpleName().equals("SocialMediaType")){
-//                ComboBox<String> comboBox = new ComboBox();
-//                comboBox.getItems().addAll(SocialMediaType.INSTAGRAM.name(), SocialMediaType.X.name(),SocialMediaType.FACEBOOK.name());
-//                hbox.getChildren().add(comboBox);
-//            } else {
-//                TextField textField = new TextField();
-//                hbox.getChildren().add(textField);
-//            }
-//            content.getChildren().add(hbox);
-//        }
-//        //class model.contacts.Person
-//        
-//        
-//        root.setCenter(content);
+   ArrayList<Field> allFields = new ArrayList<>();
+       Class<?> currentClass = attribute.getClass();
+       int c=1;
+        for (int i = 0; i <= c; i++){
+            Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
+            for (Field f: fields){
+                allFields.add(f);
+            }
+            currentClass = currentClass.getSuperclass();
+        }
+         content = new VBox();
+        for (Field f: allFields){
+            HBox hbox = new HBox();
+            Label label = new Label(f.getName());
+            hbox.getChildren().add(label);
+            if (f.getType().getSimpleName().equals("SourceType")) {
+                ComboBox<String> comboBox = new ComboBox<>();
+                comboBox.getItems().addAll(SourceType.PERSONAL.name(),SourceType.WORK.name());
+                hbox.getChildren().add(comboBox);
+            } else if (f.getType().getSimpleName().equals("SocialMediaType")){
+                ComboBox<String> comboBox = new ComboBox();
+                comboBox.getItems().addAll(SocialMediaType.INSTAGRAM.name(), SocialMediaType.X.name(),SocialMediaType.FACEBOOK.name());
+                hbox.getChildren().add(comboBox);
+            } else {
+                TextField textField = new TextField();
+                hbox.getChildren().add(textField);
+            }
+            content.getChildren().add(hbox);
+        }
+        //class model.contacts.Person
+        
+        
+        root.setCenter(content);
         
          btn_Add.setOnAction(e -> {
             agregables();

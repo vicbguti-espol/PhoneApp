@@ -391,7 +391,7 @@ public class ContactController extends Controller implements Initializable {
         Button btnEdit = new Button("Editar");
         btnEdit.setOnAction(r -> {
             try {
-                goEditPresetAttributePage(contact, att);
+                goEditPresetAttributePage(contact, att,contact.getClass().toString());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -403,8 +403,8 @@ public class ContactController extends Controller implements Initializable {
         hbox.getChildren().addAll(btnEdit, btnDelete);
     }
     
-    private void goEditPresetAttributePage(Contact selectedContact, Attribute att) throws IOException {
-        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
+    private void goEditPresetAttributePage(Contact selectedContact, Attribute att,String c) throws IOException {
+        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att,c);
         App.setRoot("editPresetAtribute",editPresetAtributeController);
     }
     

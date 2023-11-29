@@ -77,15 +77,19 @@ public class EditPresetAtributeController extends Controller implements Initiali
     //contacto pasado
     private Contact contact;
     private Attribute attribute;
+    private String delcombo;
+    private String POC;
+    private Boolean  why= false;
     @FXML
     private VBox content;
-    @FXML
-    private ComboBox<String> Universal;///poder elegir el tipo
-    EditPresetAtributeController(Contact selectedContact, Attribute att) {
+    
+    
+    EditPresetAtributeController(Contact selectedContact, Attribute att,String c) {
         contact = selectedContact;
         attribute = att;
+        POC=c;
     }
-
+    
     
     public void initialize(URL url, ResourceBundle rb) {
        mensaje.setText(attribute.getAttributeName()); 
@@ -127,13 +131,32 @@ public class EditPresetAtributeController extends Controller implements Initiali
             content.getChildren().add(hbox);
         }
         //class model.contacts.Person
-        
-        
         root.setCenter(content);
         
+        if(POC.equals("class model.contacts.Person")){
+             System.out.println("funcionaaaaaaa");
+             why=true;
+             System.out.println(why);
+            HBox hbox= (HBox) content.getChildren().get(0);
+            ComboBox combo1=(ComboBox) hbox.getChildren().get(1);
+            combo1.setOnAction(e -> {
+            String a = (String) combo1.getValue();
+            if (a != null) {
+            delcombo=a;
+             } else {
+            System.out.println("Ningún elemento seleccionado");
+             }
+            });
+        }else{
+            System.out.println("No funciona");
+        }
+       
          btnEdit.setOnAction(e -> {
             editables();
+           
         });
+         
+            
          
     } 
     public void editables(){
@@ -154,12 +177,11 @@ public class EditPresetAtributeController extends Controller implements Initiali
     
     public void editarNumero() { 
         //if(attribute.getAttributeName().equals()){
-            //HBox hbox= (HBox) content.getChildren().get(0);
-            
+           if(why){
             HBox hbox1= (HBox) content.getChildren().get(1);
             TextField t1=(TextField) hbox1.getChildren().get(1);
-            String combo="A";
-            if(combo.equals("PERSONAL")){
+            //String combo="A";
+            if(delcombo.equals("PERSONAL")){
                 PersonPhone ph = (PersonPhone) attribute;  
                 ph.setPhoneNumber(t1.getText());
                 ph.setPhoneType(SourceType.PERSONAL);    
@@ -167,17 +189,21 @@ public class EditPresetAtributeController extends Controller implements Initiali
                 PersonPhone ph = (PersonPhone) attribute;  
                 ph.setPhoneNumber(t1.getText());
                 ph.setPhoneType(SourceType.WORK); 
-            }               
+            }    
+            }else{
+               
+           }
+                  
     }
     
     public void editarLocation(){
-        System.out.println(contact.getClass());
+        if(why){
          HBox hbox1= (HBox) content.getChildren().get(1);
          HBox hbox2= (HBox) content.getChildren().get(2);
             TextField t1=(TextField) hbox1.getChildren().get(1);
             TextField t2=(TextField) hbox2.getChildren().get(1);
-            String combo="A";
-            if(combo.equals("PERSONAL")){
+            
+            if(delcombo.equals("PERSONAL")){
                 PersonLocation pl = (PersonLocation) attribute;              
                 pl.setDetails(t1.getText());
                 pl.setMapsURL(t2.getText());
@@ -187,17 +213,19 @@ public class EditPresetAtributeController extends Controller implements Initiali
                 pl.setDetails(t1.getText());
                 pl.setMapsURL(t2.getText());
                 pl.setLocationType(SourceType.WORK);
-            }  
+            } 
+        }
     }
     public void editarRedes(){
+        if(why){
         HBox hbox1= (HBox) content.getChildren().get(1);
             TextField t1=(TextField) hbox1.getChildren().get(1);           
-            String combo="A";
-            if(combo.equals("INSTAGRAM")){
+            
+            if(delcombo.equals("INSTAGRAM")){
                 SocialMedia pl = (SocialMedia) attribute;              
                 pl.setUser(t1.getText());             
                 pl.setSocialMedia(SocialMediaType.INSTAGRAM);
-            }else if(combo.equals("FACEBOOK")){
+            }else if(delcombo.equals("FACEBOOK")){
                 SocialMedia pl = (SocialMedia) attribute;              
                 pl.setUser(t1.getText());             
                 pl.setSocialMedia(SocialMediaType.FACEBOOK);
@@ -205,14 +233,17 @@ public class EditPresetAtributeController extends Controller implements Initiali
                SocialMedia pl = (SocialMedia) attribute;              
                 pl.setUser(t1.getText());             
                 pl.setSocialMedia(SocialMediaType.X);
-            }  
+            } 
+        }
+        
     }
     
     public void editarEmail(){
+        if(why){
         HBox hbox1= (HBox) content.getChildren().get(1);
             TextField t1=(TextField) hbox1.getChildren().get(1);
-            String combo="A";
-            if(combo.equals("PERSONAL")){
+            
+            if(delcombo.equals("PERSONAL")){
                 Email ph = (Email) attribute;  
                 ph.setEmail(t1.getText());
                 ph.setEmailType(SourceType.PERSONAL);    
@@ -220,14 +251,17 @@ public class EditPresetAtributeController extends Controller implements Initiali
                 Email ph = (Email) attribute;  
                 ph.setEmail(t1.getText());
                 ph.setEmailType(SourceType.WORK);  
-            }  
+            }
+        }
     }
     
-    public void editarRecordatorio(){
+    public void editarRecordatorio(){///revisar en empresa
+        if(why){
         HBox hbox1= (HBox) content.getChildren().get(1);
             TextField t1=(TextField) hbox1.getChildren().get(1);         
             GenericReminder ph = (GenericReminder) attribute;  
-            ph.setDescription(t1.getText());   
+            ph.setDescription(t1.getText());  
+        }
     }
     @FXML
     private void seleccion(ActionEvent event) {
