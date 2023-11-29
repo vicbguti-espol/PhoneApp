@@ -1,4 +1,4 @@
-package com.mycompany.pagination;
+package com.mycompany.customizables;
 
 import collections.CustomIterator;
 import collections.CustomLinkedList;
@@ -11,28 +11,22 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class ImagePagination {
+public class ImagePagination extends CustomComponent {
     private final List<File> filesList = new CustomLinkedList<>();
     private CustomIterator<File> circularIterator;
     private ImageViewChanger imageViewChanger;
     private Button rightButton;
     private Button leftButton;
-    private VBox vBox;
-
+    
     public ImagePagination(){
-        buildImagePagination();
+        super.buildComponent();
     }
 
     public List<File> getFiles(){
         return filesList;
-    }
-
-    public Pane getContainer(){
-        return vBox;
-    }
+    }   
 
     /**
      * Method used to start viewing something in the container
@@ -45,20 +39,18 @@ public class ImagePagination {
         leftButton.setOnAction(new LeftButtonEventHandler(
                 circularIterator, imageViewChanger));
     }
-
-
-
-    private void buildImagePagination(){
+    
+    @Override
+    protected void buildSubComponents(){
         buildImageViewChanger();
         buildButtons();
-        buildContainer();
     }
 
 
-
-    private void buildContainer(){
+    @Override
+    protected void buildContainer(){
         HBox buttonsHBox = new HBox(leftButton, rightButton);
-        vBox = new VBox(buttonsHBox,
+        container = new VBox(buttonsHBox,
                 imageViewChanger.getImageView());
     }
 
@@ -81,7 +73,7 @@ public class ImagePagination {
         filesList.forEach(e -> circularImageList.add(e));
         circularIterator = circularImageList.circularIterator();
     }
-
+    
     private class ImageViewChanger {
         ImageView imageView;
 

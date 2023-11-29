@@ -1,10 +1,10 @@
 package model.user;
 
+import collections.CustomLinkedList;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedList;
 import java.util.List;
 import model.contacts.Contact;
 
@@ -29,16 +29,20 @@ public class MobilePhone {
         serialize();
     }
     
+    public static void updateContactList(){
+        initContactList();
+        serialize();
+    }
+    
     private static void initContactList() {
-        
         File f = new File(contactListPath);
-        if(!f.isFile()) { 
+        if(!f.isFile()) {
             try {
                 Files.createDirectories(Paths.get("ser"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            contactList = new LinkedList<>();
+            contactList = new CustomLinkedList<>();
             serialize();
         } else if (contactList == null){
             deserialize();
@@ -47,7 +51,7 @@ public class MobilePhone {
     
     private static void deserialize(){
         try {
-            contactList = (LinkedList<Contact>) SerializationUtil.
+            contactList = (CustomLinkedList<Contact>) SerializationUtil.
                     deserialize(contactListPath);
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
@@ -60,9 +64,5 @@ public class MobilePhone {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-    public static void updateContactList(){
-        initContactList();
-        serialize();
     }
 }

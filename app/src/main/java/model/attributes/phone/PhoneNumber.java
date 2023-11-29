@@ -1,6 +1,5 @@
 package model.attributes.phone;
 
-import java.util.ArrayList;
 import model.attributes.Attribute;
 import model.attributes.Typable;
 

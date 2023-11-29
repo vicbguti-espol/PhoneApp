@@ -1,15 +1,15 @@
 package model.contacts;
 
+import collections.CustomLinkedList;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import model.attributes.Attribute;
 import model.attributes.phone.PhoneNumber;
+import model.comparator.ComparatorUtil;
 
 public abstract class Contact implements Serializable {
-    public LinkedList<Attribute> attributes;
+    public final List<Attribute> attributes = new CustomLinkedList<>();
     protected String uid;   
     
     public Contact(PhoneNumber phone) {
@@ -17,12 +17,18 @@ public abstract class Contact implements Serializable {
         initUID(phone);
     }
 
-    public LinkedList<Attribute> getAttributes() {
+    public List<Attribute> getAttributes() {
         return attributes;
     }
     
+    /**
+     * Deprecated method
+     * @param cmp
+     * @param object
+     * @return 
+     */
     public List<Attribute> findAttributes(Comparator<Attribute> cmp, Attribute object) {
-        List<Attribute> found = new ArrayList<>();
+        List<Attribute> found = new CustomLinkedList<>();
         for ( Attribute attribute: attributes ) {
             if ( cmp.compare(attribute, object) == 0 ) {
                 found.add(attribute);
@@ -31,12 +37,18 @@ public abstract class Contact implements Serializable {
         return found;
     }
     
+    public List<Attribute> findByAttribute(Attribute attribute){
+        CustomLinkedList<Attribute> customAttributes =
+                new CustomLinkedList(attributes);
+        return customAttributes.findAll(
+                ComparatorUtil.cmpByAttribute, attribute);
+    }
+    
     public String getUID(){
         return uid;
     }
     
     private void initAttributesList(PhoneNumber phone){
-        attributes = new LinkedList<>();
         attributes.add(phone);   
     }
     

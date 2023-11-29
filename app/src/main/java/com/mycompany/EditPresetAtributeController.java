@@ -6,34 +6,31 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import model.attributes.Attribute;
 import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 import java.util.Comparator;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.attributes.AssociatedContact;
-import model.attributes.ContactImage;
 import model.attributes.Email;
 import model.attributes.SocialMedia;
 import model.attributes.company.CompanyDescription;
 import model.attributes.company.CompanyWebPage;
+import model.attributes.location.CompanyLocation;
 import model.attributes.location.Location;
 import model.attributes.location.PersonLocation;
 import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
+import model.attributes.phone.CompanyPhone;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.attributes.reminders.GenericReminder;
@@ -41,7 +38,7 @@ import model.comparator.ComparatorUtil;
 import model.enums.SocialMediaType;
 import model.enums.SourceType;
 
-public class EditPresetAtributeController extends Controller implements Initializable {
+public class EditPresetAtributeController extends DataEntryController implements Initializable {
 
     private List<Contact> contactList;
     private Comparator<Attribute> cmp;
@@ -77,22 +74,29 @@ public class EditPresetAtributeController extends Controller implements Initiali
     //contacto pasado
     private Contact contact;
     private Attribute attribute;
+
     private String delcombo;
     private String POC;
     private Boolean  why= false;
+
+    private char contactType;
+
     @FXML
     private VBox content;
     
     
-    EditPresetAtributeController(Contact selectedContact, Attribute att,String c) {
+    EditPresetAtributeController(Contact selectedContact, Attribute att) {
         contact = selectedContact;
         attribute = att;
-        POC=c;
+
+        editar=attribute.getAttributeName();
+        contactType = contact.getUID().charAt(0);
+
     }
     
     
     public void initialize(URL url, ResourceBundle rb) {
-       mensaje.setText(attribute.getAttributeName()); 
+       mensaje.setText("Editar " + editar); 
         btnReturn.setOnAction(e -> {
              try {
                  returnContactPage();
@@ -103,7 +107,13 @@ public class EditPresetAtributeController extends Controller implements Initiali
        
        ArrayList<Field> allFields = new ArrayList<>();
        Class<?> currentClass = attribute.getClass();
-       int c=1;
+       int c = 0;
+        if (editar.equals("PersonLocation")
+                || editar.equals("PersonPhone")
+                || editar.equals("CompanyPhone")
+                || editar.equals("CompanyLocation")){
+            c = 1;
+        }
         for (int i = 0; i <= c; i++){
             Field[] fields = currentClass.getDeclaredFields(); //obtener atributos de clase
             for (Field f: fields){
@@ -160,10 +170,9 @@ public class EditPresetAtributeController extends Controller implements Initiali
          
     } 
     public void editables(){
-        editar=attribute.getAttributeName();
-        if (editar.equals("PersonPhone")){
+        if (attribute instanceof PhoneNumber){
             editarNumero();
-        }else if(editar.equals("PersonLocation")){
+        }else if(attribute instanceof Location){
             editarLocation();
         }else if(editar.equals("Email")){
             editarEmail();
@@ -171,88 +180,131 @@ public class EditPresetAtributeController extends Controller implements Initiali
             editarRedes();
         }else if(editar.equals("GenericReminder")){
             editarRecordatorio();
+        }else if(editar.equals("AssociatedContact")){
+            editAssociated();
+        }
+        
+        super.sucessDialog();
+        MobilePhone.updateContactList();
+        try {
+            super.returnContactPage(contact);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         
     }
     
-    public void editarNumero() { 
-        //if(attribute.getAttributeName().equals()){
-           if(why){
+
+    public void editarNumero() {
+        if (contactType == 'P'){
+            HBox hbox= (HBox) content.getChildren().get(0);
+            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            String combo = (String) comboBox.getSelectionModel().getSelectedItem();
+            
             HBox hbox1= (HBox) content.getChildren().get(1);
             TextField t1=(TextField) hbox1.getChildren().get(1);
-            //String combo="A";
-            if(delcombo.equals("PERSONAL")){
-                PersonPhone ph = (PersonPhone) attribute;  
-                ph.setPhoneNumber(t1.getText());
+            PersonPhone ph = (PersonPhone) attribute;
+            ph.setPhoneNumber(t1.getText());
+            
+            if(combo.equals("PERSONAL")){
                 ph.setPhoneType(SourceType.PERSONAL);    
             }else{
-                PersonPhone ph = (PersonPhone) attribute;  
-                ph.setPhoneNumber(t1.getText());
                 ph.setPhoneType(SourceType.WORK); 
             }    
-            }else{
-               
-           }
+           } else if (contactType == 'C'){
+            HBox hbox1= (HBox) content.getChildren().get(0);
+            TextField t1=(TextField) hbox1.getChildren().get(1);
+            CompanyPhone ph = (CompanyPhone) attribute;
+            ph.setPhoneNumber(t1.getText());
+            
+        }
                   
     }
     
+    
+
+    
+    
     public void editarLocation(){
-        if(why){
-         HBox hbox1= (HBox) content.getChildren().get(1);
-         HBox hbox2= (HBox) content.getChildren().get(2);
+        if (contactType == 'P'){
+            HBox hbox= (HBox) content.getChildren().get(0);
+            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            String combo = (String) comboBox.getSelectionModel().getSelectedItem();
+            
+            HBox hbox1= (HBox) content.getChildren().get(1);
+            HBox hbox2= (HBox) content.getChildren().get(2);
             TextField t1=(TextField) hbox1.getChildren().get(1);
             TextField t2=(TextField) hbox2.getChildren().get(1);
-            
-            if(delcombo.equals("PERSONAL")){
-                PersonLocation pl = (PersonLocation) attribute;              
-                pl.setDetails(t1.getText());
-                pl.setMapsURL(t2.getText());
+            PersonLocation pl = (PersonLocation) attribute;          
+            pl.setDetails(t1.getText());
+            pl.setMapsURL(t2.getText());
+            if(combo.equals("PERSONAL")){
+
                 pl.setLocationType(SourceType.PERSONAL);
             }else{
-                PersonLocation pl = (PersonLocation) attribute;              
-                pl.setDetails(t1.getText());
-                pl.setMapsURL(t2.getText());
                 pl.setLocationType(SourceType.WORK);
-            } 
-        }
-    }
-    public void editarRedes(){
-        if(why){
-        HBox hbox1= (HBox) content.getChildren().get(1);
-            TextField t1=(TextField) hbox1.getChildren().get(1);           
+            }
             
-            if(delcombo.equals("INSTAGRAM")){
-                SocialMedia pl = (SocialMedia) attribute;              
-                pl.setUser(t1.getText());             
-                pl.setSocialMedia(SocialMediaType.INSTAGRAM);
-            }else if(delcombo.equals("FACEBOOK")){
-                SocialMedia pl = (SocialMedia) attribute;              
-                pl.setUser(t1.getText());             
-                pl.setSocialMedia(SocialMediaType.FACEBOOK);
-            }else{
-               SocialMedia pl = (SocialMedia) attribute;              
-                pl.setUser(t1.getText());             
-                pl.setSocialMedia(SocialMediaType.X);
-            } 
+            } else if (contactType == 'C'){
+            HBox hbox1= (HBox) content.getChildren().get(0);
+            HBox hbox2= (HBox) content.getChildren().get(1);
+            TextField t1=(TextField) hbox1.getChildren().get(1);
+            TextField t2=(TextField) hbox2.getChildren().get(1);
+            CompanyLocation pl = (CompanyLocation) attribute;          
+            pl.setDetails(t1.getText());
+            pl.setMapsURL(t2.getText());
         }
-        
+            
+        }
+    
+    public void editarRedes(){
+        HBox hbox= (HBox) content.getChildren().get(0);
+        HBox hbox1= (HBox) content.getChildren().get(1);
+        TextField t1 = (TextField) hbox.getChildren().get(1);           
+        ComboBox comboBox = (ComboBox) hbox1.getChildren().get(1);
+        String combo = (String) comboBox.getSelectionModel().getSelectedItem();
+        if(combo.equals("INSTAGRAM")){
+            SocialMedia pl = (SocialMedia) attribute;              
+            pl.setUser(t1.getText());             
+            pl.setSocialMedia(SocialMediaType.INSTAGRAM);
+        }else if(combo.equals("FACEBOOK")){
+            SocialMedia pl = (SocialMedia) attribute;              
+            pl.setUser(t1.getText());             
+            pl.setSocialMedia(SocialMediaType.FACEBOOK);
+        }else{
+           SocialMedia pl = (SocialMedia) attribute;              
+            pl.setUser(t1.getText());             
+            pl.setSocialMedia(SocialMediaType.X);
+        }  
     }
     
     public void editarEmail(){
-        if(why){
+        HBox hbox= (HBox) content.getChildren().get(0);
         HBox hbox1= (HBox) content.getChildren().get(1);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
-            
-            if(delcombo.equals("PERSONAL")){
-                Email ph = (Email) attribute;  
-                ph.setEmail(t1.getText());
-                ph.setEmailType(SourceType.PERSONAL);    
-            }else{
-                Email ph = (Email) attribute;  
-                ph.setEmail(t1.getText());
-                ph.setEmailType(SourceType.WORK);  
-            }
-        }
+        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+        TextField t1=(TextField) hbox1.getChildren().get(1);
+        String combo = (String) comboBox.getSelectionModel().getSelectedItem();
+        if(combo.equals("PERSONAL")){
+            Email ph = (Email) attribute;  
+            ph.setEmail(t1.getText());
+            ph.setEmailType(SourceType.PERSONAL);    
+        }else{
+            Email ph = (Email) attribute;  
+            ph.setEmail(t1.getText());
+            ph.setEmailType(SourceType.WORK);  
+        }  
+    }
+    
+    public void editAssociated(){
+        HBox hbox= (HBox) content.getChildren().get(0);
+        HBox hbox1= (HBox) content.getChildren().get(1);
+        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+        TextField t1=(TextField) hbox1.getChildren().get(1);
+        Contact combo = (Contact) comboBox.getSelectionModel().getSelectedItem();
+        AssociatedContact ac = (AssociatedContact) attribute;
+        ac.setContact(combo);
+        ac.setRelation(t1.getText());
+
     }
     
     public void editarRecordatorio(){///revisar en empresa
@@ -263,61 +315,9 @@ public class EditPresetAtributeController extends Controller implements Initiali
             ph.setDescription(t1.getText());  
         }
     }
-    @FXML
-    private void seleccion(ActionEvent event) {
-          
-}
-
-    @FXML
-    private void g(MouseEvent event) {
-    }
-    
+ 
     private void returnContactPage() throws IOException{
         App.setRoot("contact", new ContactController(contact));
     }
     
 }
-   //}
-//       HBox hbox= (HBox) content.getChildren().get(1);
-//        TextField t1=(TextField) hbox.getChildren().get(1);
-//        System.out.println(t1.getText()); 
-//         PhoneNumber ph = (PhoneNumber) attribute;   
-//         
-//               ph.setPhoneNumber(t1.getText());
-//               editar = attribute.getAttributeName();//para saber quien es
-//         System.out.println(editar+"si");
-         
-               
-//        String dato= box_dato.getText();
-////        if(dato==""||dato.equals("Dato")){
-////            Alert alert = new Alert(AlertType.WARNING);
-////        alert.setTitle("");
-////        alert.setHeaderText(null);
-////        alert.setContentText("Llenar el campo");
-////
-////        alert.showAndWait();
-////        }else{
-//        modificar=new ArrayList<>();
-//        modificar.add(contact);  
-//        Alista=modificar.get(0).attributes; 
-//        
-//        editar = attribute.getAttributeName();
-//
-//        //MobilePhone.removeContact(contact);
-//        for(Attribute atributos:Alista){
-//            if(editar.equals("Location")){
-//                
-//             PersonLocation pl =(PersonLocation)attribute;
-//            
-//             pl.setDetails(t1.getText());
-//             pl.setMapsURL(dato);
-//            }
-//            if( editar.equals("Telefono" )){
-//            PhoneNumber ph = (PhoneNumber) atributos;     
-//                ph.setPhoneNumber(t1.getText());
-//            }
-//        //}
-//       // MobilePhone.addContact(modificar.get(0));
-//        
-//    mensaje.setText("Cambio realizado");
-//        }

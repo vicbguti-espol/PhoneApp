@@ -1,6 +1,6 @@
 package com.mycompany;
 
-import com.mycompany.pagination.ImagePagination;
+import com.mycompany.customizables.ImagePagination;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
