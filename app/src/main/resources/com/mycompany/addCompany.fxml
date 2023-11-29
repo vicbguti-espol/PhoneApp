@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="600.0" spacing="24.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="128.0" prefWidth="420.0" spacing="24.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="470.0">
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="420.0" spacing="250.0">
                <children>
-                  <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
-                  <Button fx:id="btnAdd" mnemonicParsing="false" text="Añadir" />
+                  <Button fx:id="btnReturn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Volver" />
+                  <Button fx:id="btnAdd" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Añadir" />
                </children>
             </HBox>
-            <Label fx:id="lblContact" text="Añadir Empresa">
+            <Label fx:id="lblContact" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="97.0" text="Añadir Empresa">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
@@ -30,30 +30,30 @@
       </VBox>
    </top>
    <center>
-      <VBox fx:id="centerVBox" prefHeight="438.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="centerVBox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="552.0" prefWidth="360.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="9.0" prefWidth="700.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="42.0" prefWidth="300.0">
                <children>
                   <Label text="Nombre" />
-                  <TextField fx:id="txtName" />
+                  <TextField fx:id="txtName" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" />
                </children>
             </VBox>
-            <VBox prefHeight="36.0" prefWidth="700.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="42.0" prefWidth="300.0">
                <children>
                   <Label text="Descripción" />
-                  <TextField fx:id="txtDescription" />
+                  <TextField fx:id="txtDescription" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" />
                </children>
             </VBox>
             <VBox prefHeight="9.0" prefWidth="700.0">
                <children>
                   <Label text="Número" />
-                  <TextField fx:id="txtPhoneNumber" />
+                  <TextField fx:id="txtPhoneNumber" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" />
                </children>
             </VBox>
             <VBox prefHeight="29.0" prefWidth="700.0">
                <children>
                   <Label text="Página web" />
-                  <TextField fx:id="txtWebPage" />
+                  <TextField fx:id="txtWebPage" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" />
                </children>
             </VBox>
             <VBox prefHeight="36.0" prefWidth="700.0">
@@ -61,8 +61,8 @@
                   <Label text="Dirección" />
                   <HBox prefHeight="19.0" prefWidth="600.0" spacing="40.0">
                      <children>
-                        <TextField fx:id="txtLocationDescription" promptText="Detalle" />
-                        <TextField fx:id="txtLocationURL" promptText="Link Maps" />
+                        <TextField fx:id="txtLocationDescription" maxWidth="-Infinity" prefWidth="130.0" promptText="Detalle" />
+                        <TextField fx:id="txtLocationURL" maxWidth="-Infinity" prefWidth="140.0" promptText="Link Maps" />
                      </children>
                   </HBox>
                </children>
