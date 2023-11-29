@@ -244,7 +244,11 @@ public class ContactController extends DataEntryController implements Initializa
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field: fields) {
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
-                attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
+                if (field.getName().equals("description")){
+                    //mostrar descripcion/nombre generico
+                }else {
+                    attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
+                }
                 attributeNameColumn.setPrefWidth(150);
                 tableView.getColumns().add(attributeNameColumn);
             }
@@ -361,6 +365,12 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     private void showGenerics() {
+        HBox header = new HBox();
+        header.setSpacing(50);
+        header.setAlignment(Pos.CENTER);
+        Label title1 = new Label("Genericos");
+        header.getChildren().addAll(title1);
+        vbContent.getChildren().add(header);
         List<Attribute> genericAttributes = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
         if (!genericAttributes.isEmpty()) {
             HBox hbox = new HBox();

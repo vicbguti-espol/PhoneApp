@@ -205,7 +205,7 @@ public class EditPresetAtributeController extends DataEntryController implements
             editGeneric();
         }
         
-        super.sucessDialog();
+        super.sucessEditDialog();
         MobilePhone.updateContactList();
         try {
             super.returnContactPage(contact);
@@ -217,27 +217,24 @@ public class EditPresetAtributeController extends DataEntryController implements
     
 
     public void editarNumero() {
+        HBox hbox = (HBox) content.getChildren().get(0);
         if (contactType == 'P'){
-            HBox hbox= (HBox) content.getChildren().get(0);
-            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            VBox vbox = (VBox) hbox.getChildren().get(1);
+            ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
             String combo = (String) comboBox.getSelectionModel().getSelectedItem();
-            
-            HBox hbox1= (HBox) content.getChildren().get(1);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
+            TextField t1 = (TextField) vbox.getChildren().get(1);
             PersonPhone ph = (PersonPhone) attribute;
             ph.setPhoneNumber(t1.getText());
-            
             if(combo.equals("PERSONAL")){
                 ph.setPhoneType(SourceType.PERSONAL);    
             }else{
                 ph.setPhoneType(SourceType.WORK); 
-            }    
-           } else if (contactType == 'C'){
-            HBox hbox1= (HBox) content.getChildren().get(0);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
+            }  
+        } else if (contactType == 'C'){
+            VBox vbox = (VBox) hbox.getChildren().get(1);
+            TextField t1=(TextField) vbox.getChildren().get(0);
             CompanyPhone ph = (CompanyPhone) attribute;
             ph.setPhoneNumber(t1.getText());
-            
         }
                   
     }
@@ -247,15 +244,13 @@ public class EditPresetAtributeController extends DataEntryController implements
     
     
     public void editarLocation(){
+        HBox hbox = (HBox) content.getChildren().get(0);
         if (contactType == 'P'){
-            HBox hbox= (HBox) content.getChildren().get(0);
-            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            VBox vbox = (VBox) hbox.getChildren().get(1);
+            ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
             String combo = (String) comboBox.getSelectionModel().getSelectedItem();
-            
-            HBox hbox1= (HBox) content.getChildren().get(1);
-            HBox hbox2= (HBox) content.getChildren().get(2);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
-            TextField t2=(TextField) hbox2.getChildren().get(1);
+            TextField t1 = (TextField) vbox.getChildren().get(1);
+            TextField t2=(TextField) vbox.getChildren().get(2);
             PersonLocation pl = (PersonLocation) attribute;          
             pl.setDetails(t1.getText());
             pl.setMapsURL(t2.getText());
@@ -265,12 +260,10 @@ public class EditPresetAtributeController extends DataEntryController implements
             }else{
                 pl.setLocationType(SourceType.WORK);
             }
-            
-            } else if (contactType == 'C'){
-            HBox hbox1= (HBox) content.getChildren().get(0);
-            HBox hbox2= (HBox) content.getChildren().get(1);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
-            TextField t2=(TextField) hbox2.getChildren().get(1);
+        } else if (contactType == 'C'){
+            VBox vbox = (VBox) hbox.getChildren().get(1);
+            TextField t1=(TextField) vbox.getChildren().get(0);
+            TextField t2=(TextField) vbox.getChildren().get(1);
             CompanyLocation pl = (CompanyLocation) attribute;          
             pl.setDetails(t1.getText());
             pl.setMapsURL(t2.getText());
@@ -279,48 +272,46 @@ public class EditPresetAtributeController extends DataEntryController implements
         }
     
     public void editarRedes(){
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        TextField t1 = (TextField) hbox.getChildren().get(1);           
-        ComboBox comboBox = (ComboBox) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(0);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(1);
         String combo = (String) comboBox.getSelectionModel().getSelectedItem();
-        if(combo.equals("INSTAGRAM")){
-            SocialMedia pl = (SocialMedia) attribute;              
-            pl.setUser(t1.getText());             
+        SocialMedia pl = (SocialMedia) attribute;              
+        pl.setUser(t1.getText()); 
+        if(combo.equals("INSTAGRAM")){          
             pl.setSocialMedia(SocialMediaType.INSTAGRAM);
-        }else if(combo.equals("FACEBOOK")){
-            SocialMedia pl = (SocialMedia) attribute;              
-            pl.setUser(t1.getText());             
+        }else if(combo.equals("FACEBOOK")){            
             pl.setSocialMedia(SocialMediaType.FACEBOOK);
-        }else{
-           SocialMedia pl = (SocialMedia) attribute;              
-            pl.setUser(t1.getText());             
+        }else{       
             pl.setSocialMedia(SocialMediaType.X);
-        }  
+        }   
     }
     
     public void editarEmail(){
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
-        TextField t1=(TextField) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(1);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
         String combo = (String) comboBox.getSelectionModel().getSelectedItem();
+        Email ph = (Email) attribute;  
+        ph.setEmail(t1.getText());
         if(combo.equals("PERSONAL")){
-            Email ph = (Email) attribute;  
-            ph.setEmail(t1.getText());
             ph.setEmailType(SourceType.PERSONAL);    
         }else{
-            Email ph = (Email) attribute;  
-            ph.setEmail(t1.getText());
+            
             ph.setEmailType(SourceType.WORK);  
-        }  
+        }   
     }
     
     public void editAssociated(){
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
-        TextField t1=(TextField) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(1);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
         Contact combo = (Contact) comboBox.getSelectionModel().getSelectedItem();
         AssociatedContact ac = (AssociatedContact) attribute;
         ac.setContact(combo);
@@ -329,20 +320,22 @@ public class EditPresetAtributeController extends DataEntryController implements
     }
     
     public void editarRecordatorio(){
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        TextField t2=(TextField) hbox.getChildren().get(1);
-        DatePicker t1=(DatePicker) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t2 = (TextField) vbox.getChildren().get(0);
+        DatePicker t1 = (DatePicker) vbox.getChildren().get(1);
         GenericReminder ph = (GenericReminder) attribute;
         ph.setDescription(t2.getText());
         ph.setDate(t1.getValue());
     }
     
     public void editGeneric(){ //revisar
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        TextField t1=(TextField) hbox1.getChildren().get(1);
-        TextField t2=(TextField) hbox.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(0);
+        TextField t2 = (TextField) vbox.getChildren().get(1);
         GenericAttribute ga = (GenericAttribute) attribute;
         ga.setDescripcion(t1.getText());
         ga.setValue(t2.getText());

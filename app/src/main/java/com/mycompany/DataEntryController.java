@@ -21,6 +21,14 @@ public abstract class DataEntryController extends Controller {
         a.show();
     }
     
+    void sucessEditDialog(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setContentText("Editado con éxito");
+        a.show();
+    }
+    
     boolean confirmationAlert(String string){
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("Atención!");

@@ -173,20 +173,19 @@ public class AddPresetAtributeController extends DataEntryController implements 
      
     public void addNumero(){
         Attribute p1 = null;
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
         if (contactType == 'P'){
-            HBox hbox= (HBox) content.getChildren().get(0);
-            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
             String combo = (String) comboBox.getSelectionModel().getSelectedItem();
-            HBox hbox1= (HBox) content.getChildren().get(1);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
+            TextField t1 = (TextField) vbox.getChildren().get(1);
             if(combo.equals("PERSONAL")){
                 p1= new PersonPhone(t1.getText(),SourceType.PERSONAL);
             }else{
                  p1= new PersonPhone(t1.getText(),SourceType.WORK);
             }
         } else if (contactType == 'C'){
-            HBox hbox1= (HBox) content.getChildren().get(0);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
+            TextField t1=(TextField) vbox.getChildren().get(0);
             p1= new CompanyPhone(t1.getText());
         }
         contact.getAttributes().add(p1);
@@ -194,27 +193,21 @@ public class AddPresetAtributeController extends DataEntryController implements 
     
     public void addLocation(){
         Attribute p1 = null;
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
         if (contactType == 'P'){
-            HBox hbox= (HBox) content.getChildren().get(0);
-            ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
+            ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
             String combo = (String) comboBox.getSelectionModel().getSelectedItem();
-            
-            HBox hbox1= (HBox) content.getChildren().get(1);
-            HBox hbox2= (HBox) content.getChildren().get(2);
-            TextField t1=(TextField) hbox1.getChildren().get(1);
-            TextField t2=(TextField) hbox2.getChildren().get(1);
-
+            TextField t1 = (TextField) vbox.getChildren().get(1);
+            TextField t2=(TextField) vbox.getChildren().get(2);
             if(combo.equals("PERSONAL")){
                 p1= new PersonLocation(SourceType.PERSONAL,t1.getText(),t2.getText());
             }else{
                 p1= new PersonLocation(SourceType.WORK,t1.getText(),t2.getText());
             }
         } else if (contactType == 'C'){
-            HBox hbox1= (HBox) content.getChildren().get(0);
-            HBox hbox2= (HBox) content.getChildren().get(1);
-
-            TextField t1=(TextField) hbox1.getChildren().get(1);
-            TextField t2=(TextField) hbox2.getChildren().get(1);
+            TextField t1=(TextField) vbox.getChildren().get(0);
+            TextField t2=(TextField) vbox.getChildren().get(1);
             p1= new CompanyLocation(t1.getText(),t2.getText());
         }
         contact.getAttributes().add(p1);
@@ -222,10 +215,11 @@ public class AddPresetAtributeController extends DataEntryController implements 
     
     public void addRedes(){
         Attribute p1 = null;
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        TextField t1 = (TextField) hbox.getChildren().get(1);           
-        ComboBox comboBox = (ComboBox) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(0);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(1);
         String combo = (String) comboBox.getSelectionModel().getSelectedItem();
         if(combo.equals("INSTAGRAM")){
             p1= new SocialMedia(t1.getText(),SocialMediaType.INSTAGRAM);
@@ -241,10 +235,11 @@ public class AddPresetAtributeController extends DataEntryController implements 
     
     public void addEmail(){
         Attribute p1 = null;
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
-        TextField t1=(TextField) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(1);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
         String combo = (String) comboBox.getSelectionModel().getSelectedItem();
         if(combo.equals("PERSONAL")){  
             p1= new Email(SourceType.PERSONAL,t1.getText());
@@ -257,10 +252,11 @@ public class AddPresetAtributeController extends DataEntryController implements 
     
     public void addAssociated(){
         Attribute p1 = null;
-        HBox hbox= (HBox) content.getChildren().get(0);
-        HBox hbox1= (HBox) content.getChildren().get(1);
-        ComboBox comboBox = (ComboBox) hbox.getChildren().get(1);
-        TextField t1=(TextField) hbox1.getChildren().get(1);
+        HBox hbox = (HBox) content.getChildren().get(0);
+        VBox vbox = (VBox) hbox.getChildren().get(1);
+        
+        TextField t1 = (TextField) vbox.getChildren().get(1);
+        ComboBox comboBox = (ComboBox) vbox.getChildren().get(0);
         Contact combo = (Contact) comboBox.getSelectionModel().getSelectedItem();
         p1= new AssociatedContact(combo,t1.getText());
         contact.getAttributes().add(p1);
