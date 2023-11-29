@@ -1,8 +1,7 @@
 package model.contacts;
 
-import java.util.List;
+import collections.CustomLinkedList;
 import model.attributes.Attribute;
-import model.attributes.names.Name;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PhoneNumber;
 import model.comparator.ComparatorUtil;
@@ -16,8 +15,8 @@ public class Person extends Contact {
     
     @Override
     public String toString(){
-        List<Attribute> names = findAttributes(ComparatorUtil.cmpByAttribute, new PersonName("",""));
-        PersonName name = (PersonName) names.get(0);
+        CustomLinkedList<Attribute> names = (CustomLinkedList<Attribute>) findAttributes(ComparatorUtil.cmpByAttribute, new PersonName("",""));
+        PersonName name = (PersonName) names.getFirst();
         return name.toString();
     }
 }

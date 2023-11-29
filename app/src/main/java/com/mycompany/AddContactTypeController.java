@@ -1,18 +1,19 @@
 package com.mycompany;
 
-import com.mycompany.pagination.ImagePagination;
+import collections.CustomLinkedList;
+import com.mycompany.customizables.ImagePagination;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -59,6 +60,7 @@ public abstract class AddContactTypeController extends DataEntryController {
         private FileChooser fileChooser;
         private ImagePagination imagePagination;
         private VBox container;
+        private List<File> files; 
         
         void buildImagePaginationFileChooser(){
             buildSourceTextField();
@@ -72,12 +74,12 @@ public abstract class AddContactTypeController extends DataEntryController {
             return container;
         }
         
-        ImagePagination getImagePagination(){
-            return imagePagination;
+        List<File> getFiles(){
+            return files;
         }
         
         boolean isFilled(){
-            return !imagePagination.getFiles().isEmpty();
+            return !imagePagination.getImageList().isEmpty();
         }
         
         private void buildContainer(){
@@ -118,11 +120,11 @@ public abstract class AddContactTypeController extends DataEntryController {
         
         private void openImagesDialog(){
             fileChooser.setTitle("Abrir imagenes");
-            List<File> files = imagePagination.getFiles();
-            files.clear();
-            fileChooser.showOpenMultipleDialog(App.stage).
-                    forEach(e -> files.add(e));
-            if(files != null) {
+            List<Image> images = imagePagination.getImageList();
+            images.clear();
+            files = fileChooser.showOpenMultipleDialog(App.stage);
+            files.forEach(e -> images.add(new Image(e.toURI().toString())));
+            if(!images.isEmpty()) {
                 imagePagination.initPagination();
             }
         }
@@ -152,9 +154,8 @@ public abstract class AddContactTypeController extends DataEntryController {
     
     private void loadImages(){
         // handling image attribute
-        images = new ArrayList<>();
-        for (File file: imagePaginationFileChooser.
-                getImagePagination().getFiles()){
+        images = new CustomLinkedList<>();
+        for (File file: imagePaginationFileChooser.getFiles()){
             try{
                 //get Url and open stream
                 String urlString = file.toURI().toString();

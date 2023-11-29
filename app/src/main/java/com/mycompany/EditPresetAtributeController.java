@@ -6,26 +6,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import model.attributes.Attribute;
 import model.attributes.reminders.Reminder;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 import java.util.Comparator;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.attributes.AssociatedContact;
-import model.attributes.ContactImage;
 import model.attributes.Email;
 import model.attributes.SocialMedia;
 import model.attributes.company.CompanyDescription;
@@ -307,47 +302,3 @@ public class EditPresetAtributeController extends DataEntryController implements
     }
     
 }
-   //}
-//       HBox hbox= (HBox) content.getChildren().get(1);
-//        TextField t1=(TextField) hbox.getChildren().get(1);
-//        System.out.println(t1.getText()); 
-//         PhoneNumber ph = (PhoneNumber) attribute;   
-//         
-//               ph.setPhoneNumber(t1.getText());
-//               editar = attribute.getAttributeName();//para saber quien es
-//         System.out.println(editar+"si");
-         
-               
-//        String dato= box_dato.getText();
-////        if(dato==""||dato.equals("Dato")){
-////            Alert alert = new Alert(AlertType.WARNING);
-////        alert.setTitle("");
-////        alert.setHeaderText(null);
-////        alert.setContentText("Llenar el campo");
-////
-////        alert.showAndWait();
-////        }else{
-//        modificar=new ArrayList<>();
-//        modificar.add(contact);  
-//        Alista=modificar.get(0).attributes; 
-//        
-//        editar = attribute.getAttributeName();
-//
-//        //MobilePhone.removeContact(contact);
-//        for(Attribute atributos:Alista){
-//            if(editar.equals("Location")){
-//                
-//             PersonLocation pl =(PersonLocation)attribute;
-//            
-//             pl.setDetails(t1.getText());
-//             pl.setMapsURL(dato);
-//            }
-//            if( editar.equals("Telefono" )){
-//            PhoneNumber ph = (PhoneNumber) atributos;     
-//                ph.setPhoneNumber(t1.getText());
-//            }
-//        //}
-//       // MobilePhone.addContact(modificar.get(0));
-//        
-//    mensaje.setText("Cambio realizado");
-//        }

@@ -20,16 +20,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("contactList"), 880, 870);
+        scene = new Scene(new ContactListController().getRootPane(), 480, 800);
         scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
         this.stage = stage;
 
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        this.stage.setX(bounds.getMinX());
-        this.stage.setY(bounds.getMinY());
-        this.stage.setWidth(bounds.getWidth());
-        this.stage.setHeight(bounds.getHeight());
+//        Screen screen = Screen.getPrimary();
+//        Rectangle2D bounds = screen.getVisualBounds();
+//        this.stage.setX(bounds.getMinX());
+//        this.stage.setY(bounds.getMinY());
+//        this.stage.setWidth(bounds.getWidth());
+//        this.stage.setHeight(bounds.getHeight());
         
         this.stage.setScene(scene);
         this.stage.show();
@@ -47,6 +47,10 @@ public class App extends Application {
     static void setRoot(String fxml, Controller controller) 
             throws IOException {
         scene.setRoot(loadFXML(fxml, controller));
+    }
+    
+    static void setRoot(AIOController controller){
+        scene.setRoot(controller.getRootPane());
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
