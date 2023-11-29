@@ -1,6 +1,7 @@
 package collections;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -76,7 +77,19 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] array = new Object[size()];
+    int index = 0;
+    Node<E> current = last.next; // Comienza desde el primer elemento, no el último
+
+    // Itera hasta haber recorrido todos los elementos
+    while (index < n) {
+        array[index++] = current.content;
+        current = current.next;
+    }
+    
+    return array;
+//throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
     }
 
     @Override

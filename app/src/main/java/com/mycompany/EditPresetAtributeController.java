@@ -142,24 +142,7 @@ public class EditPresetAtributeController extends DataEntryController implements
         }
         //class model.contacts.Person
         root.setCenter(content);
-        
-        if(POC.equals("class model.contacts.Person")){
-             System.out.println("funcionaaaaaaa");
-             why=true;
-             System.out.println(why);
-            HBox hbox= (HBox) content.getChildren().get(0);
-            ComboBox combo1=(ComboBox) hbox.getChildren().get(1);
-            combo1.setOnAction(e -> {
-            String a = (String) combo1.getValue();
-            if (a != null) {
-            delcombo=a;
-             } else {
-            System.out.println("Ningún elemento seleccionado");
-             }
-            });
-        }else{
-            System.out.println("No funciona");
-        }
+
        
          btnEdit.setOnAction(e -> {
             editables();
