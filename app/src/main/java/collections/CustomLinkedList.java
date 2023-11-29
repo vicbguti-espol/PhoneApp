@@ -104,8 +104,45 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (isEmpty()) return false;
+
+        Node<E> current = last.next;
+        while (current != last) {
+            if (current.content.equals(o)) {
+                Node<E> prev = current.previous;
+                Node<E> next = current.next;
+                prev.next = next;
+                next.previous = prev;
+                if (current == last) {
+                    last = prev;
+                }
+                n--;
+                return true;
+            }
+            current = current.next;
+        }
+        if (last.content.equals(o)) {
+            Node<E> prev = current.previous;
+            Node<E> next = current.next;
+            prev.next = next;
+            next.previous = prev;
+            last = prev;
+            n--;
+            return true;
+        }
+        return false;
     }
+    
+    /*public static void main(String[] args) {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        list.add("Mario");
+        list.add("Jose");
+        list.add("Juan");
+        list.add("Pinela");
+        System.out.println(list);
+        list.remove("Pinela");
+        System.out.println(list);
+    }*/
 
     @Override
     public boolean containsAll(Collection<?> clctn) {
@@ -162,7 +199,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E>, Serializable {
     public E remove(int i) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public int indexOf(Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

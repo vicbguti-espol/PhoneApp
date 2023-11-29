@@ -20,14 +20,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //scene = new Scene(loadFXML("editPresetAtribute"));
-        //addPresetAtribute
-        //addAtribute
 
-        // scene = new Scene(loadFXML("contactList"), 880, 870);
         scene = new Scene(new ContactListController().getRootPane(), 480, 800);
-        // scene = new Scene(loadFXML("primary"));
-        // scene = new Scene(loadFXML("contactList"), 880, 870);
         scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
 
         this.stage = stage;

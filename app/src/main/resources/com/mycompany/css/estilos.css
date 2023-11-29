@@ -49,3 +49,26 @@
 .check-box .label{
     -fx-text-fill: white; /* Cambiar el color del texto del CheckBox a blanco */
 }
+
+
+
+.scroll-pane {
+    -fx-background-color: transparent; /* Establecer color de fondo transparente */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent; /* Establecer el color de la vista del ScrollPane transparente */
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: #395894; /* Color de fondo de la barra de desplazamiento */
+    -fx-background-insets: 0; /* Eliminar los márgenes de la barra de desplazamiento */
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-padding: 0; /* Eliminar el espacio interno en el eje vertical */
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-padding: 0; /* Eliminar el espacio interno en el eje horizontal */
+}

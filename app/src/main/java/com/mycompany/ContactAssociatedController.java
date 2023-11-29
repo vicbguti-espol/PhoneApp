@@ -6,27 +6,17 @@ package com.mycompany;
 
 import collections.CustomLinkedList;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -35,38 +25,48 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import model.attributes.*;
-import model.attributes.company.*;
-import model.attributes.location.*;
-import model.attributes.names.*;
-import model.attributes.phone.*;
-import model.attributes.reminders.*;
+import model.attributes.AssociatedContact;
+import model.attributes.Attribute;
+import model.attributes.ContactImage;
+import model.attributes.Email;
+import model.attributes.GenericAttribute;
+import model.attributes.SocialMedia;
+import model.attributes.company.CompanyDescription;
+import model.attributes.company.CompanyWebPage;
+import model.attributes.location.CompanyLocation;
+import model.attributes.location.Location;
+import model.attributes.location.PersonLocation;
+import model.attributes.names.CompanyName;
+import model.attributes.names.Name;
+import model.attributes.names.PersonName;
+import model.attributes.phone.CompanyPhone;
+import model.attributes.phone.PersonPhone;
+import model.attributes.phone.PhoneNumber;
+import model.attributes.reminders.Birthday;
+import model.attributes.reminders.GenericReminder;
 import model.comparator.ComparatorUtil;
-import model.contacts.*;
-import model.enums.SourceType;
+import model.contacts.Contact;
 import model.user.MobilePhone;
-
 /**
  * FXML Controller class
  *
  * @author arauj
  */
-public class ContactController extends DataEntryController implements Initializable {
+public class ContactAssociatedController extends Controller implements Initializable {
+
 
     @FXML
+    private BorderPane root;
+    @FXML
+    private HBox header;
+    @FXML
     private Button btnReturn;
-    @FXML
-    private CheckBox cboxFavorite;
-    @FXML
-    private Button btnDeleteContact;
     @FXML
     private VBox vbContent;
     @FXML
@@ -75,23 +75,18 @@ public class ContactController extends DataEntryController implements Initializa
     private ImageView imgvPicture;
     @FXML
     private Button btnViewImages;
-    @FXML
-    private BorderPane root;
-    @FXML
-    private Button btnAddGeneric;
-    @FXML
-    private HBox header;
     
-    private Contact contact;
-    private char contactType;
+    private Contact c;
+    private Contact associated;
+    private char type;
     
-    public ContactController(){}
-
-    public ContactController(Contact selectedContact) {
-        contact = selectedContact;
-        contactType = contact.getUID().charAt(0);
+    
+    public ContactAssociatedController(Contact c, Contact associated){
+        this.c = c;
+        this.associated = associated;
+        type = this.associated.getUID().charAt(0);
     }
-
+    
     /**
      * Initializes the controller class.
      */
@@ -99,10 +94,20 @@ public class ContactController extends DataEntryController implements Initializa
     public void initialize(URL url, ResourceBundle rb) {
         setScrollPane();
         configureHeader();
-        cboxFavorite.setStyle("-fx-text-fill: white;");
-        configureButtons();
+        btnReturn.setOnAction(e -> {
+            try {
+                returnContactPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         createHeader();
         showAttributes();
+    }    
+
+    private void returnContactPage() throws IOException {
+        Controller contactController = new ContactController(c);
+        App.setRoot("contact",contactController);
     }
     
     protected void setScrollPane(){
@@ -114,64 +119,28 @@ public class ContactController extends DataEntryController implements Initializa
         scrollPane.setPannable(true);
     }
     
-    private void configureButtons(){
-        configureReturn();
-        configureDeleteContact();
-        configureAddGeneric();
-    }
-    
-    private void configureReturn(){
-        btnReturn.setOnAction(r -> {
-            super.returnHomePage();
-        });
-    }
-    
-    private void configureDeleteContact(){
-        btnDeleteContact.setOnAction(r -> {
-            if (super.confirmationAlert("contacto")){
-                MobilePhone.removeContact(contact);
-                super.returnHomePage();
-            }            
-        });
-    }
-    
-    private void configureAddGeneric(){
-        btnAddGeneric.setOnAction(r -> {
-            try {
-                goAddAttributePage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-    }
-    
     protected void configureHeader() {
-        header.setSpacing(40);
         header.setAlignment(Pos.CENTER);
+        header.getChildren().add(new Label("Contacto asociado de " + c));
+        header.setSpacing(10);
     }
     
-    private void goAddAttributePage() throws IOException {
-        Controller addAtributeController = new AddAtributeController(contact);
-        App.setRoot("addAtribute",addAtributeController);
-    }
-    
-    private void goContactImagesPage() throws IOException {
-        App.setRoot(new ContactImagesController(contact));
-        // App.setRoot("contactImages",contactImagesController);
+    private void goContactAssociatedImagesPage() throws IOException {
+        App.setRoot(new ContactAssociatedImagesController(c,associated));
     }
 
     protected void createHeader() {
         lblName.setText(""+getNameContact());
-        if (contactType == 'C'){
+        if (type == 'C'){
             showDescritption();
             showWebPage();
-        } else if (contactType == 'P'){
+        } else if (type == 'P'){
             showBirthday();
         }
         imgvPicture.setImage(getImageProfile());
         btnViewImages.setOnAction(r -> {
             try {
-                goContactImagesPage();
+                goContactAssociatedImagesPage();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -180,13 +149,13 @@ public class ContactController extends DataEntryController implements Initializa
     
     private Name getNameContact(){
         Name name = null;
-        if (contactType == 'C'){
+        if (type == 'C'){
             name = new CompanyName("");
-        } else if (contactType == 'P'){
+        } else if (type == 'P'){
             name = new PersonName("","");
         }
         CustomLinkedList<Attribute> names = 
-                (CustomLinkedList<Attribute>) contact.
+                (CustomLinkedList<Attribute>) associated.
                         findAttributes(
                                 ComparatorUtil.cmpByAttribute, name);
         return (Name) names.getFirst();
@@ -196,7 +165,7 @@ public class ContactController extends DataEntryController implements Initializa
         Image imageProfile = null;
         CustomLinkedList<Attribute> images = 
                 (CustomLinkedList<Attribute>)
-                contact.findAttributes(
+                associated.findAttributes(
                         ComparatorUtil.cmpByAttribute, new ContactImage());
         ContactImage imgProfile = (ContactImage) images.getFirst();
         String path = imgProfile.getPath();
@@ -210,13 +179,13 @@ public class ContactController extends DataEntryController implements Initializa
 
     private void showNumbers() {
         PhoneNumber phoneNumber = null;
-        if (contactType == 'C'){
+        if (type == 'C'){
             phoneNumber = new CompanyPhone();
-        } else if (contactType == 'P'){
+        } else if (type == 'P'){
             phoneNumber = new PersonPhone();
         }
         createMiniHeader("Número teléfonico",phoneNumber,phoneNumber.getAttributeName());
-        List<Attribute> phoneNumbers = contact.findAttributes(ComparatorUtil.cmpByAttribute, phoneNumber);
+        List<Attribute> phoneNumbers = associated.findAttributes(ComparatorUtil.cmpByAttribute, phoneNumber);
         if (!phoneNumbers.isEmpty()) {
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
@@ -250,80 +219,13 @@ public class ContactController extends DataEntryController implements Initializa
             }
             currentClass = currentClass.getSuperclass();
         }
-        TableColumn<T, Void> editColumn = new TableColumn<>("Opciones");
-        Callback<TableColumn<T, Void>, TableCell<T, Void>> cellFactory = new Callback<TableColumn<T, Void>, TableCell<T, Void>>() {
-            @Override
-            public TableCell<T, Void> call(final TableColumn<T, Void> param) {
-                TableCell<T, Void> cell = new TableCell<T, Void>() {
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            HBox hbOpciones = new HBox(5);
-                            T att = getTableView().getItems().get(getIndex());
-                            createButtons(hbOpciones, att);
-                            setGraphic(hbOpciones);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-        editColumn.setCellFactory(cellFactory);
-        tableView.getColumns().add(editColumn);
         return tableView;
     }
     
     private TableView<AssociatedContact> createTableViewAssoContact(){
         TableView<AssociatedContact> tableView = createTableView(new AssociatedContact(),0);
-        tableView.getColumns().remove(tableView.getColumns().size()-1);
-        TableColumn<AssociatedContact, Void> editColumn = new TableColumn<>("Opciones");
-        Callback<TableColumn<AssociatedContact, Void>, TableCell<AssociatedContact, Void>> cellFactory = new Callback<TableColumn<AssociatedContact, Void>, TableCell<AssociatedContact, Void>>() {
-            @Override
-            public TableCell<AssociatedContact, Void> call(final TableColumn<AssociatedContact, Void> param) {
-                TableCell<AssociatedContact, Void> cell = new TableCell<AssociatedContact, Void>() {
-                    
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            HBox hbOpciones = new HBox(5);
-                            AssociatedContact att = getTableView().getItems().get(getIndex());
-                            createLink(hbOpciones,att);
-                            createButtons(hbOpciones, att);
-                            setGraphic(hbOpciones);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-        editColumn.setCellFactory(cellFactory);
-        tableView.getColumns().add(editColumn);
         return tableView;
         
-    }
-    
-    private void createLink(HBox hbox, AssociatedContact att){
-        Button btnLink = new Button("Ver contacto");
-        btnLink.setOnAction(r -> {
-            try {
-                goAssociatedContactPage(att);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        hbox.getChildren().addAll(btnLink);
-    }
-    
-    private void goAssociatedContactPage(AssociatedContact att) throws IOException {
-        Controller contactAssociatedController = new ContactAssociatedController(contact,att.getContact());
-        App.setRoot("contactAssociated",contactAssociatedController);
     }
     
     
@@ -337,13 +239,13 @@ public class ContactController extends DataEntryController implements Initializa
 
     private void showLocations() {
         Location location = null;
-        if (contactType == 'C'){
+        if (type == 'C'){
             location = new CompanyLocation();
-        } else if (contactType == 'P'){
+        } else if (type == 'P'){
             location = new PersonLocation();
         }
         createMiniHeader("Dirección",location, location.getAttributeName());
-        List<Attribute> locations = contact.findAttributes(ComparatorUtil.cmpByAttribute, location);
+        List<Attribute> locations = associated.findAttributes(ComparatorUtil.cmpByAttribute, location);
         
         if (!locations.isEmpty()) {
             HBox hbox = new HBox();
@@ -361,7 +263,7 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     private void showGenerics() {
-        List<Attribute> genericAttributes = contact.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
+        List<Attribute> genericAttributes = associated.findAttributes(ComparatorUtil.cmpByAttribute, new GenericAttribute());
         System.out.println(genericAttributes);
         if (!genericAttributes.isEmpty()) {
             HBox hbox = new HBox();
@@ -380,14 +282,14 @@ public class ContactController extends DataEntryController implements Initializa
     }    
 
     private void showDescritption() {
-        CustomLinkedList<Attribute> descriptions = (CustomLinkedList<Attribute>) contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyDescription());
+        CustomLinkedList<Attribute> descriptions = (CustomLinkedList<Attribute>) associated.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyDescription());
         CompanyDescription description = (CompanyDescription) descriptions.getFirst();
         Label descrip = new Label(description.getDescription());
         vbContent.getChildren().add(1, descrip);
     }
 
     private void showWebPage() {
-        CustomLinkedList<Attribute> webPages = (CustomLinkedList<Attribute>) contact.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyWebPage());
+        CustomLinkedList<Attribute> webPages = (CustomLinkedList<Attribute>) associated.findAttributes(ComparatorUtil.cmpByAttribute, new CompanyWebPage());
         CompanyWebPage webPage = (CompanyWebPage) webPages.getFirst();
         Label title = new Label("Página web: " + webPage.getWebPage());
         vbContent.getChildren().add(2, title);
@@ -395,7 +297,7 @@ public class ContactController extends DataEntryController implements Initializa
 
     private void showReminder() {
         GenericReminder genericReminder = new GenericReminder();
-        List<Attribute> reminders = contact.findAttributes(ComparatorUtil.cmpByAttribute, genericReminder);
+        List<Attribute> reminders = associated.findAttributes(ComparatorUtil.cmpByAttribute, genericReminder);
         createMiniHeader("Recordatorios", genericReminder, genericReminder.getAttributeName());        
         if (!reminders.isEmpty()) {
             HBox hbox = new HBox();
@@ -414,7 +316,7 @@ public class ContactController extends DataEntryController implements Initializa
     
     private void showBirthday() {
         CustomLinkedList<Attribute> reminders = (CustomLinkedList<Attribute>)
-                contact.findAttributes(
+                associated.findAttributes(
                         ComparatorUtil.cmpByAttribute, new Birthday());
         Birthday remind = (Birthday) reminders.getFirst();
         Label birthday = new Label("Cumpleaños: " + remind.getDate());
@@ -423,7 +325,7 @@ public class ContactController extends DataEntryController implements Initializa
     
     private void showSocialMedia() {
         SocialMedia social = new SocialMedia();
-        List<Attribute> socialMedia = contact.findAttributes(ComparatorUtil.cmpByAttribute, social);
+        List<Attribute> socialMedia = associated.findAttributes(ComparatorUtil.cmpByAttribute, social);
         createMiniHeader("Redes sociales", social, social.getAttributeName());
         
         if (!socialMedia.isEmpty()) {
@@ -443,7 +345,7 @@ public class ContactController extends DataEntryController implements Initializa
 
     private void showEmails() {
         Email email = new Email();
-        List<Attribute> emails = contact.findAttributes(ComparatorUtil.cmpByAttribute, email);
+        List<Attribute> emails = associated.findAttributes(ComparatorUtil.cmpByAttribute, email);
         createMiniHeader("Correo electrónico", email, email.getAttributeName());
         
         if (!emails.isEmpty()) {
@@ -463,7 +365,7 @@ public class ContactController extends DataEntryController implements Initializa
 
     private void showAssociatedContacts() {
         AssociatedContact asssociatedContact = new AssociatedContact();
-        List<Attribute> associatedContacts = contact.findAttributes(ComparatorUtil.cmpByAttribute, asssociatedContact);
+        List<Attribute> associatedContacts = associated.findAttributes(ComparatorUtil.cmpByAttribute, asssociatedContact);
         createMiniHeader("Contactos Asociados", asssociatedContact, asssociatedContact.getAttributeName());
         
         if (!associatedContacts.isEmpty()) {
@@ -486,74 +388,8 @@ public class ContactController extends DataEntryController implements Initializa
         header.setSpacing(50);
         header.setAlignment(Pos.CENTER);
         Label title1 = new Label(title);
-        Button btnAdd = new Button("Agregar");
-        if(title.equals("Recordatorios")){
-            btnAdd.setOnAction(r -> {
-                try {
-                    goAddReminderPage(contact);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-        } else {
-            btnAdd.setOnAction(r -> {
-                try {
-                    goAddPresetAttributePage(contact, att, className);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-        }
-        header.getChildren().addAll(title1,btnAdd);
+        header.getChildren().addAll(title1);
         vbContent.getChildren().add(header);
-    }
-    
-    private <T extends Attribute> void createButtons(HBox hbox, T att){
-        Button btnEdit = new Button("Editar");
-        btnEdit.setOnAction(r -> {
-            try {
-                goEditPresetAttributePage(contact, att);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        Button btnDelete = new Button("Eliminar");
-        btnDelete.setOnAction(r -> {
-            deleteAttribute(att);
-        });
-        hbox.getChildren().addAll(btnEdit, btnDelete);
-    }
-    
-    private void goEditPresetAttributePage(Contact selectedContact, Attribute att) throws IOException {
-        Controller editPresetAtributeController = new EditPresetAtributeController(selectedContact, att);
-        App.setRoot("editPresetAtribute",editPresetAtributeController);
-    }
-    
-    private void goAddPresetAttributePage(Contact selectedContact, Attribute att , String className) throws IOException {
-        Controller addPresetAtributeController = new AddPresetAtributeController(selectedContact, att, className);
-        App.setRoot("addPresetAtribute",addPresetAtributeController);
-    }
-    
-    private void goAddReminderPage(Contact selectedContact) throws IOException {
-        Controller addReminderController = new AddReminderController(selectedContact);
-        App.setRoot("addReminder",addReminderController);
-    }
-    
-    private void deleteAttribute(Attribute att) {
-        if (super.confirmationAlert("atributo")){
-            contact.getAttributes().remove(att);
-            MobilePhone.updateContactList();
-            try {
-                goContactPage(contact);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-    
-    private void goContactPage(Contact selectedContact) throws IOException {
-        Controller contactController = new ContactController(selectedContact);
-        App.setRoot("contact",contactController);
     }
     
     protected void showAttributes() {
@@ -565,7 +401,5 @@ public class ContactController extends DataEntryController implements Initializa
         showReminder();
         showGenerics();
     } 
-    
-    
     
 }

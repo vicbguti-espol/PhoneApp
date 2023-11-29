@@ -17,10 +17,10 @@ import javafx.scene.input.MouseEvent;
 import model.attributes.Attribute;
 import model.attributes.GenericAttribute;
 import model.contacts.Contact;
-import static model.user.MobilePhone.updateContactList;
+import model.user.MobilePhone;
 
 
-public class AddAtributeController extends Controller implements Initializable {
+public class AddAtributeController extends DataEntryController implements Initializable {
 
     
     @FXML
@@ -35,7 +35,6 @@ public class AddAtributeController extends Controller implements Initializable {
     @FXML
     private Button btnAdd;
     private Contact contact; 
-    private Attribute attribute;
     
     AddAtributeController(Contact contact) {
         this.contact = contact;
@@ -50,6 +49,13 @@ public class AddAtributeController extends Controller implements Initializable {
                  ex.printStackTrace();
              }
         });
+        btnAdd.setOnAction(e -> {
+            try {
+                agregar();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         
     }
     
@@ -57,22 +63,17 @@ public class AddAtributeController extends Controller implements Initializable {
         App.setRoot("contact", new ContactController(contact));
     }
 
-    @FXML
-    private void Agregar(MouseEvent event) {
+    private void agregar() throws IOException {
         String descripcion= box_Descripcion.getText();
         String dato= box_dato.getText();
         if(dato==""||descripcion==""){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("");
-        alert.setHeaderText(null);
-        alert.setContentText("No dejar cajas vacias");
-
-        alert.showAndWait();
+            super.noDataAlert();
         }else{
-            Mensaje.setText("Atributo agregado");
             Attribute attribute= new GenericAttribute(descripcion,dato);
             contact.attributes.add(attribute);
-            updateContactList();
+            MobilePhone.updateContactList();
+            super.sucessDialog();
+            super.returnContactPage(contact);
         }
     }
     

@@ -24,13 +24,15 @@ import model.contacts.Contact;
 import model.contacts.Person;
 import model.user.MobilePhone;
 
-public class ContactImagesController extends AIOController {
+public class ContactAssociatedImagesController extends AIOController {
 
-    private Contact contact;
+    private Contact c;
+    private Contact associated;
     private ImagePagination imagePagination;
 
-    public ContactImagesController(Contact contact) {
-        this.contact = contact;
+    public ContactAssociatedImagesController(Contact c, Contact associated) {
+        this.c = c;
+        this.associated = associated;
         buildImagePagination();
         buildRootPane();
     }
@@ -50,7 +52,7 @@ public class ContactImagesController extends AIOController {
     
     private void returnContactPage(){
         try {
-            App.setRoot("contact", new ContactController(contact));
+            App.setRoot("contactAssociated", new ContactAssociatedController(c,associated));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -58,20 +60,20 @@ public class ContactImagesController extends AIOController {
     
     private Name getContactName(){
         Name name = null;
-        if (contact instanceof Company){
+        if (associated instanceof Company){
             name = new CompanyName("random");
-        } else if (contact instanceof Person){
+        } else if (associated instanceof Person){
             name = new PersonName("random","random");
         }
         CustomLinkedList<Attribute> names = 
-                (CustomLinkedList<Attribute>) contact.findAttributes(
+                (CustomLinkedList<Attribute>) associated.findAttributes(
                 ComparatorUtil.cmpByAttribute, name);
         return (Name) names.getFirst();
     }
     
     private List<ContactImage> getContactImageList(){
         List<ContactImage> contactImages = new CustomLinkedList<>();
-        List<Attribute> imagesAtt = contact.findAttributes(
+        List<Attribute> imagesAtt = associated.findAttributes(
                 ComparatorUtil.cmpByAttribute, new ContactImage());
         for (Attribute image : imagesAtt){
             if(image instanceof ContactImage){
@@ -85,33 +87,12 @@ public class ContactImagesController extends AIOController {
     protected void buildRootPane() {
         Button btnReturn = new Button("Volver");
         btnReturn.setOnAction(e -> returnContactPage());
-        Button btnDelete = new Button("Eliminar");
-        btnDelete.setOnAction(e -> deleteImage());
         VBox vbox = new VBox(
                 btnReturn,
                 new Label("Fotos de " + getContactName().toString()),
-                imagePagination.getContainer(),
-                btnDelete);
+                imagePagination.getContainer());
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.TOP_LEFT);
         rootPane = vbox;
-    }
-    
-    boolean confirmationAlert(String string){
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setTitle("Atención!");
-        a.setContentText("Estas seguro de eliminar el " + string + "?"
-                + "\nNo podrá revertir esta acción");
-        Optional<ButtonType> result = a.showAndWait();
-        return (result.get() == ButtonType.OK);
-    }
-
-    private void deleteImage() {
-        if (confirmationAlert("imagen")){
-            Attribute att = null;
-            contact.getAttributes().remove(att);
-            MobilePhone.updateContactList();
-            returnContactPage();
-        }
     }
 }
