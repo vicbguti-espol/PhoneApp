@@ -1,6 +1,7 @@
 package collections;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -77,7 +78,19 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Object[] array = new Object[size()];
+    int index = 0;
+    Node<E> current = last.next; // Comienza desde el primer elemento, no el último
+
+    // Itera hasta haber recorrido todos los elementos
+    while (index < n) {
+        array[index++] = current.content;
+        current = current.next;
+    }
+    
+    return array;
+//throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
     }
 
     @Override
@@ -105,8 +118,45 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (isEmpty()) return false;
+
+        Node<E> current = last.next;
+        while (current != last) {
+            if (current.content.equals(o)) {
+                Node<E> prev = current.previous;
+                Node<E> next = current.next;
+                prev.next = next;
+                next.previous = prev;
+                if (current == last) {
+                    last = prev;
+                }
+                n--;
+                return true;
+            }
+            current = current.next;
+        }
+        if (last.content.equals(o)) {
+            Node<E> prev = current.previous;
+            Node<E> next = current.next;
+            prev.next = next;
+            next.previous = prev;
+            last = prev;
+            n--;
+            return true;
+        }
+        return false;
     }
+    
+    /*public static void main(String[] args) {
+        CustomLinkedList<String> list = new CustomLinkedList<>();
+        list.add("Mario");
+        list.add("Jose");
+        list.add("Juan");
+        list.add("Pinela");
+        System.out.println(list);
+        list.remove("Pinela");
+        System.out.println(list);
+    }*/
 
     @Override
     public boolean containsAll(Collection<?> clctn) {
@@ -147,7 +197,22 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public E get(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (i < 0 || i >= size()) throw new IndexOutOfBoundsException(i);
+        if (i != (size() - 1)){
+            Node<E> tmp = last.previous;
+            for (int c = 0; c < i; c++){
+                tmp = tmp.next;
+            }
+            return tmp.content;
+        }
+        return getLast();
+    }
+    
+    public E getLast(){
+        if (isEmpty()){
+            return null;
+        }
+        return last.content;
     }
 
     @Override
@@ -164,7 +229,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     public E remove(int i) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public int indexOf(Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

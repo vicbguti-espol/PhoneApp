@@ -20,6 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(new ContactListController().getRootPane(), 480, 800);
         scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
+
         this.stage = stage;
         this.stage.setScene(scene);
         this.stage.show();
