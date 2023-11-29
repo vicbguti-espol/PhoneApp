@@ -2,7 +2,6 @@ package com.mycompany.customizables;
 
 import collections.CustomIterator;
 import collections.CustomLinkedList;
-import java.io.File;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -14,18 +13,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ImagePagination extends CustomComponent {
-    private final List<File> filesList = new CustomLinkedList<>();
-    private CustomIterator<File> circularIterator;
+    private List<Image> imageList;
+    private CustomIterator<Image> circularIterator;
     private ImageViewChanger imageViewChanger;
     private Button rightButton;
     private Button leftButton;
     
     public ImagePagination(){
+        imageList = new CustomLinkedList<>();
         super.buildComponent();
     }
 
-    public List<File> getFiles(){
-        return filesList;
+    public List<Image> getImageList(){
+        return imageList;
     }   
 
     /**
@@ -68,9 +68,8 @@ public class ImagePagination extends CustomComponent {
     }
 
     private void buildCircularIterator(){
-        CustomLinkedList<File> circularImageList = 
-            new CustomLinkedList<>();
-        filesList.forEach(e -> circularImageList.add(e));
+        CustomLinkedList<Image> circularImageList = 
+            new CustomLinkedList<>(imageList);
         circularIterator = circularImageList.circularIterator();
     }
     
@@ -81,11 +80,10 @@ public class ImagePagination extends CustomComponent {
             this.imageView = imageView;
         }
 
-        void changeImage(File file){
-            String url = file.toURI().toString();
+        void changeImage(Image image){
             new Thread(()->{
                 Platform.runLater(()->{
-                    imageView.setImage(new Image(url));
+                    imageView.setImage(image);
                 });
             }).start();
         }
@@ -96,10 +94,10 @@ public class ImagePagination extends CustomComponent {
     }        
 
     private abstract class ButtonEventHandler implements EventHandler{
-        CustomIterator<File> circularIterator;
+        CustomIterator<Image> circularIterator;
         ImageViewChanger imageViewChanger;
 
-        ButtonEventHandler(CustomIterator<File> circularIterator, 
+        ButtonEventHandler(CustomIterator<Image> circularIterator, 
                 ImageViewChanger imageViewChanger){
             this.circularIterator = circularIterator;
             this.imageViewChanger = imageViewChanger;
@@ -111,23 +109,22 @@ public class ImagePagination extends CustomComponent {
 
         @Override
         public void handle(Event t) {
-            File file = getFile();
-            imageViewChanger.changeImage(file);
+            imageViewChanger.changeImage(getImage());
         }
 
-        abstract File getFile();
+        abstract Image getImage();
 
     }
 
     private class RightButtonEventHandler extends ButtonEventHandler{
 
-        public RightButtonEventHandler(CustomIterator<File> circularIterator,
+        public RightButtonEventHandler(CustomIterator<Image> circularIterator,
                 ImageViewChanger imageViewChanger) {
             super(circularIterator, imageViewChanger);
         }
 
         @Override
-        File getFile() {
+        Image getImage() {
             return circularIterator.next();
         }
 
@@ -135,13 +132,13 @@ public class ImagePagination extends CustomComponent {
 
     private class LeftButtonEventHandler extends ButtonEventHandler{
 
-        public LeftButtonEventHandler(CustomIterator<File> circularIterator,
+        public LeftButtonEventHandler(CustomIterator<Image> circularIterator,
                 ImageViewChanger imageViewChanger) {
             super(circularIterator, imageViewChanger);
         }
 
         @Override
-        File getFile() {
+        Image getImage() {
             return circularIterator.previous();
         }
 
