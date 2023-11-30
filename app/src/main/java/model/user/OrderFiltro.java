@@ -1,54 +1,29 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model.user;
 
-import collections.CustomLinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import model.attributes.Attribute;
 import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
-import model.attributes.phone.PersonPhone;
 import model.comparator.ComparatorPorCantidadAtributos;
 import model.comparator.ComparatorPorCompania;
 import model.comparator.ComparatorPorNombreApellido;
-import model.comparator.ComparatorUtil;
-
 import model.contacts.Contact;
+import static model.user.prueba.filtrarPorTipoContacto;
 
 /**
  *
  * @author naomi
  */
-
-public class prueba {
-
-private List<Contact> contactos;
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-//      
-//        System.out.println(filtrarPorTipoContacto("Persona").size());
-//       List<Contact> agregado=filtrarPorTipoContacto("Company");
-//       System.out.println(agregado);
-       // List<Contact> agregado=filtrarPorCAtributos(7);
-       // System.out.println(agregado.get(1).attributes);
-        //System.out.println(agregado.get(0).attributes);
-//       List<Contact> o=filtrarPorNombreApellido("deigo","javier");
-//         System.out.println(o.get(0).attributes);
-//   List<Contact> listaContactos = MobilePhone.getContactList();  
-//   List<Contact> a=ordenarPorCAtributos(listaContactos);
-//        System.out.println(a);
-          List<Attribute>v=ordenarPorNombreApellido();
-          System.out.println(v);
-         List<Attribute>d= ordenarPorCompania();
-         System.out.println(d);
-    }
-  public static List<Contact> filtrarPorTipoContacto(String tipo) {
+public class OrderFiltro {
+    
+    
+    public static List<Contact> filtrarPorTipoContacto(String tipo) {
         List<Contact> listaContactos = MobilePhone.getContactList();
         List<Contact> contactosFiltrados = new ArrayList<>();
 
@@ -61,11 +36,10 @@ private List<Contact> contactos;
         if (contactosFiltrados.isEmpty()) {
             System.out.println("No se encontraron contactos del tipo especificado.");
         }
-
         return contactosFiltrados;
     }
     
-  public static List<Contact> filtrarPorCAtributos(int numero) {
+     public static List<Contact> filtrarPorCAtributos(int numero) {
         List<Contact> listaContactos = MobilePhone.getContactList();
         List<Contact> contactosFiltrados = new ArrayList<>();
 
@@ -87,7 +61,7 @@ private List<Contact> contactos;
         return contactosFiltrados;
     }
     
-  public static List<Contact> filtrarPorNombreApellido(String nombre, String apellido) {
+     public static List<Contact> filtrarPorNombreApellido(String nombre, String apellido) {
        List<Contact> pn= filtrarPorTipoContacto("Persona");
       
         List<Contact> contactosFiltrados = new ArrayList<>();
@@ -110,8 +84,8 @@ private List<Contact> contactos;
 
         return contactosFiltrados;
     }
-
-  public static List<Contact> ordenarPorCAtributos(List<Contact> listaContactos) {
+     
+     public static List<Contact> ordenarPorCAtributos(List<Contact> listaContactos) {
         // Verifica si la lista de contactos es nula
         if (listaContactos == null) {
             System.out.println("La lista de contactos es nula.");
@@ -126,8 +100,8 @@ private List<Contact> contactos;
 
         return copiaContactos;
     }
-  
-  public static List<Attribute> ordenarPorNombreApellido() {    
+     
+     public static List<Attribute> ordenarPorNombreApellido() {    
     List<Attribute> atributo =new ArrayList<>();
     List<Contact> pn= filtrarPorTipoContacto("Persona");
     if (pn== null || pn.isEmpty()) {
@@ -143,8 +117,8 @@ private List<Contact> contactos;
     Collections.sort(copiaContactos, new ComparatorPorNombreApellido());
     return copiaContactos;
   }
-  
-   public static List<Attribute> ordenarPorCompania() {    
+     
+     public static List<Attribute> ordenarPorCompania() {    
     List<Attribute> atributo =new ArrayList<>();
     List<Contact> pn= filtrarPorTipoContacto("Compania");
     if (pn== null || pn.isEmpty()) {
@@ -160,5 +134,4 @@ private List<Contact> contactos;
     Collections.sort(copiaContactos, new ComparatorPorCompania());
     return copiaContactos;
   }
-
 }
