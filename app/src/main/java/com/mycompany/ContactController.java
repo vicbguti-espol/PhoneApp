@@ -53,6 +53,8 @@ public class ContactController extends DataEntryController implements Initializa
     @FXML
     private Button btnViewImages;
     @FXML
+    private Button btnAddImages;
+    @FXML
     private BorderPane root;
     @FXML
     private Button btnAddGeneric;
@@ -98,6 +100,20 @@ public class ContactController extends DataEntryController implements Initializa
         configureDeleteContact();
         configureAddGeneric();
         configureEditContact();
+        configureAddImages();
+    }
+    
+    private void configureAddImages(){
+        btnAddImages.setOnAction(e -> goAddImagesPage());
+    }
+    
+    private void goAddImagesPage(){
+        Controller addImagesController = new AddImagesController(contact);
+        try {
+            App.setRoot("addImages", addImagesController);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void configureEditContact(){

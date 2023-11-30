@@ -24,7 +24,12 @@
          <children>
             <Label fx:id="lblName" text="Nombre" />
             <ImageView fx:id="imgvPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnViewImages" mnemonicParsing="false" text="Ver imagenes" />
+            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Button fx:id="btnAddImages" mnemonicParsing="false" text="Añadir imagenes" />
+                  <Button fx:id="btnViewImages" mnemonicParsing="false" text="Ver imagenes" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
