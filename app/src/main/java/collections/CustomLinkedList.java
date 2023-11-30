@@ -1,7 +1,6 @@
 package collections;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -146,17 +145,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
         }
         return false;
     }
-    
-    /*public static void main(String[] args) {
-        CustomLinkedList<String> list = new CustomLinkedList<>();
-        list.add("Mario");
-        list.add("Jose");
-        list.add("Juan");
-        list.add("Pinela");
-        System.out.println(list);
-        list.remove("Pinela");
-        System.out.println(list);
-    }*/
+   
 
     @Override
     public boolean containsAll(Collection<?> clctn) {
