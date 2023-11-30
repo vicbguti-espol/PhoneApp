@@ -14,6 +14,7 @@
          <children>
             <Button fx:id="btnReturn" mnemonicParsing="false" text="Volver" />
             <CheckBox fx:id="cboxFavorite" mnemonicParsing="false" text="Favorito" />
+            <Button fx:id="btnEditContact" mnemonicParsing="false" text="Editar Contacto" />
             <Button fx:id="btnDeleteContact" mnemonicParsing="false" text="Eliminar Contacto" />
          </children>
       </HBox>

@@ -58,6 +58,8 @@ public class ContactController extends DataEntryController implements Initializa
     private Button btnAddGeneric;
     @FXML
     private HBox header;
+    @FXML
+    private Button btnEditContact;
     
     private Contact contact;
     private char contactType;
@@ -95,6 +97,33 @@ public class ContactController extends DataEntryController implements Initializa
         configureReturn();
         configureDeleteContact();
         configureAddGeneric();
+        configureEditContact();
+    }
+    
+    private void configureEditContact(){
+        if (contactType == 'C'){
+            btnEditContact.setOnAction(e -> goEditCompanyPage());
+        } else if (contactType == 'P') {
+            btnEditContact.setOnAction(e -> goEditContactPage());
+        }
+    }
+    
+    private void goEditCompanyPage(){
+        Controller editCompanyController = new EditCompanyController(contact);
+        try {
+            App.setRoot("editCompany", editCompanyController);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void goEditContactPage(){
+        Controller editContactController = new EditContactController(contact);
+        try {
+            App.setRoot("editContact", editContactController);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void configureReturn(){
