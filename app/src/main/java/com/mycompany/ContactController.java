@@ -198,11 +198,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<PhoneNumber> tableView = createTableView(phoneNumber,1);
-            ObservableList<PhoneNumber> data = FXCollections.observableArrayList();
-            for (Attribute number: phoneNumbers) {
+            CustomLinkedList<PhoneNumber> data = new CustomLinkedList<>();
+            for (Attribute number : phoneNumbers) {
                 data.add((PhoneNumber) number);
             }
-            tableView.setItems(data);
+            ObservableList<PhoneNumber> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -330,11 +331,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<Location> tableView = createTableView(location,1);
-            ObservableList<Location> data = FXCollections.observableArrayList();
-            for (Attribute l: locations) {
+            CustomLinkedList<Location> data = new CustomLinkedList<>();
+            for (Attribute l : locations) {
                 data.add((Location) l);
             }
-            tableView.setItems(data);
+            ObservableList<Location> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -353,11 +355,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<GenericAttribute> tableView = createTableView(new GenericAttribute(),0);
-            ObservableList<GenericAttribute> data = FXCollections.observableArrayList();
-            for (Attribute ga: genericAttributes) {
+            CustomLinkedList<GenericAttribute> data = new CustomLinkedList<>();
+            for (Attribute ga : genericAttributes) {
                 data.add((GenericAttribute) ga);
             }
-            tableView.setItems(data);
+            ObservableList<GenericAttribute> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -386,11 +389,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<GenericReminder> tableView = createTableView(genericReminder,1);
-            ObservableList<GenericReminder> data = FXCollections.observableArrayList();
+            CustomLinkedList<GenericReminder> data = new CustomLinkedList<>();
             for (Attribute r: reminders) {
                 data.add((GenericReminder) r);
             }
-            tableView.setItems(data);
+            ObservableList<GenericReminder> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -415,11 +419,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<SocialMedia> tableView = createTableView(social,0);
-            ObservableList<SocialMedia> data = FXCollections.observableArrayList();
+            CustomLinkedList<SocialMedia> data = new CustomLinkedList<>();
             for (Attribute sm: socialMedia) {
                 data.add((SocialMedia) sm);
             }
-            tableView.setItems(data);
+            ObservableList<SocialMedia> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -435,11 +440,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<Email> tableView = createTableView(email,0);
-            ObservableList<Email> data = FXCollections.observableArrayList();
+            CustomLinkedList<Email> data = new CustomLinkedList<>();
             for (Attribute e: emails) {
                 data.add((Email) e);
             }
-            tableView.setItems(data);
+            ObservableList<Email> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);
@@ -455,11 +461,12 @@ public class ContactController extends DataEntryController implements Initializa
             HBox hbox = new HBox();
             hbox.setPrefWidth(440);
             TableView<AssociatedContact> tableView = createTableViewAssoContact();
-            ObservableList<AssociatedContact> data = FXCollections.observableArrayList();
+            CustomLinkedList<AssociatedContact> data = new CustomLinkedList<>();
             for (Attribute ac: associatedContacts) {
                 data.add((AssociatedContact) ac);
             }
-            tableView.setItems(data);
+            ObservableList<AssociatedContact> observableData = FXCollections.observableList(data);
+            tableView.setItems(observableData);
             setTableView(tableView);
             hbox.getChildren().add(tableView);
             vbContent.getChildren().add(hbox);

@@ -1,8 +1,8 @@
 package com.mycompany;
 
+import collections.CustomLinkedList;
+import collections.CustomList;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,7 +59,7 @@ public class AddContactController extends AddContactTypeController
     
     
     private void initCmbTypo(ComboBox cmbTypos) {
-        List<Pair<String,SourceType>> types = new ArrayList<>();
+        CustomList<Pair<String,SourceType>> types = new CustomLinkedList<>();
 
         types.add( new Pair<>("Personal", SourceType.PERSONAL) );
         types.add( new Pair<>("Trabajo", SourceType.WORK) );

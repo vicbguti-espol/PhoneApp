@@ -1,9 +1,9 @@
 package com.mycompany;
 
+import collections.CustomLinkedList;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,7 +18,6 @@ import model.user.MobilePhone;
 import java.util.Comparator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
@@ -112,7 +111,7 @@ public class EditPresetAtributeController extends DataEntryController implements
              }
         });
        
-       ArrayList<Field> allFields = new ArrayList<>();
+       List<Field> allFields = new CustomLinkedList<>();
        Class<?> currentClass = attribute.getClass();
        int c = 0;
         if (editar.equals("PersonLocation")

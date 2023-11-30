@@ -1,9 +1,9 @@
 package com.mycompany;
 
+import collections.CustomLinkedList;
+import collections.CustomList;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +53,7 @@ public class ChooseContactTypeController extends Controller
     
     private void initCmbContactType() {
 
-        List<Pair<String,Pair<String, Controller>>> accounts = new ArrayList<>();
+        CustomList<Pair<String,Pair<String, Controller>>> accounts = new CustomLinkedList<>();
 
         accounts.add( new Pair<>("Persona", new Pair<>("addContact",
                 new AddContactController())) );

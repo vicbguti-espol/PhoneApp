@@ -1,9 +1,10 @@
 package com.mycompany;
 
+import collections.CustomLinkedList;
+import collections.CustomList;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -27,17 +27,11 @@ import model.attributes.location.PersonLocation;
 import model.attributes.phone.CompanyPhone;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
-import model.attributes.reminders.GenericReminder;
 import model.contacts.Contact;
 import model.enums.SocialMediaType;
 import model.enums.SourceType;
 import model.user.MobilePhone;
 
-/**
- * FXML Controller class
- *
- * @author arauj
- */
 public class AddPresetAtributeController extends DataEntryController implements Initializable {
 
     
@@ -83,7 +77,7 @@ public class AddPresetAtributeController extends DataEntryController implements 
         });
         
 
-        ArrayList<Field> allFields = new ArrayList<>();
+        CustomList<Field> allFields = new CustomLinkedList<>();
         Class<?> currentClass = attribute.getClass();
         int c = 0;
         if (className.equals("PersonLocation")
