@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import model.attributes.Attribute;
 import model.attributes.ContactImage;
@@ -107,11 +108,19 @@ public class ContactImagesController extends AIOController {
     }
 
     private void deleteImage() {
-        if (confirmationAlert("imagen")){
-            Attribute att = null;
-            contact.getAttributes().remove(att);
+        CustomLinkedList<Attribute> attributes = (CustomLinkedList<Attribute>) contact.getAttributes();
+        CustomLinkedList<Attribute> contactImages = (CustomLinkedList<Attribute>) attributes.findAll(ComparatorUtil.cmpByAttribute, new ContactImage());
+        if (contactImages.size() <= 1){
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.ERROR);
+            a.setContentText("Un contacto tiene que tener al menos una imagen");
+            a.show();
+        } else if (confirmationAlert("imagen")){
+            int indexContactImage = imagePagination.getIndex();
+            Attribute contactImage = contactImages.get(indexContactImage);
+            contact.getAttributes().remove(contactImage);
             MobilePhone.updateContactList();
             returnContactPage();
-        }
+        } 
     }
 }

@@ -188,7 +188,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     public E get(int i) {
         if (i < 0 || i >= size()) throw new IndexOutOfBoundsException(i);
         if (i != (size() - 1)){
-            Node<E> tmp = last.previous;
+            Node<E> tmp = last.next;
             for (int c = 0; c < i; c++){
                 tmp = tmp.next;
             }
@@ -215,8 +215,29 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     }
 
     @Override
-    public E remove(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public E remove(int index) {
+        if (index <= 0 || index >= size()) throw new IndexOutOfBoundsException(index);
+        if (index != size() - 1) {
+            Node<E> tmp = last.previous;
+            for (int i = 0; i < (index - 1); i++){
+                tmp = tmp.next;
+            }
+            E removed = tmp.next.content;
+            tmp.next = tmp.next.next;
+            tmp.next.previous = tmp;
+            n--;
+            return removed;
+        }
+        return removeLast();
+    }
+    
+    public E removeLast(){
+        E removed = last.content;
+        last.previous.next = last.previous;
+        last = last.previous;
+        //primero.anterior = last;
+        n--;
+        return removed;
     }
     
     @Override

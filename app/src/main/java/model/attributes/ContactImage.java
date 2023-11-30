@@ -14,5 +14,10 @@ public class ContactImage extends Attribute {
     public String getPath() {
         return path;
     }
+    
+    @Override
+    public String toString(){
+        return path;
+    }
 
 }

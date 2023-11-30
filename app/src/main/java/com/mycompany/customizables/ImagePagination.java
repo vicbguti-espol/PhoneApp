@@ -14,13 +14,19 @@ import javafx.scene.layout.VBox;
 public class ImagePagination extends CustomComponent {
     private CustomList<Image> imageList;
     private CustomIterator<Image> circularIterator;
+    private int index;
     private ImageView imageView;
     private Button rightButton;
     private Button leftButton;
     
     public ImagePagination(){
         imageList = new CustomLinkedList<>();
+        index = 0;
         super.buildComponent();
+    }
+    
+    public int getIndex(){
+        return index;
     }
 
     public List<Image> getImageList(){
@@ -43,6 +49,9 @@ public class ImagePagination extends CustomComponent {
                 new Thread(()->{
                     Platform.runLater(()->{
                         imageView.setImage(circularIterator.next());
+                        if (index == imageList.size() - 1) index = 0;
+                        else index = index + 1;
+                        System.out.println(index);
                     });
                 }).start();
         });
@@ -54,6 +63,9 @@ public class ImagePagination extends CustomComponent {
             new Thread(()->{
                 Platform.runLater(()->{
                     imageView.setImage(circularIterator.previous());
+                    if (index == 0) index = imageList.size() - 1;
+                    else index = index - 1;
+                    System.out.println(index);
                 });
             }).start();    
         });
