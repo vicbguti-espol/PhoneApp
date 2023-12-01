@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -104,6 +100,7 @@ public class ContactListController extends AIOController {
         private Button previousButton;
         private int viewSize;
         
+        
         ContactListView(){
             super.buildComponent();
         }
@@ -122,13 +119,18 @@ public class ContactListController extends AIOController {
         
         private void buildButtonsVBox(){
             buildNextButton();
-            buildLeftButton();
+            buildPreviousButton();
             buttonsVBox = new VBox(previousButton,nextButton);
         }
         
         private void buildNextButton(){
             nextButton = new Button("⬇");
+
             nextButton.setOnAction(e -> {
+                ContactCard tmp = contactCardIterator.next();
+                while(!tmp.getContainer().equals(contactsVBox.getChildren().get(contactsVBox.getChildren().size()-1))){
+                    tmp = contactCardIterator.next();
+                }
                 new Thread(()->{
                     Platform.runLater(()->{
                         contactsVBox.getChildren().remove(0);
@@ -137,28 +139,26 @@ public class ContactListController extends AIOController {
                     });
                 }).start();
                 
-            });
+            });     
         }
         
-        private void buildLeftButton(){
+        private void buildPreviousButton(){
             previousButton = new Button("⬆");
             previousButton.setOnAction(e -> {
-                int i = 0;
-                while (i++<viewSize){
-                    contactCardIterator.previous();
+                ContactCard tmp = contactCardIterator.previous();
+                while (!tmp.getContainer().equals(contactsVBox.getChildren().get(0))){
+                    tmp = contactCardIterator.previous();
                 }
-                ContactCard c = contactCardIterator.previous();
+                ContactCard tmp2 = contactCardIterator.previous();
+                System.out.println(tmp2.contact);
                 new Thread(()->{
                     Platform.runLater(()->{
                         contactsVBox.getChildren().
                         remove(contactsVBox.getChildren().size()-1);
-                        contactsVBox.getChildren().add(0,c.getContainer());
+                        
+                        contactsVBox.getChildren().add(0,tmp2.getContainer());
                     });
                 }).start();
-                int j= 0;
-                while (j++<viewSize){
-                    contactCardIterator.next();
-                }
             });
         }
         
