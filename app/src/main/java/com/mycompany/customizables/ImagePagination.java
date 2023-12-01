@@ -51,7 +51,6 @@ public class ImagePagination extends CustomComponent {
                         imageView.setImage(circularIterator.next());
                         if (index == imageList.size() - 1) index = 0;
                         else index = index + 1;
-                        System.out.println(index);
                     });
                 }).start();
         });
@@ -65,7 +64,6 @@ public class ImagePagination extends CustomComponent {
                     imageView.setImage(circularIterator.previous());
                     if (index == 0) index = imageList.size() - 1;
                     else index = index - 1;
-                    System.out.println(index);
                 });
             }).start();    
         });
@@ -89,8 +87,8 @@ public class ImagePagination extends CustomComponent {
     private void buildImageView(){
         imageView = new ImageView();
         imageView.setPreserveRatio(true);
-        imageView.setFitHeight(400);
-        imageView.setFitWidth(600);
+        imageView.setFitHeight(300);
+        imageView.setFitWidth(300);
     }
 
 }

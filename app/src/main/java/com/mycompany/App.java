@@ -21,9 +21,10 @@ public class App extends Application {
         scene = new Scene(new ContactListController().getRootPane(), 480, 800);
         scene.getStylesheets().add(App.class.getResource("css/estilos.css").toExternalForm());
 
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
         this.stage = stage;
-        this.stage.setScene(scene);
-        this.stage.show();
     }
 
     public static void setRoot(String fxml){
