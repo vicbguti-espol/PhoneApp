@@ -1,5 +1,6 @@
 .root {
     -fx-background-color: #112341;
+    -fx-padding: 30 30 30 30;
 }
 
 .bordered {

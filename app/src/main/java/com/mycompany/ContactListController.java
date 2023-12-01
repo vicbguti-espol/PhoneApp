@@ -113,8 +113,9 @@ public class ContactListController extends AIOController {
         
         @Override
         protected void buildContainer(){
-            
-            container = new HBox(contactsVBox, buttonsVBox);
+            container = new HBox(contactsVBox,
+                    new StackPane(),
+                    buttonsVBox);
         }
         
         private void buildButtonsVBox(){
