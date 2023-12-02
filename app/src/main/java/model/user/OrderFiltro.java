@@ -61,8 +61,8 @@ public class OrderFiltro {
         return contactosFiltrados;
     }
     
-     public static List<Contact> filtrarPorNombreApellido(String nombre, String apellido) {
-       List<Contact> pn= filtrarPorTipoContacto("Persona");
+     public static List<Contact> filtrarPorNombreApellido(String nombre, String apellido, List<Contact> pn) {
+       
       
         List<Contact> contactosFiltrados = new ArrayList<>();
 
