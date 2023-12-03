@@ -77,29 +77,25 @@ public class OrderFiltro {
         return contactosFiltrados;
     }
     
-     public static List<Contact> filtrarPorNombreApellido(String nombre, String apellido, List<Contact> pn) {
-       
-      
-        List<Contact> contactosFiltrados = new ArrayList<>();
+     public static CustomList<Contact> filterByPersonName(String firstName, String lastName, List<Contact> personList) {
+        CustomList<Contact> filteredContacts = new CustomLinkedList<>();
 
-        for (Contact contacto : pn) {
-            PersonName name = new PersonName("","");
-            List<Attribute> at=contacto.findByAttribute(name);   
-            PersonName p1=(PersonName)at.get(0);
-            if (p1!= null && 
-                p1.getFirstName()!= null && p1.getFirstName().equalsIgnoreCase(nombre) &&
-                p1.getLastName() != null && p1.getLastName().equalsIgnoreCase(apellido)) {
-                contactosFiltrados.add(contacto);
+        for (Contact c : personList) {
+            PersonName personName= 
+                    (PersonName) c.findByAttribute(new PersonName()).getFirst();
+            if (personName.getFirstName().equalsIgnoreCase(firstName)
+                    && personName.getLastName().equalsIgnoreCase(lastName)){
+                filteredContacts.add(c);
             }
-            }
-        
-
-        if (contactosFiltrados.isEmpty()) {
-            System.out.println("No se encontraron contactos con el nombre y apellido especificados.");
+//            if (personName!= null && 
+//                personName.getFirstName()!= null && personName.getFirstName().equalsIgnoreCase(firstName) &&
+//                personName.getLastName() != null && personName.getLastName().equalsIgnoreCase(lastName)) {
+//                filteredContacts.add(c);
+//            }
+//        }
         }
-
-        return contactosFiltrados;
-    }
+        return filteredContacts;
+     }
      
      public static List<Contact> sortByAttributesListSize(List<Contact> listaContactos) {
         // Verifica si la lista de contactos es nula

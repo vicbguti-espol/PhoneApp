@@ -1,6 +1,7 @@
 package model.contacts;
 
 import collections.CustomLinkedList;
+import collections.CustomList;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +38,7 @@ public abstract class Contact implements Serializable {
         return found;
     }
     
-    public List<Attribute> findByAttribute(Attribute attribute){
+    public CustomList<Attribute> findByAttribute(Attribute attribute){
         CustomLinkedList<Attribute> customAttributes =
                 new CustomLinkedList(attributes);
         return customAttributes.findAll(

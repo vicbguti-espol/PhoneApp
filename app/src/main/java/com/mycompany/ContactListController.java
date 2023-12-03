@@ -28,6 +28,8 @@ public class ContactListController extends AIOController {
     private Button btnAdd;
     private ContactListView contactListView;
     
+    private TextField personNameTextField;
+    
     public ContactListController(){
         buildBtnAdd();
         buildRootPane();
@@ -40,9 +42,9 @@ public class ContactListController extends AIOController {
 
     @Override
     protected void buildRootPane() {
-        Button ordenar = new Button("ordenar");     
-        Button filtro1= new Button("filtroNombre");
-        TextField caja1= new TextField();
+        Button sortByAttributesButton = new Button("Ordenar por Cantidad de Atributos");     
+        Button filterByPersonNameButton = new Button("Filtrar por Nombre y Apellido de una Persona");
+        personNameTextField = new TextField();
         Button filtro2= new Button("filtroTipo");
         TextField caja2= new TextField();
         Button filtro3= new Button("filtroCantidadA");
@@ -52,8 +54,8 @@ public class ContactListController extends AIOController {
         rootPane = new VBox(
         new StackPane(new Label("Contactos")),
         new StackPane(btnAdd),
-        new StackPane(ordenar),
-        new StackPane(filtro1), new StackPane(caja1),
+        new StackPane(sortByAttributesButton),
+        new StackPane(filterByPersonNameButton), new StackPane(personNameTextField),
         new StackPane(filtro2),new StackPane(caja2),
         new StackPane(filtro3),new StackPane(caja3) , 
         new StackPane(filtro4),new StackPane(filtro5));
@@ -68,25 +70,10 @@ public class ContactListController extends AIOController {
         } else {
             rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
         }
-        
-//        ordenar.setOnAction(e -> {
-//            new Thread(() -> {
-//                Platform.runLater(() -> {
-//                    ordenarC();
-//                });
-//            }).start();
-//        });
 
-        ordenar.setOnAction(e -> sortByAttributesListSizeAscending());
+        sortByAttributesButton.setOnAction(e -> sortByAttributesListSizeAscending());            
+        filterByPersonNameButton.setOnAction(e -> filterByPersonName());
         
-        filtro1.setOnAction(e -> {
-            new Thread(() -> {
-                Platform.runLater(() -> {
-                    String c=caja1.getText();
-                    filtroNombre(c);
-                });
-            }).start();
-        });
         filtro2.setOnAction(e -> {
             new Thread(() -> {
                 Platform.runLater(() -> {
@@ -123,27 +110,37 @@ public class ContactListController extends AIOController {
     }
     private void sortByAttributesListSizeAscending() {
         List<ContactCard> contactCards = contactListView.getContactCards();
-
-        // Limpiar la lista actual y la vista de la lista
         contactCards.clear();
-        // contactListView.getContainer().getChildren().clear();
-        for (Contact c: MobilePhone.getContactList()){
-            System.out.println("" + c + c.getAttributes().size());
-        }
+        
         List<Contact> sortedList = OrderFiltro.sortByAttributesListSize(MobilePhone.getContactList());
         if (!sortedList.isEmpty()) {
             sortedList.forEach(e -> contactCards.add(new ContactCard(e)));
+            
             new Thread(()->{
                 Platform.runLater(()->{
                     contactListView.initContactListView();
                 });
             }).start();
-        } else {
-            rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
         }
-            // contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
-            // contactListView.getContainer().getChildren();
      }
+    
+    private void filterByPersonName() {
+        List<ContactCard> contactCards = contactListView.getContactCards();
+        contactCards.clear();
+        
+        List<Contact> persons = (List<Contact>) OrderFiltro.filtrarPorTipoContacto("Persona");
+        String[] nameSplit = personNameTextField.getText().split(" ");
+        CustomList<Contact> filteredList = (CustomLinkedList<Contact>) OrderFiltro.filterByPersonName(nameSplit[0], nameSplit[1], persons);
+        if (!filteredList.isEmpty()) {
+            filteredList.forEach(e -> contactCards.add(new ContactCard(e)));
+            
+            new Thread(()->{Platform.runLater(()->{
+                    contactListView.initContactListView();
+                });
+            }).start();
+        }
+    }
+    
      
      protected void ordenarNombre() {
     List<ContactCard> contactCards = contactListView.getContactCards();
@@ -180,23 +177,6 @@ public class ContactListController extends AIOController {
        
         contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
          contactListView.getContainer().getChildren();
-    } else {
-        rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
-    }
-}
-protected void filtroNombre(String s) {
-    CustomList<ContactCard> contactCards = contactListView.getContactCards();
-    CustomList<Contact> contac= (CustomList<Contact>) OrderFiltro.filtrarPorTipoContacto("Persona");
-    // Limpiar la lista actual y la vista de la lista
-    contactCards.clear();
-    contactListView.getContainer().getChildren().clear();
-    String[]t=s.split(" ");
-    CustomList<Contact> contactList = (CustomList<Contact>) OrderFiltro.filtrarPorNombreApellido(t[0], t[1], contac);
-    if (!contactList.isEmpty()) {
-        contactList.forEach(e -> contactCards.add(new ContactCard(e)));
-        contactListView.initContactListView();
-        
-        contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
     } else {
         rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
     }

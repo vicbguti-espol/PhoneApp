@@ -255,8 +255,8 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public List<E> findAll(Comparator<E> cmp, E e2) {
-        List<E> found = new CustomLinkedList<>();
+    public CustomList<E> findAll(Comparator<E> cmp, E e2) {
+        CustomList<E> found = new CustomLinkedList<>();
         for ( E e1: this ) {
             if ( cmp.compare(e1, e2) == 0 ) {
                 found.add(e1);
