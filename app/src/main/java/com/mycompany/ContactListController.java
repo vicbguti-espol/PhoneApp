@@ -47,14 +47,16 @@ public class ContactListController extends AIOController {
         TextField caja2= new TextField();
         Button filtro3= new Button("filtroCantidadA");
         TextField caja3= new TextField();
+        Button filtro4= new Button("Favorito");
+        Button filtro5= new Button("Ordenar Apellido Nombre");
         rootPane = new VBox(
         new StackPane(new Label("Contactos")),
         new StackPane(btnAdd),
         new StackPane(ordenar),
         new StackPane(filtro1), new StackPane(caja1),
         new StackPane(filtro2),new StackPane(caja2),
-        new StackPane(filtro3),new StackPane(caja3)  
-        );
+        new StackPane(filtro3),new StackPane(caja3) , 
+        new StackPane(filtro4),new StackPane(filtro5));
 
         contactListView = new ContactListView();
         List<ContactCard> contactCards = contactListView.getContactCards();
@@ -99,6 +101,22 @@ public class ContactListController extends AIOController {
                 });
             }).start();
         });
+        filtro4.setOnAction(e -> {
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    
+                     ListFavorito();
+                });
+            }).start();
+        });
+        filtro5.setOnAction(e -> {
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    
+                    ordenarNombre();
+                });
+            }).start();
+        });
         
     }
      protected void ordenarC() {
@@ -109,6 +127,46 @@ public class ContactListController extends AIOController {
     contactListView.getContainer().getChildren().clear();
 
     List<Contact> contactList = OrderFiltro.ordenarPorCAtributos(MobilePhone.getContactList());
+    if (!contactList.isEmpty()) {
+        contactList.forEach(e -> contactCards.add(new ContactCard(e)));
+        contactListView.initContactListView();
+        
+       
+        contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
+         contactListView.getContainer().getChildren();
+    } else {
+        rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
+    }
+}
+     
+     protected void ordenarNombre() {
+    List<ContactCard> contactCards = contactListView.getContactCards();
+
+    // Limpiar la lista actual y la vista de la lista
+    contactCards.clear();
+    contactListView.getContainer().getChildren().clear();
+ // List<Contact> contactList = OrderFiltro.ordenarPorCAtributos(MobilePhone.getContactList());
+    
+    List<Contact> contactList = OrderFiltro.ordenarPorNombreApellido(MobilePhone.getContactList());
+    if (!contactList.isEmpty()) {
+        contactList.forEach(e -> contactCards.add(new ContactCard(e)));
+        contactListView.initContactListView();
+        
+       
+        contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
+         contactListView.getContainer().getChildren();
+    } else {
+        rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
+    }
+}
+           protected void ListFavorito() {
+    CustomList<ContactCard> contactCards = contactListView.getContactCards();
+
+    // Limpiar la lista actual y la vista de la lista
+    contactCards.clear();
+    contactListView.getContainer().getChildren().clear();
+
+    List<Contact> contactList = MobilePhone.getContactListFavorito();
     if (!contactList.isEmpty()) {
         contactList.forEach(e -> contactCards.add(new ContactCard(e)));
         contactListView.initContactListView();

@@ -4,6 +4,8 @@
  */
 package model.user;
 
+import collections.CustomLinkedList;
+import collections.CustomList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +40,21 @@ public class OrderFiltro {
         }
         return contactosFiltrados;
     }
-    
+    public static List<Contact> filtrarPorTipoContacto(String tipo,List<Contact> listaContactos) {
+        
+        List<Contact> contactosFiltrados = new ArrayList<>();
+
+        for (Contact contacto : listaContactos) {
+            if (String.valueOf(tipo.charAt(0)).equals(String.valueOf(contacto.getUID().charAt(0)))) {
+                contactosFiltrados.add(contacto);
+            }
+        }
+
+        if (contactosFiltrados.isEmpty()) {
+            System.out.println("No se encontraron contactos del tipo especificado.");
+        }
+        return contactosFiltrados;
+    }
      public static List<Contact> filtrarPorCAtributos(int numero) {
         List<Contact> listaContactos = MobilePhone.getContactList();
         List<Contact> contactosFiltrados = new ArrayList<>();
@@ -101,19 +117,15 @@ public class OrderFiltro {
         return copiaContactos;
     }
      
-     public static List<Attribute> ordenarPorNombreApellido() {    
-    List<Attribute> atributo =new ArrayList<>();
-    List<Contact> pn= filtrarPorTipoContacto("Persona");
+    public static List<Contact> ordenarPorNombreApellido(List<Contact> pn) {    
+    
+    //List<Contact> pn= filtrarPorTipoContacto("Persona");
     if (pn== null || pn.isEmpty()) {
         System.out.println("La lista de contactos de personas es nula o vacía.");
         return new ArrayList<>(); 
     }
-  for (Contact contacto : pn) {
-            PersonName name = new PersonName("","");
-            List<Attribute> at=contacto.findByAttribute(name);
-            atributo.addAll(at);
-        }
-    List<Attribute> copiaContactos = new ArrayList<>(atributo);
+
+    List<Contact> copiaContactos = new ArrayList<>(pn);
     Collections.sort(copiaContactos, new ComparatorPorNombreApellido());
     return copiaContactos;
   }

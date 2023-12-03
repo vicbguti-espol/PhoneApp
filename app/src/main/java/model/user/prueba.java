@@ -5,6 +5,7 @@
 package model.user;
 
 import collections.CustomLinkedList;
+import collections.CustomList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +44,8 @@ private List<Contact> contactos;
 //   List<Contact> listaContactos = MobilePhone.getContactList();  
 //   List<Contact> a=ordenarPorCAtributos(listaContactos);
 //        System.out.println(a);
-          List<Attribute>v=ordenarPorNombreApellido();
-          System.out.println(v);
+         // List<Contact>v=ordenarPorNombreApellido();
+         // System.out.println(v);
          List<Attribute>d= ordenarPorCompania();
          System.out.println(d);
     }
@@ -127,19 +128,15 @@ private List<Contact> contactos;
         return copiaContactos;
     }
   
-  public static List<Attribute> ordenarPorNombreApellido() {    
-    List<Attribute> atributo =new ArrayList<>();
-    List<Contact> pn= filtrarPorTipoContacto("Persona");
+ public static List<Contact> ordenarPorNombreApellido(List<Contact> pn) {    
+    
+    //List<Contact> pn= filtrarPorTipoContacto("Persona");
     if (pn== null || pn.isEmpty()) {
         System.out.println("La lista de contactos de personas es nula o vacía.");
         return new ArrayList<>(); 
     }
-  for (Contact contacto : pn) {
-            PersonName name = new PersonName("","");
-            List<Attribute> at=contacto.findByAttribute(name);
-            atributo.addAll(at);
-        }
-    List<Attribute> copiaContactos = new ArrayList<>(atributo);
+
+    CustomList<Contact> copiaContactos = new CustomLinkedList<>(pn);
     Collections.sort(copiaContactos, new ComparatorPorNombreApellido());
     return copiaContactos;
   }

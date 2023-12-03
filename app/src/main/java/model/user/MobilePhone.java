@@ -10,8 +10,9 @@ import model.contacts.Contact;
 
 public class MobilePhone {
     private static List<Contact> contactList;
+    private static List<Contact>  favoritos;
     private static final String contactListPath = "ser/contactList.ser";
-    
+    private static final String contactListFavortitosPath = "ser/contactListfavortios.ser";
     public static List<Contact> getContactList(){
         initContactList();
         return contactList;
@@ -61,6 +62,58 @@ public class MobilePhone {
     private static void serialize() {
         try {
             SerializationUtil.serialize(contactList,contactListPath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    public static List<Contact> getContactListFavorito(){
+        initContactListFavorito();
+        return favoritos;
+    }
+    
+    public static void addContactFavorito(Contact c) {
+        initContactListFavorito();
+        favoritos.add(c);
+        serializeFavorito();
+    }
+    
+    public static void removeContactFavorito(Contact c){
+        initContactListFavorito();
+        favoritos.remove(c);
+        serializeFavorito();
+    }
+    
+    
+    
+    private static void initContactListFavorito() {
+        File f = new File(contactListFavortitosPath);
+        if(!f.isFile()) {
+            try {
+                Files.createDirectories(Paths.get("ser"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            favoritos = new CustomLinkedList<>();
+            serializeFavorito();
+        } else if (favoritos == null){
+            deserialize();
+        }
+    }
+    
+    private static void deserializeFavorito(){
+        try {
+            favoritos = (CustomLinkedList<Contact>) SerializationUtil.
+                    deserialize(contactListFavortitosPath);
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private static void serializeFavorito() {
+        try {
+            SerializationUtil.serialize(favoritos,contactListFavortitosPath);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

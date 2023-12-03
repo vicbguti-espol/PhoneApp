@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -63,6 +65,7 @@ public class ContactController extends DataEntryController implements Initializa
     @FXML
     private Button btnEditContact;
     
+    
     private Contact contact;
     private char contactType;
     
@@ -78,12 +81,21 @@ public class ContactController extends DataEntryController implements Initializa
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         setScrollPane();
         configureHeader();
         cboxFavorite.setStyle("-fx-text-fill: white;");
         configureButtons();
         createHeader();
         showAttributes();
+         cboxFavorite.setOnAction(e -> {
+            new Thread(() -> {
+                Platform.runLater(() -> {
+                    
+                    MobilePhone.addContactFavorito(contact);
+                });
+            }).start();
+        });
     }
     
     protected void setScrollPane(){
@@ -305,6 +317,7 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     private TableView<AssociatedContact> createTableViewAssoContact(){
+        
         TableView<AssociatedContact> tableView = createTableView(new AssociatedContact(),0);
         tableView.getColumns().remove(tableView.getColumns().size()-1);
         TableColumn<AssociatedContact, Void> editColumn = new TableColumn<>("Opciones");
@@ -594,6 +607,7 @@ public class ContactController extends DataEntryController implements Initializa
     }
     
     protected void showAttributes() {
+        
         showNumbers();
         showLocations();
         showSocialMedia();
