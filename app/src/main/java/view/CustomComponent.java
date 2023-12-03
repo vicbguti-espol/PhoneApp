@@ -1,4 +1,4 @@
-package com.mycompany.customizables;
+package view;
 
 import javafx.scene.layout.Pane;
 

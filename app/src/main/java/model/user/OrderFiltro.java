@@ -101,11 +101,10 @@ public class OrderFiltro {
         return contactosFiltrados;
     }
      
-     public static List<Contact> ordenarPorCAtributos(List<Contact> listaContactos) {
+     public static List<Contact> sortByAttributesListSize(List<Contact> listaContactos) {
         // Verifica si la lista de contactos es nula
         if (listaContactos == null) {
-            System.out.println("La lista de contactos es nula.");
-            return new ArrayList<>(); // o puedes devolver null si es más apropiado
+            return listaContactos; // o puedes devolver null si es más apropiado
         }
 
         // Copia la lista para no modificar la original

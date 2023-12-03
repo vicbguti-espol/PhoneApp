@@ -1,7 +1,7 @@
 package com.mycompany;
 
 import collections.CustomLinkedList;
-import com.mycompany.customizables.ImagePagination;
+import view.ImagePagination;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;

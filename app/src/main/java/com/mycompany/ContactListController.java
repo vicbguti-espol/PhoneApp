@@ -3,7 +3,7 @@ package com.mycompany;
 import collections.CustomIterator;
 import collections.CustomLinkedList;
 import collections.CustomList;
-import com.mycompany.customizables.CustomComponent;
+import view.CustomComponent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -69,14 +69,16 @@ public class ContactListController extends AIOController {
             rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
         }
         
-         ordenar.setOnAction(e -> {
-            new Thread(() -> {
-                Platform.runLater(() -> {
-                    
-                    ordenarC();
-                });
-            }).start();
-        });
+//        ordenar.setOnAction(e -> {
+//            new Thread(() -> {
+//                Platform.runLater(() -> {
+//                    ordenarC();
+//                });
+//            }).start();
+//        });
+
+        ordenar.setOnAction(e -> sortByAttributesListSizeAscending());
+        
         filtro1.setOnAction(e -> {
             new Thread(() -> {
                 Platform.runLater(() -> {
@@ -119,25 +121,29 @@ public class ContactListController extends AIOController {
         });
         
     }
-     protected void ordenarC() {
-    List<ContactCard> contactCards = contactListView.getContactCards();
+    private void sortByAttributesListSizeAscending() {
+        List<ContactCard> contactCards = contactListView.getContactCards();
 
-    // Limpiar la lista actual y la vista de la lista
-    contactCards.clear();
-    contactListView.getContainer().getChildren().clear();
-
-    List<Contact> contactList = OrderFiltro.ordenarPorCAtributos(MobilePhone.getContactList());
-    if (!contactList.isEmpty()) {
-        contactList.forEach(e -> contactCards.add(new ContactCard(e)));
-        contactListView.initContactListView();
-        
-       
-        contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
-         contactListView.getContainer().getChildren();
-    } else {
-        rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
-    }
-}
+        // Limpiar la lista actual y la vista de la lista
+        contactCards.clear();
+        // contactListView.getContainer().getChildren().clear();
+        for (Contact c: MobilePhone.getContactList()){
+            System.out.println("" + c + c.getAttributes().size());
+        }
+        List<Contact> sortedList = OrderFiltro.sortByAttributesListSize(MobilePhone.getContactList());
+        if (!sortedList.isEmpty()) {
+            sortedList.forEach(e -> contactCards.add(new ContactCard(e)));
+            new Thread(()->{
+                Platform.runLater(()->{
+                    contactListView.initContactListView();
+                });
+            }).start();
+        } else {
+            rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
+        }
+            // contactCards.forEach(contactCard -> contactListView.getContainer().getChildren().add(contactCard.getContainer()));
+            // contactListView.getContainer().getChildren();
+     }
      
      protected void ordenarNombre() {
     List<ContactCard> contactCards = contactListView.getContactCards();
@@ -331,19 +337,18 @@ protected void filtroCAtributo(String s) {
                     tmp = contactCardIterator.previous();
                 }
                 ContactCard tmp2 = contactCardIterator.previous();
-                System.out.println(tmp2.contact);
                 new Thread(()->{
                     Platform.runLater(()->{
                         contactsVBox.getChildren().
                         remove(contactsVBox.getChildren().size()-1);
-                        
                         contactsVBox.getChildren().add(0,tmp2.getContainer());
                     });
                 }).start();
             });
         }
         
-        void initContactListView(){
+        public void initContactListView(){
+            contactsVBox.getChildren().clear();
             buildCustomIterator();
             viewSize = 0;
             while (viewSize<5 && viewSize<contactCards.size()){
