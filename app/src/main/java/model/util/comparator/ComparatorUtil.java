@@ -1,4 +1,4 @@
-package model.comparator;
+package model.util.comparator;
 
 import java.util.Comparator;
 import model.attributes.Attribute;

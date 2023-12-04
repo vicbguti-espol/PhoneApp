@@ -38,7 +38,7 @@ import model.attributes.phone.CompanyPhone;
 import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.attributes.reminders.GenericReminder;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.enums.SocialMediaType;
 import model.enums.SourceType;
 

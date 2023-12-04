@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import model.attributes.Attribute;
 import model.attributes.phone.PhoneNumber;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 
 public abstract class Contact implements Serializable {
     public final List<Attribute> attributes = new CustomLinkedList<>();

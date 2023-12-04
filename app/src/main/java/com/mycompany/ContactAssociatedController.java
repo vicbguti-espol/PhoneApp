@@ -50,7 +50,7 @@ import model.attributes.phone.PersonPhone;
 import model.attributes.phone.PhoneNumber;
 import model.attributes.reminders.Birthday;
 import model.attributes.reminders.GenericReminder;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 /**

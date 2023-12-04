@@ -13,10 +13,10 @@ import model.attributes.Attribute;
 import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PersonPhone;
-import model.comparator.ComparatorPorCantidadAtributos;
-import model.comparator.ComparatorPorCompania;
-import model.comparator.ComparatorPorNombreApellido;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorPorCantidadAtributos;
+import model.util.comparator.ComparatorPorCompania;
+import model.util.comparator.ComparatorPorNombreApellido;
+import model.util.comparator.ComparatorUtil;
 
 import model.contacts.Contact;
 

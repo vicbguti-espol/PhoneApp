@@ -15,7 +15,7 @@ import model.attributes.ContactImage;
 import model.attributes.names.CompanyName;
 import model.attributes.names.Name;
 import model.attributes.names.PersonName;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.contacts.Company;
 import model.contacts.Contact;
 import model.contacts.Person;

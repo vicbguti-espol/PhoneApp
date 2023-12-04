@@ -4,7 +4,7 @@ import collections.CustomLinkedList;
 import model.attributes.Attribute;
 import model.attributes.names.PersonName;
 import model.attributes.phone.PhoneNumber;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 
 public class Person extends Contact {
     

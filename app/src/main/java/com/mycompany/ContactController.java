@@ -34,7 +34,7 @@ import model.attributes.location.*;
 import model.attributes.names.*;
 import model.attributes.phone.*;
 import model.attributes.reminders.*;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.contacts.*;
 import model.user.MobilePhone;
 

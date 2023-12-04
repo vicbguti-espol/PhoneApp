@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import model.attributes.Attribute;
 import model.attributes.names.PersonName;
 import model.attributes.reminders.Birthday;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 /**

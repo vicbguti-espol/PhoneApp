@@ -1,6 +1,7 @@
 package model.user;
 
 import collections.CustomLinkedList;
+import collections.CustomList;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,11 +10,11 @@ import java.util.List;
 import model.contacts.Contact;
 
 public class MobilePhone {
-    private static List<Contact> contactList;
+    private static CustomList<Contact> contactList;
     private static List<Contact>  favoritos;
     private static final String contactListPath = "ser/contactList.ser";
     private static final String contactListFavortitosPath = "ser/contactListfavortios.ser";
-    public static List<Contact> getContactList(){
+    public static CustomList<Contact> getContactList(){
         initContactList();
         return contactList;
     }
@@ -84,8 +85,6 @@ public class MobilePhone {
         favoritos.remove(c);
         serializeFavorito();
     }
-    
-    
     
     private static void initContactListFavorito() {
         File f = new File(contactListFavortitosPath);

@@ -4,7 +4,7 @@ import collections.CustomList;
 import model.attributes.Attribute;
 import model.attributes.names.CompanyName;
 import model.attributes.phone.PhoneNumber;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 
 public class Company extends Contact {
 

@@ -20,7 +20,7 @@ import model.attributes.company.CompanyWebPage;
 import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
 import model.attributes.reminders.Birthday;
-import model.comparator.ComparatorUtil;
+import model.util.comparator.ComparatorUtil;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 /**
