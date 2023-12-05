@@ -29,9 +29,9 @@ public class SortFilterUtil {
         return filteredContacts;
     }
     
-    public static List<Contact> filtrarPorTipoContacto(String tipo,List<Contact> listaContactos) {
+    public static CustomList<Contact> filtrarPorTipoContacto(String tipo,CustomList<Contact> listaContactos) {
         
-        List<Contact> contactosFiltrados = new ArrayList<>();
+        CustomList<Contact> contactosFiltrados = new CustomLinkedList<>();
 
         for (Contact contacto : listaContactos) {
             if (String.valueOf(tipo.charAt(0)).equals(String.valueOf(contacto.getUID().charAt(0)))) {
@@ -44,9 +44,9 @@ public class SortFilterUtil {
         }
         return contactosFiltrados;
     }
-     public static List<Contact> filtrarPorCAtributos(int numero) {
-        List<Contact> listaContactos = MobilePhone.getContactList();
-        List<Contact> contactosFiltrados = new ArrayList<>();
+     public static CustomList<Contact> filtrarPorCAtributos(int numero) {
+        CustomList<Contact> listaContactos = MobilePhone.getContactList();
+        CustomList<Contact> contactosFiltrados = new CustomLinkedList<>();
 
         if (numero < 0) {
             System.out.println("El número de atributos debe ser no negativo.");
@@ -71,7 +71,7 @@ public class SortFilterUtil {
 
         for (Contact c : personList) {
             PersonName personName= 
-                    (PersonName) c.findByAttribute(new PersonName()).getFirst();
+                    (PersonName) c.findByAttribute(new PersonName("","")).getFirst();
             if (personName.getFirstName().equalsIgnoreCase(firstName)
                     && personName.getLastName().equalsIgnoreCase(lastName)){
                 filteredContacts.add(c);
@@ -80,14 +80,14 @@ public class SortFilterUtil {
         return filteredContacts;
      }
      
-     public static List<Contact> sortByAttributesListSize(List<Contact> listaContactos) {
+     public static CustomList<Contact> sortByAttributesListSize(CustomList<Contact> listaContactos) {
         // Verifica si la lista de contactos es nula
         if (listaContactos == null) {
             return listaContactos; // o puedes devolver null si es más apropiado
         }
 
         // Copia la lista para no modificar la original
-        List<Contact> copiaContactos = new ArrayList<>(listaContactos);
+        CustomList<Contact> copiaContactos = new CustomLinkedList<>(listaContactos);
 
         // Utiliza el comparador para ordenar la lista
         Collections.sort(copiaContactos, new ComparatorPorCantidadAtributos());
@@ -95,26 +95,26 @@ public class SortFilterUtil {
         return copiaContactos;
     }
      
-    public static List<Contact> sortByPersonName(List<Contact> contacts) {
-        List<Contact> contactListCopy = new ArrayList<>(contacts);
+    public static CustomList<Contact> sortByPersonName(CustomList<Contact> contacts) {
+        CustomList<Contact> contactListCopy = new CustomLinkedList<>(contacts);
         Collections.sort(contactListCopy, new ComparatorPorNombreApellido());
         return contactListCopy;
      }
      
      
     public static List<Attribute> ordenarPorCompania() {    
-    List<Attribute> atributo =new ArrayList<>();
-    List<Contact> pn= filterByContactType("Compania");
+    CustomList<Attribute> atributo =new CustomLinkedList<>();
+    CustomList<Contact> pn= filterByContactType("Compania");
     if (pn== null || pn.isEmpty()) {
         System.out.println("La lista de contactos de personas es nula o vacía.");
         return new ArrayList<>(); 
     }
   for (Contact contacto : pn) {
             CompanyName name = new CompanyName("");
-            List<Attribute> at=contacto.findByAttribute(name);
+            CustomList<Attribute> at=contacto.findByAttribute(name);
             atributo.addAll(at);
         }
-    List<Attribute> copiaContactos = new ArrayList<>(atributo);
+    CustomList<Attribute> copiaContactos = new CustomLinkedList<>(atributo);
     Collections.sort(copiaContactos, new ComparatorPorCompania());
     return copiaContactos;
   }

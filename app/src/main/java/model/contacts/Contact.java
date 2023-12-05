@@ -45,6 +45,11 @@ public abstract class Contact implements Serializable {
                 ComparatorUtil.cmpByAttribute, attribute);
     }
     
+    public Attribute findAttribute(Attribute attribute){
+        CustomList<Attribute> found = findByAttribute(attribute);
+        return found.getFirst();
+    }
+    
     public String getUID(){
         return uid;
     }
