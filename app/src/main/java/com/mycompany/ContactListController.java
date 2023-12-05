@@ -66,7 +66,8 @@ public class ContactListController extends AIOController {
         new StackPane(btnAdd),
         new StackPane(sortByAttributesButton),
         new StackPane(sortByPersonNameButton),
-                sortByBirthdayButton,
+                new StackPane(sortByBirthdayButton),
+                new StackPane(filterByFavoritesButton),
         new StackPane(filterByPersonNameButton), new StackPane(personNameTextField),
         new StackPane(filterByContactTypeButton),new StackPane(contactTypeTextField),
         new StackPane(filterByAttributesButton),new StackPane(filterByAttributesTextField));
@@ -132,6 +133,11 @@ public class ContactListController extends AIOController {
         contactListView.setContactList(sortedList);    
         contactListView.updateContactListView();
     }
+    
+    private void filterByFavorites() {
+        contactListView.setContactList(MobilePhone.getContactListFavorito());
+        contactListView.updateContactListView();
+    }
 
     
     private void filterByPersonName() {
@@ -183,19 +189,7 @@ public class ContactListController extends AIOController {
         }
     }
     
-    private void filterByFavorites() {
-        CustomList<ContactCard> contactCards = contactListView.getContactCards();
-        contactCards.clear();
 
-        List<Contact> favoritesList = MobilePhone.getContactListFavorito();
-        if (!favoritesList.isEmpty()) {
-           favoritesList.forEach(e -> contactCards.add(new ContactCard(e)));
-           new Thread(()->{Platform.runLater(()->{
-                   contactListView.initContactListView();
-               });
-           }).start();
-        } 
-    }
     
     private class ContactCard extends CustomComponent {
         private Contact contact;

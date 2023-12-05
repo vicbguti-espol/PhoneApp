@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -20,7 +21,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -76,9 +76,6 @@ public class ContactController extends DataEntryController implements Initializa
         contactType = contact.getUID().charAt(0);
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -88,14 +85,12 @@ public class ContactController extends DataEntryController implements Initializa
         configureButtons();
         createHeader();
         showAttributes();
-         cboxFavorite.setOnAction(e -> {
-            new Thread(() -> {
-                Platform.runLater(() -> {
-                    
-                    MobilePhone.addContactFavorito(contact);
-                });
-            }).start();
-        });
+        cboxFavorite.setOnAction(e -> {
+            Object[] favoritesContactsArray = MobilePhone.getContactListFavorito().toArray();
+            if (!Arrays.stream(favoritesContactsArray).anyMatch(contact::equals)){
+                MobilePhone.addContactFavorito(contact);
+            }
+        });            
     }
     
     protected void setScrollPane(){

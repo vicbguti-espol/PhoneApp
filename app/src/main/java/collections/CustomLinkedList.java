@@ -45,7 +45,9 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public boolean contains(Object o) {
+        
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
     }
 
     @Override
@@ -80,18 +82,19 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     @Override
     public Object[] toArray() {
         Object[] array = new Object[size()];
-    int index = 0;
-    Node<E> current = last.next; // Comienza desde el primer elemento, no el último
+        int index = 0;
+        if (!this.isEmpty()){
+            Node<E> current = last.next; // Comienza desde el primer elemento, no el último
 
-    // Itera hasta haber recorrido todos los elementos
-    while (index < n) {
-        array[index++] = current.content;
-        current = current.next;
-    }
-    
-    return array;
-//throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    
+            // Itera hasta haber recorrido todos los elementos
+            while (index < n) {
+                array[index++] = current.content;
+                current = current.next;
+            }
+        }
+        
+
+        return array;
     }
 
     @Override
@@ -255,6 +258,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     @Override
     public ListIterator<E> listIterator() {
         return new CustomListIterator<>(this, 0);
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public CustomList<E> findAll(Comparator<E> cmp, E e2) {
@@ -271,6 +275,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     public ListIterator<E> listIterator(int i) {
         if (i < 0 || i >= size()) throw new IndexOutOfBoundsException(i);
         return new CustomListIterator<>(this, i);
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     private class CustomListIterator<T> implements ListIterator<E>{
@@ -333,7 +338,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
             Node<E> prevNode = it.previous;
             Node<E> nextNode = it.next;
 
-            if (prevNode == null) last.previous = it;
+            if (prevNode == null) {last.previous = it;}
             else prevNode.next = it;
             if (nextNode == null) last = prevNode;
             else nextNode.previous = prevNode;
@@ -375,7 +380,6 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
                 if (pred == null) last.previous = newNode;
                 else pred.next = newNode;
             }
-            
             j++;
             n++;
             canRemove = false;
