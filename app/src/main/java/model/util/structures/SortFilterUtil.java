@@ -2,20 +2,13 @@ package model.util.structures;
 
 import collections.CustomLinkedList;
 import collections.CustomList;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import model.attributes.Attribute;
-import model.attributes.names.CompanyName;
 import model.attributes.names.PersonName;
-import model.util.comparator.ComparatorPorCantidadAtributos;
-import model.util.comparator.ComparatorPorCompania;
-import model.util.comparator.ComparatorPorNombreApellido;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 
 public class SortFilterUtil {
-    
+    private static CustomList<Contact> contactList = MobilePhone.getContactList();
     
     public static CustomList<Contact> filterByContactType(String contactType) {
         CustomList<Contact> contactList = MobilePhone.getContactList();
@@ -79,43 +72,4 @@ public class SortFilterUtil {
         }
         return filteredContacts;
      }
-     
-     public static CustomList<Contact> sortByAttributesListSize(CustomList<Contact> listaContactos) {
-        // Verifica si la lista de contactos es nula
-        if (listaContactos == null) {
-            return listaContactos; // o puedes devolver null si es más apropiado
-        }
-
-        // Copia la lista para no modificar la original
-        CustomList<Contact> copiaContactos = new CustomLinkedList<>(listaContactos);
-
-        // Utiliza el comparador para ordenar la lista
-        Collections.sort(copiaContactos, new ComparatorPorCantidadAtributos());
-
-        return copiaContactos;
-    }
-     
-    public static CustomList<Contact> sortByPersonName(CustomList<Contact> contacts) {
-        CustomList<Contact> contactListCopy = new CustomLinkedList<>(contacts);
-        Collections.sort(contactListCopy, new ComparatorPorNombreApellido());
-        return contactListCopy;
-     }
-     
-     
-    public static List<Attribute> ordenarPorCompania() {    
-    CustomList<Attribute> atributo =new CustomLinkedList<>();
-    CustomList<Contact> pn= filterByContactType("Compania");
-    if (pn== null || pn.isEmpty()) {
-        System.out.println("La lista de contactos de personas es nula o vacía.");
-        return new ArrayList<>(); 
-    }
-  for (Contact contacto : pn) {
-            CompanyName name = new CompanyName("");
-            CustomList<Attribute> at=contacto.findByAttribute(name);
-            atributo.addAll(at);
-        }
-    CustomList<Attribute> copiaContactos = new CustomLinkedList<>(atributo);
-    Collections.sort(copiaContactos, new ComparatorPorCompania());
-    return copiaContactos;
-  }
 }

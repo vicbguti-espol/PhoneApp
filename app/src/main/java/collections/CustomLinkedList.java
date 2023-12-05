@@ -21,7 +21,6 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
         addAll(list);
     }
 
-
     private class Node<E> implements Serializable {
         E content;
         Node<E> next;
@@ -45,9 +44,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public boolean contains(Object o) {
-        
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    
     }
 
     @Override
@@ -81,25 +78,18 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[size()];
-        int index = 0;
-        if (!this.isEmpty()){
-            Node<E> current = last.next; // Comienza desde el primer elemento, no el último
-
-            // Itera hasta haber recorrido todos los elementos
-            while (index < n) {
-                array[index++] = current.content;
-                current = current.next;
-            }
-        }
-        
-
-        return array;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public <T> T[] toArray(T[] ts) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Iterator<E> it = this.iterator();
+        int i = 0;
+        while (it.hasNext()){
+            ts[i] = (T) it.next();
+            i++;
+        }
+        return ts;
     }
 
     @Override

@@ -6,8 +6,7 @@ import collections.CustomList;
 import view.CustomComponent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import javafx.application.Platform;
@@ -23,6 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import model.attributes.Attribute;
 import model.attributes.ContactImage;
+import model.attributes.names.PersonName;
 import model.attributes.reminders.Birthday;
 import model.contacts.Contact;
 import model.user.MobilePhone;
@@ -82,45 +82,30 @@ public class ContactListController extends AIOController {
             rootPane.getChildren().add(new StackPane(new Label("No existen contactos")));
         }
 
-        sortByAttributesButton.setOnAction(e -> sortByAttributesListSizeAscending()); 
-        sortByPersonNameButton.setOnAction(e -> sortByPersonName());
-        sortByBirthdayButton.setOnAction(e -> sortByBirthday());
-        filterByPersonNameButton.setOnAction(e -> filterByPersonName());
-        filterByContactTypeButton.setOnAction(e -> filterByContactType());
-        filterByAttributesButton.setOnAction(e -> filterByAttributesListSize());
-        filterByFavoritesButton.setOnAction(e -> filterByFavorites());
+        sortByAttributesButton.setOnAction(e -> contactListView.sort(new Comparator<Contact>(){
+            @Override
+            public int compare(Contact contacto1, Contact contacto2) {
+                return Integer.compare(contacto1.attributes.size(), contacto2.attributes.size());
+            }
+        })); 
+        sortByPersonNameButton.setOnAction(e -> contactListView.sort(new Comparator<Contact>(){
+            @Override
+            public int compare(Contact o1, Contact o2) {
+                CustomList c1= (CustomList) o1.findByAttribute(new PersonName("",""));
+                CustomList c2= (CustomList)o2.findByAttribute(new PersonName("",""));
+                PersonName p1= (PersonName)c1.getFirst();
+                PersonName p2= (PersonName)c2.getFirst();
+                int resultadoNombre = p1.getLastName().compareTo(p2.getLastName());
+
+                if (resultadoNombre == 0) {
+                    resultadoNombre = p1.getFirstName().compareTo(p2.getFirstName());
+                }
+
+                return resultadoNombre;
+            }
         
-    }
-    private void sortByAttributesListSizeAscending() {
-        List<ContactCard> contactCards = contactListView.getContactCards();
-        contactCards.clear();
-        
-        List<Contact> sortedList = SortFilterUtil.sortByAttributesListSize(MobilePhone.getContactList());
-        if (!sortedList.isEmpty()) {
-            sortedList.forEach(e -> contactCards.add(new ContactCard(e)));
-            
-            new Thread(()->{
-                Platform.runLater(()->{
-                    contactListView.initContactListView();
-                });
-            }).start();
-        }
-     }
-    
-    private void sortByPersonName() {
-        List<ContactCard> contactCards = contactListView.getContactCards();
-        contactCards.clear();
-        
-        List<Contact> sortedList = SortFilterUtil.sortByPersonName(MobilePhone.getContactList());
-        if (!sortedList.isEmpty()) {
-            sortedList.forEach(e -> contactCards.add(new ContactCard(e)));
-            contactListView.updateContactListView();
-        } 
-    }
-    
-    private void sortByBirthday(){
-        List<Contact> sortedList = new ArrayList<>(contactList);
-        Collections.sort(sortedList, new Comparator<Contact>(){
+        }));
+        sortByBirthdayButton.setOnAction(e -> contactListView.sort(new Comparator<Contact>(){
             @Override
             public int compare(Contact t, Contact t1) {
                 Comparator<Birthday> c = Comparator.comparingInt(Birthday::calculateRemainingDays);
@@ -129,9 +114,12 @@ public class ContactListController extends AIOController {
                 return c.compare(b1, b2);
             }
         
-        });
-        contactListView.setContactList(sortedList);    
-        contactListView.updateContactListView();
+        }));
+        filterByPersonNameButton.setOnAction(e -> filterByPersonName());
+        filterByContactTypeButton.setOnAction(e -> filterByContactType());
+        filterByAttributesButton.setOnAction(e -> filterByAttributesListSize());
+        filterByFavoritesButton.setOnAction(e -> filterByFavorites());
+        
     }
     
     private void filterByFavorites() {
@@ -231,6 +219,7 @@ public class ContactListController extends AIOController {
         private final CustomList<ContactCard> contactCards 
                 = new CustomLinkedList<>();
         private CustomIterator<ContactCard> contactCardIterator;
+        private CustomList<Contact> contactList;
         private VBox contactsVBox;
         private VBox buttonsVBox;
         private Button nextButton;
@@ -259,7 +248,8 @@ public class ContactListController extends AIOController {
             contactCards.clear();
         }
         
-        public void setContactList(List<Contact> contactList){
+        public void setContactList(CustomList<Contact> contactList){
+            this.contactList = contactList;
             if (!contactList.isEmpty()){
                 clearContactCards();
                 contactList.forEach(e -> contactCards.add(new ContactCard(e)));
@@ -267,8 +257,18 @@ public class ContactListController extends AIOController {
             
         }
         
+        public void sort(Comparator<Contact> cmp){
+            Contact[] contactsArray = contactList.toArray(new Contact[contactList.size()]);
+            Arrays.sort(contactsArray, cmp);
+            CustomList<Contact> sortedList = new CustomLinkedList<>();
+            for (Contact c: contactsArray) { sortedList.add(c); }
+            setContactList(sortedList);    
+            updateContactListView();
+        }
+        
         
         ContactListView(){
+            contactList = MobilePhone.getContactList();
             super.buildComponent();
         }
         
