@@ -284,7 +284,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
                 it = it.next;
                 j++;
             }
-            canRemove = false;
+            //canRemove = false;
         }
         
         @Override
@@ -298,7 +298,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
             E content = it.content;
             it = it.next;
             j++;
-            canRemove = true;
+            //canRemove = true;
             return content;
         }
 
@@ -313,7 +313,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
             E content = it.content;
             it = it.previous;
             j--;
-            canRemove = true;
+            //canRemove = true;
             return content;
         }
 
