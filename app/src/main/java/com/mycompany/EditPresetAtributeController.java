@@ -336,7 +336,7 @@ public class EditPresetAtributeController extends DataEntryController implements
         TextField t1 = (TextField) vbox.getChildren().get(0);
         TextField t2 = (TextField) vbox.getChildren().get(1);
         GenericAttribute ga = (GenericAttribute) attribute;
-        ga.setDescripcion(t1.getText());
+        ga.setDescription(t1.getText());
         ga.setValue(t2.getText());
 
     }
