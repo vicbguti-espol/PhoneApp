@@ -44,7 +44,9 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public boolean contains(Object o) {
+        
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
     }
 
     @Override
@@ -76,20 +78,21 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
     }
 
     @Override
-    public Object[] toArray() {
-        Object[] array = new Object[size()];
-    int index = 0;
-    Node<E> current = last.next; // Comienza desde el primer elemento, no el último
+    public E[] toArray() {
+        E[] array = (E[]) new Object[size()];
+        int index = 0;
+        if (!this.isEmpty()){
+            Node<E> current = last.next; // Comienza desde el primer elemento, no el último
 
-    // Itera hasta haber recorrido todos los elementos
-    while (index < n) {
-        array[index++] = current.content;
-        current = current.next;
-    }
-    
-    return array;
-//throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    
+            // Itera hasta haber recorrido todos los elementos
+            while (index < n) {
+                array[index++] = current.content;
+                current = current.next;
+            }
+        }
+        
+
+        return array;
     }
 
     @Override
@@ -252,7 +255,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public ListIterator<E> listIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return listIterator(0);
     }
     
     public CustomList<E> findAll(Comparator<E> cmp, E e2) {

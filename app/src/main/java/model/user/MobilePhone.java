@@ -6,14 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import model.contacts.Contact;
 
 public class MobilePhone {
     private static CustomList<Contact> contactList;
-    private static List<Contact>  favoritos;
+    private static CustomList<Contact>  favoritos;
     private static final String contactListPath = "ser/contactList.ser";
     private static final String contactListFavortitosPath = "ser/contactListfavortios.ser";
+    
+    private MobilePhone(){}
+    
     public static CustomList<Contact> getContactList(){
         initContactList();
         return contactList;
@@ -69,7 +71,7 @@ public class MobilePhone {
     }
     
     
-    public static List<Contact> getContactListFavorito(){
+    public static CustomList<Contact> getContactListFavorito(){
         initContactListFavorito();
         return favoritos;
     }
@@ -94,10 +96,13 @@ public class MobilePhone {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+        
+        deserializeFavorito();
+        
+        if (favoritos == null){
             favoritos = new CustomLinkedList<>();
             serializeFavorito();
-        } else if (favoritos == null){
-            deserialize();
         }
     }
     
