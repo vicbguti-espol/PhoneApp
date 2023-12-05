@@ -341,14 +341,14 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
             j--;
             n--;
             canRemove = false;
-            // throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
         }
 
         @Override
         public void set(E e) {
             if(!canRemove) throw new IllegalStateException();
             it.content = e;
-            // throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
         }
 
         @Override
@@ -370,11 +370,10 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
                 if (pred == null) last.previous = newNode;
                 else pred.next = newNode;
             }
-
             j++;
             n++;
             canRemove = false;
-            throw new UnsupportedOperationException();
+            //throw new UnsupportedOperationException();
         }
         
     }
@@ -392,16 +391,21 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
         while (listIt.hasNext()) {
             int i = listIt.next();
             System.out.println(i+" ");
+            
+            if(i%2==0){
+                listIt.set(0);
+                listIt.add(i);
+            }
         }
         
         System.out.println(list);
         
-        while (listIt.hasPrevious()) {
+        /*while (listIt.hasPrevious()) {
             int i = listIt.previous();
             System.out.println(i+" ");
         }
         
-        System.out.println(list);
+        System.out.println(list);*/
     }
 
     @Override

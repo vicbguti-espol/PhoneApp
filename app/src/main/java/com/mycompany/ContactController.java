@@ -274,11 +274,7 @@ public class ContactController extends DataEntryController implements Initializa
             Field[] fields = currentClass.getDeclaredFields();
             for (Field field: fields) {
                 TableColumn<T, String> attributeNameColumn = new TableColumn<>(field.getName());
-                if (field.getName().equals("description")){
-                    //mostrar descripcion/nombre generico
-                }else {
-                    attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
-                }
+                attributeNameColumn.setCellValueFactory(new PropertyValueFactory<>(field.getName()));
                 attributeNameColumn.setPrefWidth(150);
                 tableView.getColumns().add(attributeNameColumn);
             }
