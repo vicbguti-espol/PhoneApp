@@ -6,6 +6,9 @@ import collections.CustomList;
 import view.CustomComponent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -20,6 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import model.attributes.Attribute;
 import model.attributes.ContactImage;
+import model.attributes.reminders.Birthday;
 import model.contacts.Contact;
 import model.user.MobilePhone;
 import model.util.structures.SortFilterUtil;
@@ -27,12 +31,14 @@ import model.util.structures.SortFilterUtil;
 public class ContactListController extends AIOController {
     private Button btnAdd;
     private ContactListView contactListView;
+    private CustomList<Contact> contactList;
     
     private TextField personNameTextField;
     private TextField contactTypeTextField;
     private TextField filterByAttributesTextField;
     
     public ContactListController(){
+        contactList = MobilePhone.getContactList();
         buildBtnAdd();
         buildRootPane();
     }
@@ -46,6 +52,7 @@ public class ContactListController extends AIOController {
     protected void buildRootPane() {
         Button sortByAttributesButton = new Button("Ordenar por Cantidad de Atributos");
         Button sortByPersonNameButton = new Button("Ordenar por Nombre y Apellido de una Persona");
+        Button sortByBirthdayButton = new Button("Ordenar por Fecha de Cumpleaños más cercana");
         Button filterByPersonNameButton = new Button("Filtrar por Nombre y Apellido de una Persona");
         personNameTextField = new TextField();
         Button filterByContactTypeButton = new Button("Filtrar por Tipo de Contacto");
@@ -59,13 +66,13 @@ public class ContactListController extends AIOController {
         new StackPane(btnAdd),
         new StackPane(sortByAttributesButton),
         new StackPane(sortByPersonNameButton),
+                sortByBirthdayButton,
         new StackPane(filterByPersonNameButton), new StackPane(personNameTextField),
         new StackPane(filterByContactTypeButton),new StackPane(contactTypeTextField),
         new StackPane(filterByAttributesButton),new StackPane(filterByAttributesTextField));
 
         contactListView = new ContactListView();
         List<ContactCard> contactCards = contactListView.getContactCards();
-        List<Contact> contactList = MobilePhone.getContactList();
         if (!contactList.isEmpty()){
             contactList.forEach(e -> contactCards.add(new ContactCard(e)));
             contactListView.initContactListView();
@@ -76,10 +83,12 @@ public class ContactListController extends AIOController {
 
         sortByAttributesButton.setOnAction(e -> sortByAttributesListSizeAscending()); 
         sortByPersonNameButton.setOnAction(e -> sortByPersonName());
+        sortByBirthdayButton.setOnAction(e -> sortByBirthday());
         filterByPersonNameButton.setOnAction(e -> filterByPersonName());
         filterByContactTypeButton.setOnAction(e -> filterByContactType());
         filterByAttributesButton.setOnAction(e -> filterByAttributesListSize());
         filterByFavoritesButton.setOnAction(e -> filterByFavorites());
+        
     }
     private void sortByAttributesListSizeAscending() {
         List<ContactCard> contactCards = contactListView.getContactCards();
@@ -104,11 +113,24 @@ public class ContactListController extends AIOController {
         List<Contact> sortedList = SortFilterUtil.sortByPersonName(MobilePhone.getContactList());
         if (!sortedList.isEmpty()) {
             sortedList.forEach(e -> contactCards.add(new ContactCard(e)));
-           new Thread(()->{Platform.runLater(()->{
-                   contactListView.initContactListView();
-               });
-           }).start();
+            contactListView.updateContactListView();
         } 
+    }
+    
+    private void sortByBirthday(){
+        List<Contact> sortedList = new ArrayList<>(contactList);
+        Collections.sort(sortedList, new Comparator<Contact>(){
+            @Override
+            public int compare(Contact t, Contact t1) {
+                Comparator<Birthday> c = Comparator.comparingInt(Birthday::calculateRemainingDays);
+                Birthday b1 = (Birthday) t.findAttribute(new Birthday());
+                Birthday b2 = (Birthday) t1.findAttribute(new Birthday());
+                return c.compare(b1, b2);
+            }
+        
+        });
+        contactListView.setContactList(sortedList);    
+        contactListView.updateContactListView();
     }
 
     
@@ -221,6 +243,36 @@ public class ContactListController extends AIOController {
         private Button previousButton;
         private int viewSize;
         
+        public void updateContactListView(){
+            new Thread(()->{Platform.runLater(()->{
+                    contactListView.initContactListView();
+                });
+            }).start();
+        }
+        
+        public void initContactListView(){
+            contactsVBox.getChildren().clear();
+            buildCustomIterator();
+            viewSize = 0;
+            while (viewSize<5 && viewSize<contactCards.size()){
+                contactsVBox.getChildren().add(
+                        contactCardIterator.next().getContainer());
+                viewSize++;
+            }
+        }
+        
+        public void clearContactCards(){
+            contactCards.clear();
+        }
+        
+        public void setContactList(List<Contact> contactList){
+            if (!contactList.isEmpty()){
+                clearContactCards();
+                contactList.forEach(e -> contactCards.add(new ContactCard(e)));
+            }
+            
+        }
+        
         
         ContactListView(){
             super.buildComponent();
@@ -282,22 +334,14 @@ public class ContactListController extends AIOController {
             });
         }
         
-        public void initContactListView(){
-            contactsVBox.getChildren().clear();
-            buildCustomIterator();
-            viewSize = 0;
-            while (viewSize<5 && viewSize<contactCards.size()){
-                contactsVBox.getChildren().add(
-                        contactCardIterator.next().getContainer());
-                viewSize++;
-            }
-        }
         
         private void buildCustomIterator(){
             contactCardIterator = contactCards.customIterator();
         }
         
+        
         CustomList<ContactCard> getContactCards(){ return contactCards;}
+        
         
     }
     
