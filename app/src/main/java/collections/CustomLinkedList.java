@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializable {
     Node<E> last;
@@ -76,10 +77,11 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
         }
     
     }
+    
 
     @Override
-    public E[] toArray() {
-        E[] array = (E[]) new Object[size()];
+    public Object[] toArray() {
+        Object[] array = new Object[size()];
         int index = 0;
         if (!this.isEmpty()){
             Node<E> current = last.next; // Comienza desde el primer elemento, no el último
@@ -255,7 +257,8 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public ListIterator<E> listIterator() {
-        return listIterator(0);
+        return new CustomListIterator<>(this, 0);
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public CustomList<E> findAll(Comparator<E> cmp, E e2) {
@@ -270,12 +273,15 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
     @Override
     public ListIterator<E> listIterator(int i) {
+        if (i < 0 || i >= size()) throw new IndexOutOfBoundsException(i);
         return new CustomListIterator<>(this, i);
+        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    private class CustomListIterator<E> implements ListIterator<E>{
+    private class CustomListIterator<T> implements ListIterator<E>{
         private Node<E> it;
         private int j = 0;
+        private boolean canRemove;
         
         CustomListIterator(CustomLinkedList customLinkedList, int i){
             it = customLinkedList.last.next;
@@ -283,6 +289,7 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
                 it = it.next;
                 j++;
             }
+            canRemove = false;
         }
         
         @Override
@@ -292,9 +299,11 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
         @Override
         public E next() {
+            if(!hasNext()) throw new NoSuchElementException();
             E content = it.content;
             it = it.next;
             j++;
+            canRemove = true;
             return content;
         }
 
@@ -305,37 +314,104 @@ public class CustomLinkedList<E> implements CustomList<E>, Iterable<E>, Serializ
 
         @Override
         public E previous() {
+            if(!hasPrevious()) throw new NoSuchElementException();
             E content = it.content;
             it = it.previous;
             j--;
+            canRemove = true;
             return content;
         }
 
         @Override
         public int nextIndex() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            return j;
         }
 
         @Override
         public int previousIndex() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            return j - 1;
         }
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            if(!canRemove) throw new IllegalStateException();
+            Node<E> prevNode = it.previous;
+            Node<E> nextNode = it.next;
+
+            if (prevNode == null) {last.previous = it;}
+            else prevNode.next = it;
+            if (nextNode == null) last = prevNode;
+            else nextNode.previous = prevNode;
+            
+            
+            prevNode.next = nextNode;
+            nextNode.previous = prevNode;
+
+            if (it == last) it = prevNode;
+            j--;
+            n--;
+            canRemove = false;
+            // throw new UnsupportedOperationException();
         }
 
         @Override
         public void set(E e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            if(!canRemove) throw new IllegalStateException();
+            it.content = e;
+            // throw new UnsupportedOperationException();
         }
 
         @Override
         public void add(E e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            if (it == null) {
+                Node<E> l = (Node<E>) last;
+                Node<E> newNode = new Node<>(e);
+                newNode.previous = l;
+                newNode.next = (Node<E>) last.previous;
+                last = newNode;
+                if (l == null) last.previous = newNode;
+                else l.next = newNode;
+            } else {
+                Node<E> pred = it.previous;
+                Node<E> newNode = new Node<>(e);
+                newNode.previous = pred;
+                newNode.next = it;
+                it.previous = newNode;
+                if (pred == null) last.previous = newNode;
+                else pred.next = newNode;
+            }
+
+            j++;
+            n++;
+            canRemove = false;
+            throw new UnsupportedOperationException();
         }
         
+    }
+    
+    public static void main(String[] args) {
+        CustomLinkedList<Integer> list = new CustomLinkedList<>();
+        list.add(8);
+        list.add(4);
+        list.add(3);
+        list.add(1);
+        list.add(5);
+        System.out.println(list);
+        ListIterator<Integer> listIt = list.listIterator();
+        
+        while (listIt.hasNext()) {
+            int i = listIt.next();
+            System.out.println(i+" ");
+        }
+        
+        System.out.println(list);
+        
+        while (listIt.hasPrevious()) {
+            int i = listIt.previous();
+            System.out.println(i+" ");
+        }
+        
+        System.out.println(list);
     }
 
     @Override

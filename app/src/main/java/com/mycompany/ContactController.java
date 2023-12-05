@@ -86,7 +86,7 @@ public class ContactController extends DataEntryController implements Initializa
         createHeader();
         showAttributes();
         cboxFavorite.setOnAction(e -> {
-            Contact[] favoritesContactsArray = (Contact[]) MobilePhone.getContactListFavorito().toArray();
+            Object[] favoritesContactsArray = MobilePhone.getContactListFavorito().toArray();
             if (!Arrays.stream(favoritesContactsArray).anyMatch(contact::equals)){
                 MobilePhone.addContactFavorito(contact);
             }
